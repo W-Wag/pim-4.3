@@ -1,21 +1,56 @@
-import { Castle } from 'lucide-react';
+import { useEffect, useState } from 'react';
+import { Castle, AlignJustify } from 'lucide-react';
 import { Button } from '../ui/button';
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from '../ui/collapsible';
 
 export function Header() {
+  const [isPhoneWidth, SetIsPhoneWidth] = useState(false);
+  console.log(isPhoneWidth);
+
+  useEffect(() => {
+    if (document.body.clientWidth <= 1020) {
+      SetIsPhoneWidth(true);
+      console.log(isPhoneWidth);
+    }
+  }, [isPhoneWidth]);
+
   return (
-    <header className="flex justify-between gap-2 py-4 bg-blue-950 text-center">
-      <div className="flex justify-between">
-        <Castle width={50} height={50} />
-        <p>Universidade</p>
+    <header className="flex items-center justify-between gap-2 py-4 bg-blue-950">
+      <div className="flex px-4">
+        {isPhoneWidth ? (
+          <Castle width={50} height={50} />
+        ) : (
+          <>
+            <Castle width={50} height={50} />
+            <p className="py-3 px-2 font-semibold">Universidade</p>
+          </>
+        )}
       </div>
-      <h1 className="text-primary text-xl font-bold">
-        Sistema de gestão escolar
-      </h1>
-      <div className="flex items-center gap-2">
-        <Button>Sign-In</Button>
-        <Button>WhatsApp</Button>
-        <Button>Contatos</Button>
+      <div className="m-auto">
+        <h1 className="text-primary text-3xl font-extrabold">
+          Sistema de gestão escolar
+        </h1>
       </div>
+      {isPhoneWidth ? (
+        <Collapsible className="pr-2">
+          <CollapsibleTrigger>
+            <AlignJustify width={25} height={25} />
+          </CollapsibleTrigger>
+          <CollapsibleContent className="py-2">Sign-In</CollapsibleContent>
+          <CollapsibleContent className="py-2">WhatsApp</CollapsibleContent>
+          <CollapsibleContent className="py-2">Contatos</CollapsibleContent>
+        </Collapsible>
+      ) : (
+        <div className="flex items-center gap-2">
+          <Button>Sign-In</Button>
+          <Button>WhatsApp</Button>
+          <Button>Contatos</Button>
+        </div>
+      )}
     </header>
   );
 }
