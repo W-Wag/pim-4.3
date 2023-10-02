@@ -1,27 +1,50 @@
-# React + TypeScript + Vite
+# Instalação do Front end Web
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Após seguir os passos passados anteriormente você dever ter no seu **Visual Studio Code** as seguintes extensões:
 
-Currently, two official plugins are available:
+- Eslint
+- Prettier
+- EditorConfig
+- PostCss
+- Tailwind Css
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Essas extensões são necessárias para que você edite o código do projeto. <br>
 
-## Expanding the ESLint configuration
+Agora para se instalar o projeto front end primeiramente você deve acessar a pasta web no Visual Studio Code, é pelo seu **terminal** digitar os comandos a seguir. Para acessar o terminal, você pode fazer de seu jeito mas tem dois atalhos que você pode seguir:
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+```
+CTRL + ' - Para abrir o terminal integrado do Visual Studio Code
 
-- Configure the top-level `parserOptions` property like this:
-
-```js
-   parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-   },
 ```
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+```
+CTRL + Shift + C - Para abrir o terminal externo do seu SO
+```
+
+Certifique-se que você esta na pasta web no terminal, se não estiver, pelo terminal você digite esse comando:
+
+```
+cd web
+```
+
+Após isso apenas execute comando a seguir no terminal:
+
+```
+npm install
+```
+
+É aguarde até que a instalação seja feita. <br>
+
+Quando a instalação concluir você pode digitar o comando:
+
+```
+npm run dev
+```
+
+e quando o terminal executar irá aparecer uma **_URL_** parecida com essa:
+
+```
+Local: http://localhost:5173/
+```
+
+Então e somente abrir essa url no seu navegador para abrir o front end web do projeto.
