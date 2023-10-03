@@ -12,7 +12,7 @@ export function AreaSelector() {
         <NavigationMenuItem>
           <NavigationMenuLink
             className="bg-primary text-sm text-primary-foreground rounded-sm p-2 m-2"
-            href="#"
+            href="Login"
           >
             Área do Professor
           </NavigationMenuLink>
