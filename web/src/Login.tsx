@@ -17,14 +17,18 @@ import { Input } from './components/ui/input';
 
 export function Login() {
   const formSchema = z.object({
-    username: z.string().min(2, {
-      message: 'Username must be at least 2 characters.',
+    email: z.string().email({
+      message: 'E-mail não é valido',
+    }),
+    password: z.string().min(2, {
+      message: 'Password must be at least 2 characters',
     }),
   });
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      username: '',
+      email: '',
+      password: '',
     },
   });
 
@@ -41,17 +45,36 @@ export function Login() {
         >
           <FormField
             control={form.control}
-            name="username"
+            name="email"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="text-lg leading-relaxed">
-                  Username
-                </FormLabel>
+                <FormLabel className="text-lg leading-relaxed">Email</FormLabel>
                 <FormControl>
-                  <Input className="w-80" placeholder="shadcn" {...field} />
+                  <Input className="w-80" placeholder="Seu e-mail" {...field} />
                 </FormControl>
                 <FormDescription>
-                  This is your public display name.
+                  Digite seu e-mail cadastrado acima para entrar no sistema
+                </FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="password"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="text-lg leading-relaxed">Senha</FormLabel>
+                <FormControl>
+                  <Input
+                    className="w-80"
+                    placeholder="Sua Senha"
+                    type="password"
+                    {...field}
+                  />
+                </FormControl>
+                <FormDescription>
+                  Digite sua senha cadastrada acima para entrar no sistema
                 </FormDescription>
                 <FormMessage />
               </FormItem>

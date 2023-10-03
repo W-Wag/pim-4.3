@@ -6,6 +6,7 @@ import {
   CollapsibleContent,
   CollapsibleTrigger,
 } from '../ui/collapsible';
+import { Link } from 'react-router-dom';
 
 export function Header() {
   const [isPhoneWidth, SetIsPhoneWidth] = useState(false);
@@ -20,10 +21,14 @@ export function Header() {
     <header className="flex items-center justify-between gap-2 py-4 bg-blue-950">
       <div className="flex px-4">
         {isPhoneWidth ? (
-          <Castle width={50} height={50} />
+          <Link to="/">
+            <Castle width={50} height={50} />
+          </Link>
         ) : (
           <>
-            <Castle width={50} height={50} />
+            <Link to="/">
+              <Castle width={50} height={50} />
+            </Link>
             <p className="py-3 px-2 font-semibold">Universidade</p>
           </>
         )}
@@ -43,7 +48,7 @@ export function Header() {
           <CollapsibleContent className="py-2">Contatos</CollapsibleContent>
         </Collapsible>
       ) : (
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 pr-2">
           <Button>Sign-In</Button>
           <Button>WhatsApp</Button>
           <Button>Contatos</Button>

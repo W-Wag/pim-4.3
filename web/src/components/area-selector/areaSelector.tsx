@@ -1,8 +1,10 @@
+import { Link } from 'react-router-dom';
 import {
   NavigationMenu,
   NavigationMenuItem,
   NavigationMenuLink,
   NavigationMenuList,
+  navigationMenuTriggerStyle,
 } from '../ui/navigation-menu';
 
 export function AreaSelector() {
@@ -10,36 +12,32 @@ export function AreaSelector() {
     <NavigationMenu>
       <NavigationMenuList>
         <NavigationMenuItem>
-          <NavigationMenuLink
-            className="bg-primary text-sm text-primary-foreground rounded-sm p-2 m-2"
-            href="Login"
-          >
-            Área do Professor
-          </NavigationMenuLink>
+          <Link to="/login">
+            <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+              Área do Professor
+            </NavigationMenuLink>
+          </Link>
         </NavigationMenuItem>
         <NavigationMenuItem>
-          <NavigationMenuLink
-            className="bg-primary text-sm text-primary-foreground rounded-sm p-2 m-2"
-            href="#"
-          >
-            Área do Aluno
-          </NavigationMenuLink>
+          <Link to="/">
+            <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+              Área do Aluno
+            </NavigationMenuLink>
+          </Link>
         </NavigationMenuItem>
         <NavigationMenuItem>
-          <NavigationMenuLink
-            className="bg-primary text-sm text-primary-foreground rounded-sm p-2 m-2"
-            href="#"
-          >
-            Cursos disponíveis
-          </NavigationMenuLink>
+          <Link to="/">
+            <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+              Cursos disponíveis
+            </NavigationMenuLink>
+          </Link>
         </NavigationMenuItem>
         <NavigationMenuItem>
-          <NavigationMenuLink
-            className="bg-primary text-sm text-primary-foreground rounded-sm p-2 m-2"
-            href="#"
-          >
-            Serviços
-          </NavigationMenuLink>
+          <Link to="/">
+            <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+              Serviços
+            </NavigationMenuLink>
+          </Link>
         </NavigationMenuItem>
       </NavigationMenuList>
     </NavigationMenu>
