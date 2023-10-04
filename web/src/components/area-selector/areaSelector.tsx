@@ -26,14 +26,14 @@ export function AreaSelector() {
           </Link>
         </NavigationMenuItem>
         <NavigationMenuItem>
-          <Link to="/">
+          <Link to="/cursos">
             <NavigationMenuLink className={navigationMenuTriggerStyle()}>
               Cursos disponíveis
             </NavigationMenuLink>
           </Link>
         </NavigationMenuItem>
         <NavigationMenuItem>
-          <Link to="/">
+          <Link to="/servicos">
             <NavigationMenuLink className={navigationMenuTriggerStyle()}>
               Serviços
             </NavigationMenuLink>

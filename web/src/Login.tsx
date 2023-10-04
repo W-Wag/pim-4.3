@@ -1,7 +1,6 @@
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Header } from './components/header/header';
 import {
   Form,
   FormControl,
@@ -11,7 +10,6 @@ import {
   FormLabel,
   FormMessage,
 } from './components/ui/form';
-import { Footer } from './footer/footer';
 import { Button } from './components/ui/button';
 import { Input } from './components/ui/input';
 
@@ -37,7 +35,6 @@ export function Login() {
   }
   return (
     <div className="w-full h-full">
-      <Header />
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
@@ -53,7 +50,8 @@ export function Login() {
                   <Input className="w-80" placeholder="Seu e-mail" {...field} />
                 </FormControl>
                 <FormDescription>
-                  Digite seu e-mail cadastrado acima para entrar no sistema
+                  Digite seu e-mail cadastrado no campo acima para entrar no
+                  sistema
                 </FormDescription>
                 <FormMessage />
               </FormItem>
@@ -74,7 +72,8 @@ export function Login() {
                   />
                 </FormControl>
                 <FormDescription>
-                  Digite sua senha cadastrada acima para entrar no sistema
+                  Digite sua senha cadastrada no campo acima para entrar no
+                  sistema
                 </FormDescription>
                 <FormMessage />
               </FormItem>
@@ -85,7 +84,6 @@ export function Login() {
           </Button>
         </form>
       </Form>
-      <Footer />
     </div>
   );
 }
