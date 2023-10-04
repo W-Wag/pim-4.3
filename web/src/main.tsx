@@ -6,8 +6,9 @@ import './index.css';
 import { Login } from './Login.tsx';
 import { Courses } from './Courses.tsx';
 import { Header } from './components/header/header.tsx';
-import { Footer } from './footer/footer.tsx';
+import { Footer } from './components/footer/footer.tsx';
 import { Services } from './Services.tsx';
+import { Contacts } from './Contacts.tsx';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
@@ -18,6 +19,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
         <Route path="/login" element={<Login />} />
         <Route path="/cursos" element={<Courses />} />
         <Route path="/servicos" element={<Services />} />
+        <Route path="/contatos" element={<Contacts />} />
       </Routes>
       <Footer />
     </BrowserRouter>

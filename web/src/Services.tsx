@@ -20,7 +20,7 @@ export function Services() {
             </h1>
           </div>
         </Link>
-        <Link to="/cursos" className="px-1">
+        <Link to="/contatos" className="px-1">
           <div className="bg-primary w-36 h-36 rounded space-y-2 py-4 text-center hover:bg-slate-300">
             <h1 className="text-primary-foreground font-bold text-2xl py-4 hover:text-primary">
               Contatos
