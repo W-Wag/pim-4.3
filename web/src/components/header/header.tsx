@@ -50,8 +50,10 @@ export function Header() {
       ) : (
         <div className="flex items-center gap-2 pr-2">
           <Button>Sign-In</Button>
-          <Button>WhatsApp</Button>
-          <Button>Contatos</Button>
+
+          <Button>
+            <Link to="/contatos">Contatos</Link>
+          </Button>
         </div>
       )}
     </header>
