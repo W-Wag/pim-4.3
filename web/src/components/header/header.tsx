@@ -12,7 +12,7 @@ export function Header() {
   const [isPhoneWidth, SetIsPhoneWidth] = useState(false);
 
   useEffect(() => {
-    if (document.body.clientWidth <= 1020) {
+    if (document.body.clientWidth < 1024) {
       SetIsPhoneWidth(true);
     }
   }, [isPhoneWidth]);

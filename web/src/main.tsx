@@ -9,6 +9,7 @@ import { Header } from './components/header/header.tsx';
 import { Footer } from './components/footer/footer.tsx';
 import { Services } from './Services.tsx';
 import { Contacts } from './Contacts.tsx';
+import { StudentArea } from './StudentArea.tsx';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
@@ -20,6 +21,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
         <Route path="/cursos" element={<Courses />} />
         <Route path="/servicos" element={<Services />} />
         <Route path="/contatos" element={<Contacts />} />
+        <Route path="/aluno" element={<StudentArea />} />
       </Routes>
       <Footer />
     </BrowserRouter>
