@@ -2,7 +2,6 @@ import { Link } from 'react-router-dom';
 import {
   NavigationMenu,
   NavigationMenuItem,
-  NavigationMenuLink,
   NavigationMenuList,
   navigationMenuTriggerStyle,
 } from '../ui/navigation-menu';
@@ -12,31 +11,23 @@ export function AreaSelector() {
     <NavigationMenu>
       <NavigationMenuList>
         <NavigationMenuItem>
-          <Link to="/login">
-            <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-              Área do Professor
-            </NavigationMenuLink>
+          <Link className={navigationMenuTriggerStyle()} to="/login">
+            Área do Professor
           </Link>
         </NavigationMenuItem>
         <NavigationMenuItem>
-          <Link to="/">
-            <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-              Área do Aluno
-            </NavigationMenuLink>
+          <Link to="/" className={navigationMenuTriggerStyle()}>
+            Área do Aluno
           </Link>
         </NavigationMenuItem>
         <NavigationMenuItem>
-          <Link to="/cursos">
-            <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-              Cursos disponíveis
-            </NavigationMenuLink>
+          <Link to="/cursos" className={navigationMenuTriggerStyle()}>
+            Cursos disponíveis
           </Link>
         </NavigationMenuItem>
         <NavigationMenuItem>
-          <Link to="/servicos">
-            <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-              Serviços
-            </NavigationMenuLink>
+          <Link to="/servicos" className={navigationMenuTriggerStyle()}>
+            Serviços
           </Link>
         </NavigationMenuItem>
       </NavigationMenuList>

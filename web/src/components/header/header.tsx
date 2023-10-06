@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Castle, AlignJustify } from 'lucide-react';
-import { Button } from '../ui/button';
+import { Button, buttonVariants } from '../ui/button';
 import {
   Collapsible,
   CollapsibleContent,
@@ -51,9 +51,9 @@ export function Header() {
         <div className="flex items-center gap-2 pr-2">
           <Button>Sign-In</Button>
 
-          <Button>
-            <Link to="/contatos">Contatos</Link>
-          </Button>
+          <Link className={buttonVariants()} to="/contatos">
+            Contatos
+          </Link>
         </div>
       )}
     </header>
