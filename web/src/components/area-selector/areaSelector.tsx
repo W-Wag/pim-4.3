@@ -20,11 +20,7 @@ export function AreaSelector() {
             Área do Aluno
           </Link>
         </NavigationMenuItem>
-        <NavigationMenuItem>
-          <Link to="/cursos" className={navigationMenuTriggerStyle()}>
-            Cursos disponíveis
-          </Link>
-        </NavigationMenuItem>
+
         <NavigationMenuItem>
           <Link to="/servicos" className={navigationMenuTriggerStyle()}>
             Serviços

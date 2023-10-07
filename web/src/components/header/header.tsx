@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Castle, AlignJustify } from 'lucide-react';
-import { Button, buttonVariants } from '../ui/button';
+import { buttonVariants } from '../ui/button';
 import {
   Collapsible,
   CollapsibleContent,
@@ -39,18 +39,40 @@ export function Header() {
         </h1>
       </div>
       {isPhoneWidth ? (
-        <Collapsible className="pr-2">
+        <Collapsible className="pr-2 space-y-4">
           <CollapsibleTrigger>
             <AlignJustify width={25} height={25} />
           </CollapsibleTrigger>
-          <CollapsibleContent className="py-2">Sign-In</CollapsibleContent>
-          <CollapsibleContent className="py-2">WhatsApp</CollapsibleContent>
-          <CollapsibleContent className="py-2">Contatos</CollapsibleContent>
+          <CollapsibleContent>
+            {' '}
+            <Link className={buttonVariants()} to="/aluno">
+              Área do Aluno
+            </Link>
+          </CollapsibleContent>
+          <CollapsibleContent>
+            {' '}
+            <Link className={buttonVariants()} to="/login">
+              Área do Professor
+            </Link>
+          </CollapsibleContent>
+          <CollapsibleContent>
+            {' '}
+            <Link className={buttonVariants()} to="/servicos">
+              Serviços
+            </Link>
+          </CollapsibleContent>
+          <CollapsibleContent>
+            {' '}
+            <Link className={buttonVariants()} to="/contatos">
+              Contatos
+            </Link>
+          </CollapsibleContent>
         </Collapsible>
       ) : (
         <div className="flex items-center gap-2 pr-2">
-          <Button>Sign-In</Button>
-
+          <Link className={buttonVariants()} to="/servicos">
+            Serviços
+          </Link>
           <Link className={buttonVariants()} to="/contatos">
             Contatos
           </Link>

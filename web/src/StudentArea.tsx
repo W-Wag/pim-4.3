@@ -5,7 +5,7 @@ export function StudentArea() {
     <div className="flex flex-col items-center">
       <h1 className="text-primary font-bold text-2xl py-4">Área do Aluno</h1>
 
-      <div className="flex flex-col items-center space-y-2 w-full">
+      <div className="flex flex-col items-center space-y-2 w-full mb-12">
         <Link
           to="/historico"
           className=" bg-primary w-2/4 h-36 rounded hover:bg-slate-300 hover:cursor-pointer"
