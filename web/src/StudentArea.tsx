@@ -27,12 +27,16 @@ export function StudentArea() {
             </h1>
           </div>
         </Link>
-
-        <div className="bg-primary w-2/4 h-36 rounded space-y-2 py-4 text-center hover:bg-slate-300 hover:cursor-pointer">
-          <h1 className="text-primary-foreground font-bold text-2xl py-4 hover:cursor-pointer hover:text-primary">
-            Boletim Escolar
-          </h1>
-        </div>
+        <Link
+          to="/boletim"
+          className=" bg-primary w-2/4 h-36 rounded hover:bg-slate-300 hover:cursor-pointer"
+        >
+          <div className=" space-y-2 py-4 text-center hover:bg-slate-300 hover:cursor-pointer">
+            <h1 className="text-primary-foreground font-bold text-2xl py-4 hover:cursor-pointer hover:text-primary">
+              Boletim Escolar
+            </h1>
+          </div>
+        </Link>
       </div>
     </div>
   );
