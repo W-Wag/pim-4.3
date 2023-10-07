@@ -17,7 +17,7 @@ export function SchoolRecords() {
       <div className="w-2/4 h-2/4 bg-primary text-center mb-12">
         <Table>
           <TableHeader>
-            <TableRow className="">
+            <TableRow>
               <TableHead className="w-[250px] text-primary-foreground font-bold">
                 Disciplina: Artes cênicas
               </TableHead>
