@@ -20,7 +20,7 @@ export function ProfessorArea() {
         </Link>
 
         <Link
-          to="/presenca"
+          to="/professor/turmas"
           className=" bg-primary w-2/4 h-36 rounded hover:bg-slate-300 hover:cursor-pointer"
         >
           <div className=" space-y-2 py-4 text-center hover:bg-slate-300 hover:cursor-pointer">
@@ -30,7 +30,7 @@ export function ProfessorArea() {
           </div>
         </Link>
         <Link
-          to="/boletim"
+          to="/professor/notas"
           className=" bg-primary w-2/4 h-36 rounded hover:bg-slate-300 hover:cursor-pointer"
         >
           <div className=" space-y-2 py-4 text-center hover:bg-slate-300 hover:cursor-pointer">

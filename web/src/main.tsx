@@ -15,6 +15,8 @@ import { Attendance } from './components/attendance-list/attendance.tsx';
 import { SchoolReport } from './components/school-report/schoolReport.tsx';
 import { ProfessorArea } from './ProfessorArea.tsx';
 import { AttendanceProf } from './components/attendance-list/attendaceProf.tsx';
+import { Classes } from './components/classes/classes.tsx';
+import { Grades } from './components/grades/grades.tsx';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
@@ -34,6 +36,8 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
         <Route path="/aluno/boletim" element={<SchoolReport />} />
         <Route path="/aluno/presenca" element={<Attendance />} />
         <Route path="/professor/presenca" element={<AttendanceProf />} />
+        <Route path="/professor/turmas" element={<Classes />} />
+        <Route path="/professor/notas" element={<Grades />} />
       </Routes>
       <Footer />
     </BrowserRouter>
