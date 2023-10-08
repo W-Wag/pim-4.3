@@ -6,7 +6,7 @@ import { Label } from '../ui/label';
 export function Grades() {
   const [inputsEnabled, setInputsEnabled] = useState(false);
   const handleButtonClick = () => {
-    setInputsEnabled(true);
+    setInputsEnabled(!inputsEnabled);
   };
   return (
     <div className="flex flex-col items-center">
