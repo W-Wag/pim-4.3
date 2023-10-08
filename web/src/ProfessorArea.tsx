@@ -1,24 +1,15 @@
 import { Link } from 'react-router-dom';
 
-export function StudentArea() {
+export function ProfessorArea() {
   return (
     <div className="flex flex-col items-center">
-      <h1 className="text-primary font-bold text-2xl py-4">Área do Aluno</h1>
+      <h1 className="text-primary font-bold text-2xl py-4">
+        Área do Professor
+      </h1>
 
       <div className="flex flex-col items-center space-y-2 w-full mb-12">
         <Link
-          to="/aluno/historico"
-          className=" bg-primary w-2/4 h-36 rounded hover:bg-slate-300 hover:cursor-pointer"
-        >
-          <div className=" space-y-2 py-4 text-center hover:bg-slate-300 hover:cursor-pointer">
-            <h1 className="text-primary-foreground font-bold text-2xl py-4 hover:cursor-pointer hover:text-primary">
-              Histórico Escolar
-            </h1>
-          </div>
-        </Link>
-
-        <Link
-          to="/aluno/presenca"
+          to="/professor/presenca"
           className=" bg-primary w-2/4 h-36 rounded hover:bg-slate-300 hover:cursor-pointer"
         >
           <div className=" space-y-2 py-4 text-center hover:bg-slate-300 hover:cursor-pointer">
@@ -27,13 +18,24 @@ export function StudentArea() {
             </h1>
           </div>
         </Link>
+
         <Link
-          to="/aluno/boletim"
+          to="/presenca"
           className=" bg-primary w-2/4 h-36 rounded hover:bg-slate-300 hover:cursor-pointer"
         >
           <div className=" space-y-2 py-4 text-center hover:bg-slate-300 hover:cursor-pointer">
             <h1 className="text-primary-foreground font-bold text-2xl py-4 hover:cursor-pointer hover:text-primary">
-              Boletim Escolar
+              Turmas
+            </h1>
+          </div>
+        </Link>
+        <Link
+          to="/boletim"
+          className=" bg-primary w-2/4 h-36 rounded hover:bg-slate-300 hover:cursor-pointer"
+        >
+          <div className=" space-y-2 py-4 text-center hover:bg-slate-300 hover:cursor-pointer">
+            <h1 className="text-primary-foreground font-bold text-2xl py-4 hover:cursor-pointer hover:text-primary">
+              Gerenciar Notas
             </h1>
           </div>
         </Link>

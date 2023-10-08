@@ -13,6 +13,8 @@ import { StudentArea } from './StudentArea.tsx';
 import { SchoolRecords } from './components/school-records/schoolRecords.tsx';
 import { Attendance } from './components/attendance-list/attendance.tsx';
 import { SchoolReport } from './components/school-report/schoolReport.tsx';
+import { ProfessorArea } from './ProfessorArea.tsx';
+import { AttendanceProf } from './components/attendance-list/attendaceProf.tsx';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
@@ -26,10 +28,12 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
         <Route path="/servicos" element={<Services />} />
         <Route path="/contatos" element={<Contacts />} />
         <Route path="/aluno" element={<StudentArea />} />
+        <Route path="/professor" element={<ProfessorArea />} />
         // Componentes
-        <Route path="/historico" element={<SchoolRecords />} />
-        <Route path="/boletim" element={<SchoolReport />} />
-        <Route path="/presenca" element={<Attendance />} />
+        <Route path="/aluno/historico" element={<SchoolRecords />} />
+        <Route path="/aluno/boletim" element={<SchoolReport />} />
+        <Route path="/aluno/presenca" element={<Attendance />} />
+        <Route path="/professor/presenca" element={<AttendanceProf />} />
       </Routes>
       <Footer />
     </BrowserRouter>
