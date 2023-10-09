@@ -18,7 +18,7 @@ export function Header() {
   }, [isPhoneWidth]);
 
   return (
-    <header className="flex items-center justify-between gap-2 py-4 bg-blue-950">
+    <header className="flex items-center justify-between gap-2 py-4 bg-blue-950 print:hidden">
       <div className="flex px-4">
         {isPhoneWidth ? (
           <Link to="/">

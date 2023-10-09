@@ -17,6 +17,8 @@ import { ProfessorArea } from './ProfessorArea.tsx';
 import { AttendanceProf } from './components/attendance-list/attendaceProf.tsx';
 import { Classes } from './components/classes/classes.tsx';
 import { Grades } from './components/grades/grades.tsx';
+import { UpdateGrades } from './components/grades/updateGrades.tsx';
+import { GradesMap } from './components/grades/gradesMap.tsx';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
@@ -38,6 +40,8 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
         <Route path="/professor/presenca" element={<AttendanceProf />} />
         <Route path="/professor/turmas" element={<Classes />} />
         <Route path="/professor/notas" element={<Grades />} />
+        <Route path="/professor/notas/atualizar" element={<UpdateGrades />} />
+        <Route path="/professor/notas/mapa" element={<GradesMap />} />
       </Routes>
       <Footer />
     </BrowserRouter>
