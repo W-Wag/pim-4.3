@@ -16,6 +16,10 @@ export function Grades() {
             <h1 className="text-primary-foreground font-bold text-2xl py-4 hover:cursor-pointer hover:text-primary">
               Lançar Notas
             </h1>
+            <p className="text-primary-foreground font-bold leading-relaxed text-sm">
+              Aqui você poderá lançar e alterar as notas de seus alunos nas
+              turmas que leciona
+            </p>
           </div>
         </Link>
 
@@ -27,6 +31,9 @@ export function Grades() {
             <h1 className="text-primary-foreground font-bold text-2xl py-4 hover:cursor-pointer hover:text-primary">
               Mapa de Notas
             </h1>
+            <p className="text-primary-foreground font-bold leading-relaxed text-sm">
+              Aqui está o mapa de notas com base na turma e disciplina
+            </p>
           </div>
         </Link>
       </div>

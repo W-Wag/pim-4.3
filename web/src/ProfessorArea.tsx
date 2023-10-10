@@ -16,6 +16,10 @@ export function ProfessorArea() {
             <h1 className="text-primary-foreground font-bold text-2xl py-4 hover:cursor-pointer hover:text-primary">
               Lista de Presença
             </h1>
+            <p className="text-primary-foreground font-bold leading-relaxed text-sm">
+              Aqui você irá poder lançar as frequência de seus alunos com base
+              na disciplinas
+            </p>
           </div>
         </Link>
 
@@ -27,6 +31,10 @@ export function ProfessorArea() {
             <h1 className="text-primary-foreground font-bold text-2xl py-4 hover:cursor-pointer hover:text-primary">
               Turmas
             </h1>
+            <p className="text-primary-foreground font-bold leading-relaxed text-sm">
+              Aqui você visualizará as turmas que você esta lecionando
+              atualmente
+            </p>
           </div>
         </Link>
         <Link
@@ -37,6 +45,9 @@ export function ProfessorArea() {
             <h1 className="text-primary-foreground font-bold text-2xl py-4 hover:cursor-pointer hover:text-primary">
               Gerenciar Notas
             </h1>
+            <p className="text-primary-foreground font-bold leading-relaxed text-sm">
+              Aqui você irá ver as opções para gerenciamento das notas
+            </p>
           </div>
         </Link>
       </div>

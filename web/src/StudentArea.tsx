@@ -14,6 +14,10 @@ export function StudentArea() {
             <h1 className="text-primary-foreground font-bold text-2xl py-4 hover:cursor-pointer hover:text-primary">
               Histórico Escolar
             </h1>
+            <p className="text-primary-foreground font-bold leading-relaxed text-sm">
+              Aqui você visualizará as notas de todas as disciplinas de todos os
+              semestre
+            </p>
           </div>
         </Link>
 
@@ -25,6 +29,9 @@ export function StudentArea() {
             <h1 className="text-primary-foreground font-bold text-2xl py-4 hover:cursor-pointer hover:text-primary">
               Lista de Presença
             </h1>
+            <p className="text-primary-foreground font-bold leading-relaxed text-sm">
+              Aqui você visualizará as suas frequência do semestre atual
+            </p>
           </div>
         </Link>
         <Link
@@ -35,6 +42,9 @@ export function StudentArea() {
             <h1 className="text-primary-foreground font-bold text-2xl py-4 hover:cursor-pointer hover:text-primary">
               Boletim Escolar
             </h1>
+            <p className="text-primary-foreground font-bold leading-relaxed text-sm">
+              Aqui você visualizará as notas do semestre atual
+            </p>
           </div>
         </Link>
       </div>
