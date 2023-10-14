@@ -6,3 +6,26 @@ datasource db {
   provider = "sqlserver"
   url      = env("DATABASE_URL")
 }
+
+model Aluno {
+  id              Int        @id @default(autoincrement())
+  cpf             String     @unique
+  nome            String
+  email           String     @unique
+  data_nascimento DateTime
+  rg              String
+  telefone        String
+  Endereco        Endereco[]
+}
+
+model Endereco {
+  id          Int     @id @default(autoincrement())
+  logradouro  String
+  estado      String
+  complemento String?
+  cep         String
+  cidade      String
+  bairro      String
+  aluno       Aluno   @relation(fields: [alunoId], references: [id])
+  alunoId     Int
+}
