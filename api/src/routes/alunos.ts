@@ -1,13 +1,44 @@
+import validator from 'validator';
 import { prisma } from '../libs/prisma';
 
 export const create = async (req, res) => {
   const { cpf, nome, email, data_nascimento, rg, telefone, endereco } =
     req.body;
   if (!cpf || !nome || !email || !data_nascimento || !rg || !telefone) {
-    res.status(400).send('Dados inválidos');
+    return res.status(400).send('Dados inválidos');
+  }
+  if (!validator.isEmail(email)) {
+    return res.status(400).json({
+      errors: ['Email inválido, verifique!'],
+    });
+  }
+  if (!validator.isISO8601(data_nascimento)) {
+    return res.status(400).json({
+      errors: ['Data de nascimento inválida, verifique!'],
+    });
+  }
+  if (!validator.isMobilePhone(telefone, ['pt-BR'])) {
+    return res.status(400).json({
+      errors: ['Telefone inválido, verifique!'],
+    });
+  }
+  if (!/^\d{7}$/.test(rg)) {
+    return res.status(400).json({
+      errors: ['RG inválido, verifique!'],
+    });
+  }
+  if (!/^\d{11}$/.test(cpf)) {
+    return res.status(400).json({
+      errors: ['CPF inválido, verifique!'],
+    });
   }
 
-  // Cria o aluno
+  if (endereco === undefined) {
+    return res.status(400).json({
+      errors: ['Endereço inválido, verifique!'],
+    });
+  }
+
   const aluno = await prisma.aluno.create({
     data: {
       cpf,
@@ -58,5 +89,14 @@ export const disabled = async (req, res) => {
   } catch (err) {
     console.log(err);
     res.status(500).json({ error: 'Erro ao deletar o aluno' });
+  }
+};
+
+export const deleteMany = async (req, res) => {
+  try {
+    await prisma.aluno.deleteMany();
+    res.send('Deletado com sucesso');
+  } catch (err) {
+    console.log('Ocorreu um erro');
   }
 };
