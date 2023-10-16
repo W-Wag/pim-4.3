@@ -8,14 +8,77 @@ datasource db {
 }
 
 model Aluno {
-  id              Int        @id @default(autoincrement())
-  cpf             String     @unique
-  nome            String
-  email           String     @unique
-  data_nascimento DateTime
-  rg              String
-  telefone        String
-  Endereco        Endereco[]
+  cpf           String    @id @unique
+  nome          String
+  email         String
+  dt_nascimento DateTime
+  rg            String
+  telefone      String
+  telefone2     String?
+  genero        String
+  Endereco      Endereco  @relation(fields: [id_endereco], references: [id], onDelete: Cascade)
+  Matricula     Matricula @relation(fields: [ra], references: [ra], onDelete: Cascade)
+  ra            String
+  id_endereco   Int
+  Nota          Nota[]
+}
+
+model Professor {
+  cpf           String       @id @unique
+  nome          String
+  dt_nascimento DateTime
+  email         String
+  ctps          String
+  rg            String
+  titularidade  String
+  funcional     String
+  telefone      String
+  telefone2     String?
+  Endereco      Endereco     @relation(fields: [id_endereco], references: [id], onDelete: Cascade)
+  id_endereco   Int
+  Disciplina    Disciplina[]
+}
+
+model Matricula {
+  ra             String   @id @unique
+  situacao       String
+  data_Matricula DateTime @default(now())
+  Aluno          Aluno[]
+}
+
+model Turma {
+  cod               String @id @unique
+  Quantidade_alunos Int
+  Curso             Curso  @relation(fields: [Curso_cod], references: [cod], onDelete: Cascade)
+  Curso_cod         String
+}
+
+model Curso {
+  cod           String       @id @unique
+  nome          String
+  carga_horaria Int
+  Turma         Turma[]
+  Disciplina    Disciplina[]
+}
+
+model Disciplina {
+  cod_disciplina Int       @id @unique
+  nome           String
+  carga_horaria  Int
+  Professor      Professor @relation(fields: [cpf_professor], references: [cpf], onDelete: Cascade)
+  Curso          Curso     @relation(fields: [cod_curso], references: [cod], onDelete: Cascade)
+  cpf_professor  String
+  cod_curso      String
+}
+
+model Nota {
+  id        Int     @id @default(autoincrement())
+  np1       Decimal
+  np2       Decimal
+  pim       Decimal
+  Semestre  Int
+  Aluno     Aluno   @relation(fields: [cpf_aluno], references: [cpf], onDelete: Cascade)
+  cpf_aluno String
 }
 
 model Endereco {
@@ -24,8 +87,24 @@ model Endereco {
   estado      String
   complemento String?
   cep         String
-  cidade      String
   bairro      String
-  aluno       Aluno   @relation(fields: [alunoId], references: [id])
-  alunoId     Int
+  Aluno       Aluno[]
+
+  Cidade    Cidade      @relation(fields: [id_cidade], references: [id], onDelete: Cascade)
+  id_cidade Int
+  Professor Professor[]
+}
+
+model Cidade {
+  id        Int        @id @default(autoincrement())
+  nome      String
+  Estado    Estado     @relation(fields: [uf_estado], references: [uf], onDelete: Cascade)
+  uf_estado String
+  Endereco  Endereco[]
+}
+
+model Estado {
+  uf     String   @id
+  nome   String
+  Cidade Cidade[]
 }
