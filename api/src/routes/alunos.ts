@@ -1,62 +1,105 @@
-import validator from 'validator';
+// import validator from 'validator';
 import { prisma } from '../libs/prisma';
 
+interface Aluno {
+  Aluno: {
+    cpf: string;
+    nome: string;
+    email: string;
+    dt_nascimento: string;
+    rg: string;
+    telefone: string;
+    telefone2: string;
+    genero: 'H' | 'M';
+    id_endereco: number;
+  };
+
+  ra: string;
+  situacao: string;
+}
+
 export const create = async (req, res) => {
-  const { cpf, nome, email, data_nascimento, rg, telefone, endereco } =
-    req.body;
-  if (!cpf || !nome || !email || !data_nascimento || !rg || !telefone) {
-    return res.status(400).send('Dados inválidos');
-  }
-  if (!validator.isEmail(email)) {
-    return res.status(400).json({
-      errors: ['Email inválido, verifique!'],
-    });
-  }
-  if (!validator.isISO8601(data_nascimento)) {
-    return res.status(400).json({
-      errors: ['Data de nascimento inválida, verifique!'],
-    });
-  }
-  if (!validator.isMobilePhone(telefone, ['pt-BR'])) {
-    return res.status(400).json({
-      errors: ['Telefone inválido, verifique!'],
-    });
-  }
-  if (!/^\d{7}$/.test(rg)) {
-    return res.status(400).json({
-      errors: ['RG inválido, verifique!'],
-    });
-  }
-  if (!/^\d{11}$/.test(cpf)) {
-    return res.status(400).json({
-      errors: ['CPF inválido, verifique!'],
-    });
-  }
-
-  if (endereco === undefined) {
-    return res.status(400).json({
-      errors: ['Endereço inválido, verifique!'],
-    });
-  }
-
-  const aluno = await prisma.aluno.create({
-    data: {
+  const {
+    Aluno: {
       cpf,
       nome,
       email,
-      data_nascimento,
+      dt_nascimento,
       rg,
       telefone,
-      Endereco: {
-        create: endereco,
-      },
+      telefone2,
+      genero,
+      id_endereco,
     },
-    include: {
-      Endereco: true,
+    ra,
+    situacao,
+  }: Aluno = req.body;
+  // if (!cpf || !nome || !email || !dt_nascimento || !rg || !telefone) {
+  //   return res.status(400).send('Dados inválidos');
+  // }
+  // if (!validator.isEmail(email)) {
+  //   return res.status(400).json({
+  //     errors: ['Email inválido, verifique!'],
+  //   });
+  // }
+  // if (!validator.isISO8601(dt_nascimento)) {
+  //   return res.status(400).json({
+  //     errors: ['Data de nascimento inválida, verifique!'],
+  //   });
+  // }
+  // if (!validator.isMobilePhone(telefone, ['pt-BR'])) {
+  //   return res.status(400).json({
+  //     errors: ['Telefone inválido, verifique!'],
+  //   });
+  // }
+  // if (!/^\d{7}$/.test(rg)) {
+  //   return res.status(400).json({
+  //     errors: ['RG inválido, verifique!'],
+  //   });
+  // }
+  // if (!/^\d{11}$/.test(cpf)) {
+  //   return res.status(400).json({
+  //     errors: ['CPF inválido, verifique!'],
+  //   });
+  // }
+  const matriculaExists = await prisma.matricula.findFirst({
+    where: {
+      ra,
     },
   });
 
-  res.send(aluno);
+  if (matriculaExists) {
+    return res.status(400).json({
+      errors: ['Matricula ja existe, verifique!'],
+    });
+  }
+
+  try {
+    const matricula = await prisma.matricula.create({
+      data: {
+        ra,
+        situacao,
+        Aluno: {
+          create: {
+            cpf,
+            nome,
+            email,
+            dt_nascimento,
+            rg,
+            telefone,
+            telefone2,
+            genero,
+            id_endereco,
+          },
+        },
+      },
+    });
+
+    res.send(matricula);
+  } catch (err) {
+    console.log(err);
+    res.status(400).send('Dados não enviados');
+  }
 };
 
 export const index = async (req, res) => {
