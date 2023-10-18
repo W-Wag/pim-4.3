@@ -1,22 +1,6 @@
 // import validator from 'validator';
+import { Aluno } from '../interfaces/studentProtocol';
 import { prisma } from '../libs/prisma';
-
-interface Aluno {
-  Aluno: {
-    cpf: string;
-    nome: string;
-    email: string;
-    dt_nascimento: string;
-    rg: string;
-    telefone: string;
-    telefone2: string;
-    genero: 'H' | 'M';
-    id_endereco: number;
-  };
-
-  ra: string;
-  situacao: string;
-}
 
 export const create = async (req, res) => {
   const {
@@ -31,54 +15,32 @@ export const create = async (req, res) => {
       genero,
       id_endereco,
     },
-    ra,
-    situacao,
   }: Aluno = req.body;
-  // if (!cpf || !nome || !email || !dt_nascimento || !rg || !telefone) {
-  //   return res.status(400).send('Dados inválidos');
-  // }
-  // if (!validator.isEmail(email)) {
-  //   return res.status(400).json({
-  //     errors: ['Email inválido, verifique!'],
-  //   });
-  // }
-  // if (!validator.isISO8601(dt_nascimento)) {
-  //   return res.status(400).json({
-  //     errors: ['Data de nascimento inválida, verifique!'],
-  //   });
-  // }
-  // if (!validator.isMobilePhone(telefone, ['pt-BR'])) {
-  //   return res.status(400).json({
-  //     errors: ['Telefone inválido, verifique!'],
-  //   });
-  // }
-  // if (!/^\d{7}$/.test(rg)) {
-  //   return res.status(400).json({
-  //     errors: ['RG inválido, verifique!'],
-  //   });
-  // }
-  // if (!/^\d{11}$/.test(cpf)) {
-  //   return res.status(400).json({
-  //     errors: ['CPF inválido, verifique!'],
-  //   });
-  // }
-  const matriculaExists = await prisma.matricula.findFirst({
-    where: {
-      ra,
-    },
-  });
 
-  if (matriculaExists) {
-    return res.status(400).json({
-      errors: ['Matricula ja existe, verifique!'],
-    });
+  function gerarRa() {
+    const caracteres = 'abcdefghijklmnopqrstuvwxyz0123456789';
+    const regex = /[a-z0-9]/;
+    let sequencia = '';
+
+    for (let i = 0; i < 7; i++) {
+      const randomIndex = Math.floor(Math.random() * caracteres.length);
+      const char = caracteres[randomIndex];
+
+      if (regex.test(char)) {
+        sequencia += char;
+      } else {
+        i--;
+      }
+    }
+
+    return sequencia;
   }
 
   try {
     const matricula = await prisma.matricula.create({
       data: {
-        ra,
-        situacao,
+        ra: gerarRa(),
+        situacao: 'Ativo',
         Aluno: {
           create: {
             cpf,
@@ -93,12 +55,73 @@ export const create = async (req, res) => {
           },
         },
       },
+      include: { Aluno: true },
     });
 
     res.send(matricula);
   } catch (err) {
     console.log(err);
     res.status(400).send('Dados não enviados');
+  }
+};
+
+export const createAdress = async (req, res) => {
+  const {
+    uf,
+    nome,
+    Cidade: {
+      nomeCidade,
+      Endereco: { cep, logradouro, estado, numero, complemento, bairro },
+    },
+  } = req.body;
+
+  try {
+    const address = await prisma.estado.create({
+      data: {
+        uf,
+        nome,
+        Cidade: {
+          create: {
+            nome: nomeCidade,
+            Endereco: {
+              create: {
+                cep,
+                logradouro,
+                estado,
+                numero,
+                complemento,
+                bairro,
+              },
+            },
+          },
+        },
+      },
+      include: { Cidade: true },
+    });
+    res.send(address);
+  } catch (err) {
+    console.log(err);
+    res.status(400).json({ error: 'Dados inválidos' });
+  }
+};
+
+export const addAddressToStudent = async (req, res) => {
+  const { cpf } = req.params;
+  const { id } = req.body;
+  try {
+    const student = await prisma.aluno.update({
+      where: { cpf },
+      data: {
+        Endereco: {
+          connect: { id },
+        },
+      },
+    });
+
+    res.json(student);
+  } catch (err) {
+    console.log(err);
+    res.status(400).json({ error: 'Dados inválidos' });
   }
 };
 
