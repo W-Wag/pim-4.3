@@ -18,7 +18,9 @@ model Aluno {
   genero        String
   Endereco      Endereco  @relation(fields: [id_endereco], references: [id], onDelete: Cascade)
   Matricula     Matricula @relation(fields: [ra], references: [ra], onDelete: Cascade)
-  ra            String
+  Turma         Turma     @relation(fields: [cod_turma], references: [cod], onDelete: Cascade)
+  ra            String    @unique
+  cod_turma     String
   id_endereco   Int
   Nota          Nota[]
 }
@@ -43,14 +45,15 @@ model Matricula {
   ra             String   @id @unique
   situacao       String
   data_Matricula DateTime @default(now())
-  Aluno          Aluno[]
+  Aluno          Aluno?
 }
 
 model Turma {
-  cod               String @id @unique
+  cod               String  @id @unique
   Quantidade_alunos Int
-  Curso             Curso  @relation(fields: [Curso_cod], references: [cod], onDelete: Cascade)
+  Curso             Curso   @relation(fields: [Curso_cod], references: [cod], onDelete: Cascade)
   Curso_cod         String
+  Aluno             Aluno[]
 }
 
 model Curso {
@@ -87,7 +90,6 @@ model Nota {
 model Endereco {
   id          Int     @id @default(autoincrement())
   logradouro  String
-  estado      String
   complemento String?
   cep         String
   bairro      String

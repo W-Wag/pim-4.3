@@ -1,14 +1,23 @@
 import { Router } from 'express';
-import { validate } from './validations/studentsValidation';
-const alunos = require('./routes/alunos');
+import { validate } from './validations/ValidarAluno';
+const aluno = require('./routes/aluno');
+const curso = require('./routes/curso');
 
 const route = Router();
 
-route.get('/alunos', alunos.index);
-route.post('/alunos', validate, alunos.create);
-route.post('/alunos/endereco', alunos.createAdress);
-route.put('/alunos/endereco/:cpf', alunos.addAddressToStudent);
-route.delete('/alunos', alunos.deleteMany);
-route.delete('/alunos/:id', alunos.disabled);
+// Rotas do Aluno
+route.get('/alunos', aluno.index);
+route.post('/alunos', validate, aluno.criarAluno);
+route.post('/alunos/endereco', aluno.criarEndereco);
+route.put('/alunos/endereco/:cpf', aluno.addEnderecoParaAluno);
+route.delete('/alunos', aluno.deletarMuitos);
+route.delete('/alunos/:cpf', aluno.deletar);
+route.delete('/matricula/:ra', aluno.deletarMatricula);
+
+// Rotas de Curso
+route.post('/cursos', curso.criarCurso);
+
+// Rotas de Endereço
+route.delete('/enderecos/:id', aluno.deletarEndereco);
 
 module.exports = route;

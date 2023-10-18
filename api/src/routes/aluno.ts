@@ -1,8 +1,8 @@
 // import validator from 'validator';
-import { Aluno } from '../interfaces/studentProtocol';
+import { Aluno } from '../interfaces/ProtocoloAluno';
 import { prisma } from '../libs/prisma';
 
-export const create = async (req, res) => {
+export const criarAluno = async (req, res) => {
   const {
     Aluno: {
       cpf,
@@ -65,7 +65,7 @@ export const create = async (req, res) => {
   }
 };
 
-export const createAdress = async (req, res) => {
+export const criarEndereco = async (req, res) => {
   const {
     uf,
     nome,
@@ -105,7 +105,7 @@ export const createAdress = async (req, res) => {
   }
 };
 
-export const addAddressToStudent = async (req, res) => {
+export const addEnderecoParaAluno = async (req, res) => {
   const { cpf } = req.params;
   const { id } = req.body;
   try {
@@ -124,6 +124,25 @@ export const addAddressToStudent = async (req, res) => {
     res.status(400).json({ error: 'Dados inválidos' });
   }
 };
+export const deletarEndereco = async (req, res) => {
+  const { id } = req.params;
+
+  if (!id) {
+    res.status(404).json({ error: 'ID não encontrado' });
+    return;
+  }
+
+  try {
+    const endereco = await prisma.endereco.delete({
+      where: { id: parseInt(id) },
+    });
+
+    res.json(endereco);
+  } catch (err) {
+    console.log(err);
+    res.status(400).json({ error: 'Dados inválidos' });
+  }
+};
 
 export const index = async (req, res) => {
   try {
@@ -137,18 +156,17 @@ export const index = async (req, res) => {
   }
 };
 
-export const disabled = async (req, res) => {
-  const { id } = req.params;
+export const deletar = async (req, res) => {
+  const { cpf } = req.params;
 
-  if (!id) {
-    res.status(404).json({ error: 'ID não encontrado' });
+  if (!cpf) {
+    res.status(404).json({ error: 'CPF não encontrado' });
     return;
   }
 
   try {
     const aluno = await prisma.aluno.delete({
-      where: { id: parseInt(id) },
-      include: { Endereco: true },
+      where: { cpf },
     });
 
     res.json(aluno);
@@ -158,7 +176,27 @@ export const disabled = async (req, res) => {
   }
 };
 
-export const deleteMany = async (req, res) => {
+export const deletarMatricula = async (req, res) => {
+  const { ra } = req.params;
+
+  if (!ra) {
+    res.status(404).json({ error: 'RA não encontrado' });
+    return;
+  }
+
+  try {
+    const matricula = await prisma.matricula.delete({
+      where: { ra },
+    });
+
+    res.json(matricula);
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ error: 'Erro ao deletar o aluno' });
+  }
+};
+
+export const deletarMuitos = async (req, res) => {
   try {
     await prisma.aluno.deleteMany();
     res.send('Deletado com sucesso');

@@ -1,5 +1,5 @@
 import validator from 'validator';
-import { Aluno } from '../interfaces/studentProtocol';
+import { Aluno } from '../interfaces/ProtocoloAluno';
 
 export function validate(req, res, next) {
   const {
@@ -41,6 +41,11 @@ export function validate(req, res, next) {
   if (!/^\d{11}$/.test(cpf)) {
     return res.status(400).json({
       errors: ['CPF inválido, verifique!'],
+    });
+  }
+  if (!['H', 'M'].includes(genero)) {
+    return res.status(400).json({
+      errors: ['Gênero inválido, verifique!'],
     });
   }
 
