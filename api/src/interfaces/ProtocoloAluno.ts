@@ -8,7 +8,6 @@ export interface Aluno {
     telefone: string;
     telefone2: string;
     genero: 'H' | 'M';
-    id_endereco: number;
   };
 
   ra: string;

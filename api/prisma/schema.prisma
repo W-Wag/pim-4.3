@@ -16,12 +16,12 @@ model Aluno {
   telefone      String
   telefone2     String?
   genero        String
-  Endereco      Endereco  @relation(fields: [id_endereco], references: [id], onDelete: Cascade)
+  Endereco      Endereco? @relation(fields: [id_endereco], references: [id], onDelete: Cascade)
   Matricula     Matricula @relation(fields: [ra], references: [ra], onDelete: Cascade)
-  Turma         Turma     @relation(fields: [cod_turma], references: [cod], onDelete: Cascade)
+  Turma         Turma?    @relation(fields: [cod_turma], references: [cod], onDelete: Cascade)
   ra            String    @unique
-  cod_turma     String
-  id_endereco   Int
+  cod_turma     String?
+  id_endereco   Int?
   Nota          Nota[]
 }
 

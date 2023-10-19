@@ -1,7 +1,7 @@
 import validator from 'validator';
 import { Aluno } from '../interfaces/ProtocoloAluno';
 
-export function validate(req, res, next) {
+export function validarAluno(req, res, next) {
   const {
     Aluno: { cpf, nome, email, dt_nascimento, rg, telefone, genero },
   }: Aluno = req.body;

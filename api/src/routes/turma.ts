@@ -1,0 +1,60 @@
+import { prisma } from '../libs/prisma';
+
+export const criarTurma = async (req, res) => {
+  const { cod, Curso_cod } = req.body;
+
+  try {
+    const turma = await prisma.turma.create({
+      data: {
+        cod,
+        Quantidade_alunos: 0,
+        Curso: {
+          connect: {
+            cod: Curso_cod,
+          },
+        },
+      },
+    });
+
+    res.send(turma);
+  } catch (err) {
+    console.log(err);
+    res.status(400).json({ error: 'Dados inválidos' });
+  }
+};
+
+export const addAlunoParaTurma = async (req, res) => {
+  const { cpf } = req.params;
+  const { cod_turma } = req.body;
+
+  if (!cpf) {
+    res.status(404).json({ error: 'CPF não encontrado' });
+  }
+
+  try {
+    const aluno = await prisma.aluno.update({
+      where: { cpf },
+      data: {
+        Turma: {
+          connect: {
+            cod: cod_turma,
+          },
+        },
+      },
+    });
+
+    await prisma.turma.update({
+      where: { cod: cod_turma },
+      data: {
+        Quantidade_alunos: {
+          increment: 1,
+        },
+      },
+    });
+
+    res.send(aluno);
+  } catch (err) {
+    console.log(err);
+    res.status(400).json({ error: 'Dados inválidos' });
+  }
+};

@@ -1,20 +1,9 @@
-// import validator from 'validator';
 import { Aluno } from '../interfaces/ProtocoloAluno';
 import { prisma } from '../libs/prisma';
 
 export const criarAluno = async (req, res) => {
   const {
-    Aluno: {
-      cpf,
-      nome,
-      email,
-      dt_nascimento,
-      rg,
-      telefone,
-      telefone2,
-      genero,
-      id_endereco,
-    },
+    Aluno: { cpf, nome, email, dt_nascimento, rg, telefone, telefone2, genero },
   }: Aluno = req.body;
 
   function gerarRa() {
@@ -51,7 +40,6 @@ export const criarAluno = async (req, res) => {
             telefone,
             telefone2,
             genero,
-            id_endereco,
           },
         },
       },
@@ -157,16 +145,29 @@ export const index = async (req, res) => {
 };
 
 export const deletar = async (req, res) => {
-  const { cpf } = req.params;
+  const { ra } = req.params;
 
-  if (!cpf) {
+  if (!ra) {
     res.status(404).json({ error: 'CPF não encontrado' });
     return;
   }
 
   try {
     const aluno = await prisma.aluno.delete({
-      where: { cpf },
+      where: { ra },
+    });
+
+    await prisma.matricula.delete({
+      where: { ra },
+    });
+
+    await prisma.turma.update({
+      where: { cod: aluno.cod_turma },
+      data: {
+        Quantidade_alunos: {
+          decrement: 1,
+        },
+      },
     });
 
     res.json(aluno);
