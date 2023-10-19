@@ -44,7 +44,7 @@ export function App(): JSX.Element {
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
-          className="h-full py-40 flex flex-col items-center justify-center space-y-4"
+          className="h-full py-20 flex flex-col items-center justify-center space-y-4"
         >
           <FormField
             control={form.control}
@@ -53,7 +53,7 @@ export function App(): JSX.Element {
               <FormItem>
                 <FormLabel>Usuário</FormLabel>
                 <FormControl>
-                  <Input placeholder="Coloque seu usuário aqui" {...field} />
+                  <Input className="w-96" placeholder="Coloque seu usuário aqui" {...field} />
                 </FormControl>
                 <FormDescription>Coloque seu usuário acima</FormDescription>
                 <FormMessage />
@@ -67,7 +67,7 @@ export function App(): JSX.Element {
               <FormItem>
                 <FormLabel>Senha</FormLabel>
                 <FormControl>
-                  <Input placeholder="Coloque sua senha aqui" {...field} />
+                  <Input className="w-96" placeholder="Coloque sua senha aqui" {...field} />
                 </FormControl>
                 <FormDescription>Use a sua senha no campo acima</FormDescription>
                 <FormMessage />
