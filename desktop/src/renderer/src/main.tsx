@@ -5,6 +5,8 @@ import { App } from './App'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import { Header } from './components/header/header'
 import { Home } from './Home'
+import { Footer } from './components/footer/footer'
+import { Aluno } from './Aluno'
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
@@ -13,7 +15,9 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
       <Routes>
         <Route path="/" element={<App />} />
         <Route path="/home" element={<Home />} />
+        <Route path="/alunos" element={<Aluno />} />
       </Routes>
+      <Footer />
     </BrowserRouter>
   </React.StrictMode>
 )
