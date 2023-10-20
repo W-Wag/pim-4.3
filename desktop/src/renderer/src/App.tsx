@@ -1,4 +1,3 @@
-import { Header } from './components/header/header'
 import { zodResolver } from '@hookform/resolvers/zod'
 import * as z from 'zod'
 import {
@@ -14,6 +13,7 @@ import { Input } from './components/ui/input'
 import { useForm } from 'react-hook-form'
 import { Button } from './components/ui/button'
 import { ReactElement } from 'react'
+import { Link } from 'react-router-dom'
 
 const formSchema = z.object({
   username: z.string().min(2, {
@@ -39,7 +39,6 @@ export function App(): JSX.Element {
 
   return (
     <div className="w-full h-full">
-      <Header />
       <h1 className="py-6 text-2xl font-bold text-center">Logue no sistema para utiliza-lo</h1>
       <Form {...form}>
         <form
@@ -74,7 +73,9 @@ export function App(): JSX.Element {
               </FormItem>
             )}
           />
-          <Button type="submit">Submit</Button>
+          <Button type="submit">
+            <Link to="/home">Confirmar</Link>
+          </Button>
         </form>
       </Form>
     </div>
