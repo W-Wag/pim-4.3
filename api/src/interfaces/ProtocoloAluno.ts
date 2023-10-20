@@ -1,3 +1,5 @@
+import { Request, Response } from 'express';
+
 export interface Aluno {
   Aluno: {
     cpf: string;
@@ -12,4 +14,12 @@ export interface Aluno {
 
   ra: string;
   situacao: string;
+}
+
+export interface AlunoRoutes {
+  index: (req: Request, res: Response) => void;
+  criarAluno: (req: Request, res: Response) => void;
+  deletarMuitos: (req: Request, res: Response) => void;
+  deletar: (req: Request, res: Response) => void;
+  deletarMatricula: (req: Request, res: Response) => void;
 }

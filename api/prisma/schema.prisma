@@ -36,8 +36,8 @@ model Professor {
   funcional     String
   telefone      String
   telefone2     String?
-  Endereco      Endereco     @relation(fields: [id_endereco], references: [id], onDelete: Cascade)
-  id_endereco   Int
+  Endereco      Endereco?    @relation(fields: [id_endereco], references: [id], onDelete: Cascade)
+  id_endereco   Int?
   Disciplina    Disciplina[]
 }
 

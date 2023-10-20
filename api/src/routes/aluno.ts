@@ -53,85 +53,6 @@ export const criarAluno = async (req, res) => {
   }
 };
 
-export const criarEndereco = async (req, res) => {
-  const {
-    uf,
-    nome,
-    Cidade: {
-      nomeCidade,
-      Endereco: { cep, logradouro, estado, numero, complemento, bairro },
-    },
-  } = req.body;
-
-  try {
-    const address = await prisma.estado.create({
-      data: {
-        uf,
-        nome,
-        Cidade: {
-          create: {
-            nome: nomeCidade,
-            Endereco: {
-              create: {
-                cep,
-                logradouro,
-                estado,
-                numero,
-                complemento,
-                bairro,
-              },
-            },
-          },
-        },
-      },
-      include: { Cidade: true },
-    });
-    res.send(address);
-  } catch (err) {
-    console.log(err);
-    res.status(400).json({ error: 'Dados inválidos' });
-  }
-};
-
-export const addEnderecoParaAluno = async (req, res) => {
-  const { cpf } = req.params;
-  const { id } = req.body;
-  try {
-    const student = await prisma.aluno.update({
-      where: { cpf },
-      data: {
-        Endereco: {
-          connect: { id },
-        },
-      },
-    });
-
-    res.json(student);
-  } catch (err) {
-    console.log(err);
-    res.status(400).json({ error: 'Dados inválidos' });
-  }
-};
-export const deletarEndereco = async (req, res) => {
-  const { id } = req.params;
-
-  if (!id) {
-    res.status(404).json({ error: 'ID não encontrado' });
-    return;
-  }
-
-  try {
-    const endereco = await prisma.endereco.delete({
-      where: { id: parseInt(id) },
-    });
-
-    res.json(endereco);
-  } catch (err) {
-    console.log(err);
-    res.status(400).json({ error: 'Dados inválidos' });
-  }
-};
-
 export const index = async (req, res) => {
   try {
     const alunos = await prisma.aluno.findMany({
@@ -160,6 +81,8 @@ export const deletar = async (req, res) => {
     await prisma.matricula.delete({
       where: { ra },
     });
+
+    if (aluno.cod_turma === null) return;
 
     await prisma.turma.update({
       where: { cod: aluno.cod_turma },
