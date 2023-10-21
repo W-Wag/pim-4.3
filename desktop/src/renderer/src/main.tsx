@@ -6,7 +6,8 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import { Header } from './components/header/header'
 import { Home } from './Home'
 import { Footer } from './components/footer/footer'
-import { Aluno } from './Aluno'
+import { Student } from './Student'
+import { CreateStudent } from './components/CreateStudent'
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
@@ -15,7 +16,8 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
       <Routes>
         <Route path="/" element={<App />} />
         <Route path="/home" element={<Home />} />
-        <Route path="/alunos" element={<Aluno />} />
+        <Route path="/alunos" element={<Student />} />
+        <Route path="/alunos/criar" element={<CreateStudent />} />
       </Routes>
       <Footer />
     </BrowserRouter>
