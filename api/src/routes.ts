@@ -9,6 +9,7 @@ const professor = require('./routes/professor');
 const endereco: EnderecoRoutes = require('./routes/enderecos');
 const curso = require('./routes/curso');
 const turma = require('./routes/turma');
+const disciplina = require('./routes/disciplinas');
 
 const route = Router();
 
@@ -31,6 +32,9 @@ route.post('/enderecos', endereco.criarEndereco);
 route.delete('/enderecos/:id', endereco.deletarEndereco);
 route.put('/enderecos/aluno/:cpf', endereco.addEnderecoParaAluno);
 route.put('/enderecos/professor/:cpf', endereco.addEnderecoParaProfessor);
+
+// Rotas de Disciplina
+route.post('/disciplinas', disciplina.criarDisciplina);
 
 // Rotas de Turma
 route.post('/turmas', validarTurma, turma.criarTurma);

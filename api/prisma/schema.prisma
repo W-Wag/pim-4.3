@@ -65,12 +65,12 @@ model Curso {
 }
 
 model Disciplina {
-  cod_disciplina Int       @id @unique
+  cod_disciplina Int        @id @unique
   nome           String
   carga_horaria  Int
-  Professor      Professor @relation(fields: [cpf_professor], references: [cpf], onDelete: Cascade)
-  Curso          Curso     @relation(fields: [cod_curso], references: [cod], onDelete: Cascade)
-  cpf_professor  String
+  Professor      Professor? @relation(fields: [cpf_professor], references: [cpf], onDelete: Cascade)
+  Curso          Curso      @relation(fields: [cod_curso], references: [cod], onDelete: Cascade)
+  cpf_professor  String?
   cod_curso      String
   Nota           Nota[]
 }
