@@ -24,6 +24,48 @@ export const criarDisciplina: Controller = async (req, res) => {
   }
 };
 
+export const addProfessorParaDisciplina: Controller = async (req, res) => {
+  const { cpf } = req.params;
+  const { cod_disciplina } = req.body;
+
+  const disciplinaExiste = await prisma.disciplina.findUnique({
+    where: {
+      cod_disciplina: parseInt(cod_disciplina),
+    },
+  });
+  const cpfExiste = await prisma.professor.findUnique({
+    where: {
+      cpf: cpf,
+    },
+  });
+
+  if (!cod_disciplina || !disciplinaExiste || !cpfExiste) {
+    res.status(404).json({
+      error: 'Código da disciplina ou cpf do professor não encontrado',
+    });
+    return;
+  }
+
+  try {
+    const professor = await prisma.professor.update({
+      where: { cpf },
+      data: {
+        Disciplina: {
+          connect: {
+            cod_disciplina: cod_disciplina,
+          },
+        },
+      },
+      include: { Disciplina: true },
+    });
+
+    res.send(professor);
+  } catch (err) {
+    console.log(err);
+    res.status(400).json({ error: 'Dados inválidos' });
+  }
+};
+
 export const deletarDisciplina: Controller = async (req, res) => {
   const { cod_disciplina } = req.params;
 

@@ -36,6 +36,7 @@ route.put('/enderecos/professor/:cpf', endereco.addEnderecoParaProfessor);
 
 // Rotas de Disciplina
 route.post('/disciplinas', disciplina.criarDisciplina);
+route.put('/disciplinas/professor/:cpf', disciplina.addProfessorParaDisciplina);
 route.delete('/disciplinas/:cod_disciplina', disciplina.deletarDisciplina);
 
 // Rotas de Turma
