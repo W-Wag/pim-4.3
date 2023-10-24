@@ -65,7 +65,7 @@ model Curso {
 }
 
 model Disciplina {
-  cod_disciplina Int        @id @unique
+  cod_disciplina Int        @id @default(autoincrement())
   nome           String
   carga_horaria  Int
   Professor      Professor? @relation(fields: [cpf_professor], references: [cpf], onDelete: Cascade)
@@ -77,9 +77,10 @@ model Disciplina {
 
 model Nota {
   id             Int        @id @default(autoincrement())
-  np1            Decimal
-  np2            Decimal
-  pim            Decimal
+  np1            Decimal    @default(0)
+  np2            Decimal    @default(0)
+  pim            Decimal    @default(0)
+  mf             Decimal
   Semestre       Int
   Aluno          Aluno      @relation(fields: [cpf_aluno], references: [cpf], onDelete: Cascade)
   Disciplina     Disciplina @relation(fields: [cod_disciplina], references: [cod_disciplina], onDelete: NoAction, onUpdate: NoAction)
