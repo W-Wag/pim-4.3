@@ -3,13 +3,15 @@ import { validarAluno } from './validations/ValidarAluno';
 import { validarTurma } from './validations/ValidarTurma';
 import { AlunoRoutes } from './interfaces/ProtocoloAluno';
 import { EnderecoRoutes } from './interfaces/ProtocoloEnderecos';
+import { DisciplinaRoutes } from './interfaces/ProtocoloDisciplina';
+import { validarDisciplina } from './validations/ValidarDisciplina';
 
 const aluno: AlunoRoutes = require('./routes/aluno');
 const professor = require('./routes/professor');
 const endereco: EnderecoRoutes = require('./routes/enderecos');
 const curso = require('./routes/curso');
 const turma = require('./routes/turma');
-const disciplina = require('./routes/disciplinas');
+const disciplina: DisciplinaRoutes = require('./routes/disciplinas');
 const nota = require('./routes/notas');
 
 const route = Router();
@@ -35,7 +37,7 @@ route.put('/enderecos/aluno/:cpf', endereco.addEnderecoParaAluno);
 route.put('/enderecos/professor/:cpf', endereco.addEnderecoParaProfessor);
 
 // Rotas de Disciplina
-route.post('/disciplinas', disciplina.criarDisciplina);
+route.post('/disciplinas', validarDisciplina, disciplina.criarDisciplina);
 route.put('/disciplinas/professor/:cpf', disciplina.addProfessorParaDisciplina);
 route.delete('/disciplinas/:cod_disciplina', disciplina.deletarDisciplina);
 

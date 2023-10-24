@@ -1,8 +1,9 @@
+import { Disciplina } from '@prisma/client';
 import { Controller } from '../interfaces/ProtocoloController';
 import { prisma } from '../libs/prisma';
 
 export const criarDisciplina: Controller = async (req, res) => {
-  const { nome, carga_horaria, cod_curso } = req.body;
+  const { nome, carga_horaria, cod_curso }: Disciplina = req.body;
 
   try {
     const disciplina = await prisma.disciplina.create({
