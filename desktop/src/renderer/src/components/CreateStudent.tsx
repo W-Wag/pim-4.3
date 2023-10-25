@@ -9,6 +9,7 @@ import {
   FormLabel,
   FormMessage
 } from './ui/form'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select'
 import { Input } from './ui/input'
 import { useForm } from 'react-hook-form'
 import { Button } from './ui/button'
@@ -16,29 +17,14 @@ import { ReactElement } from 'react'
 import { IMaskInput } from 'react-imask'
 
 const formSchema = z.object({
-  cpf: z
-    .string()
-    .min(11, {
-      message: 'CPF inválido, digite novamente'
-    })
-    .max(11, {
-      message: 'CPF inválido, digite novamente'
-    }),
-  nome: z.string(),
-  dt_nascimento: z.string().regex(/{1-9}-{1-9}-{1-9}{1-9}/, {
-    message: 'Data nascimento deve ser do tipo DD-MM-AA'
+  cpf: z.string().min(11, {
+    message: 'Username must be at least 2 characters.'
   }),
-  rg: z.string().min(5, {
-    message: 'Rg deve ter no mínimo 5 dígitos'
+  nome: z.string().min(2, {
+    message: 'Password must be at least 2 characters.'
   }),
-  telefone: z.string().min(9, {
-    message: 'Telefone deve ter no mínimo 9 dígitos'
-  }),
-  telefone2: z.string().min(9, {
-    message: 'Telefone deve ter no mínimo 9 dígitos'
-  }),
-  genero: z.string().regex(/[H|M]/g, {
-    message: 'Tipo de gênero inválido'
+  genero: z.string({
+    required_error: 'Por favor,selecione o gênero do aluno'
   })
 })
 
@@ -48,10 +34,6 @@ export function CreateStudent(): JSX.Element {
     defaultValues: {
       cpf: '',
       nome: '',
-      dt_nascimento: '',
-      rg: '',
-      telefone: '',
-      telefone2: '',
       genero: ''
     }
   })
@@ -66,7 +48,7 @@ export function CreateStudent(): JSX.Element {
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
-          className="h-full py-4 flex flex-col items-center justify-center space-y-4"
+          className="h-full py-20 flex flex-col items-center justify-center space-y-4"
         >
           <FormField
             control={form.control}
@@ -76,13 +58,13 @@ export function CreateStudent(): JSX.Element {
                 <FormLabel>CPF</FormLabel>
                 <FormControl>
                   <IMaskInput
-                    className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
+                    className="flex h-9 w-96 rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
                     placeholder="111-111-111.40"
                     mask="000.000.000-00"
                     {...field}
                   />
                 </FormControl>
-                <FormDescription>Insira o CPF do aluno</FormDescription>
+                <FormDescription>Coloque seu usuário acima</FormDescription>
                 <FormMessage />
               </FormItem>
             )}
@@ -94,23 +76,32 @@ export function CreateStudent(): JSX.Element {
               <FormItem>
                 <FormLabel>Nome</FormLabel>
                 <FormControl>
-                  <Input className="w-96" placeholder="Nome" {...field} />
+                  <Input className="w-96" placeholder="Coloque sua senha aqui" {...field} />
                 </FormControl>
-                <FormDescription>Insira o nome do aluno</FormDescription>
+                <FormDescription>Use a sua senha no campo acima</FormDescription>
                 <FormMessage />
               </FormItem>
             )}
           />
+
           <FormField
             control={form.control}
             name="genero"
             render={({ field }): ReactElement => (
               <FormItem>
                 <FormLabel>Gênero</FormLabel>
-                <FormControl>
-                  <Input className="w-96" placeholder="Insira o gênero" {...field} />
-                </FormControl>
-                <FormDescription>Insira H - Homem ou M - Mulher</FormDescription>
+                <Select onValueChange={field.onChange} defaultValue={field.value}>
+                  <FormControl>
+                    <SelectTrigger className="w-96">
+                      <SelectValue placeholder="Selecione o Gênero" />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent>
+                    <SelectItem value="H">Homem</SelectItem>
+                    <SelectItem value="M">Mulher</SelectItem>
+                  </SelectContent>
+                </Select>
+                <FormDescription>Escolha o gênero do aluno</FormDescription>
                 <FormMessage />
               </FormItem>
             )}
