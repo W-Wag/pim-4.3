@@ -15,7 +15,7 @@ import { useForm } from 'react-hook-form'
 import { Button } from './ui/button'
 import { ReactElement } from 'react'
 import { IMaskInput } from 'react-imask'
-import { api } from '@renderer/lib/axios'
+// import { api } from '@renderer/lib/axios'
 
 const formSchema = z.object({
   cpf: z.string().min(11, {
@@ -65,25 +65,25 @@ export function CreateStudent(): JSX.Element {
     values.dt_nascimento = transformDate(values.dt_nascimento)
     console.log(values)
 
-    const { cpf, dt_nascimento, email, genero, nome, rg, telefone, telefone2 } = values
+    //   const { cpf, dt_nascimento, email, genero, nome, rg, telefone, telefone2 } = values
 
-    try {
-      console.log('loading')
-      await api.post('/alunos', {
-        cpf,
-        nome,
-        email,
-        dt_nascimento,
-        rg,
-        telefone,
-        telefone2,
-        genero
-      })
+    //   try {
+    //     console.log('loading')
+    //     await api.post('/alunos', {
+    //       cpf,
+    //       nome,
+    //       email,
+    //       dt_nascimento,
+    //       rg,
+    //       telefone,
+    //       telefone2,
+    //       genero
+    //     })
 
-      console.log('Sucesso')
-    } catch (err) {
-      console.log(err)
-    }
+    //     console.log('Sucesso')
+    //   } catch (err) {
+    //     console.log(err)
+    //   }
   }
 
   return (

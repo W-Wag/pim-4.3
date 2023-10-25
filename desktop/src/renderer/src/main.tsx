@@ -8,6 +8,8 @@ import { Home } from './Home'
 import { Footer } from './components/footer/footer'
 import { Student } from './Student'
 import { CreateStudent } from './components/CreateStudent'
+import { CreateProfessor } from './components/CreateProfessor'
+import { Professor } from './Professor'
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
@@ -17,7 +19,9 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
         <Route path="/" element={<App />} />
         <Route path="/home" element={<Home />} />
         <Route path="/alunos" element={<Student />} />
+        <Route path="/professores" element={<Professor />} />
         <Route path="/alunos/criar" element={<CreateStudent />} />
+        <Route path="/professor/criar" element={<CreateProfessor />} />
       </Routes>
       <Footer />
     </BrowserRouter>
