@@ -19,6 +19,7 @@ import { api } from '@renderer/lib/axios'
 import { Skeleton } from './ui/skeleton'
 import { useToast } from './ui/use-toast'
 import { Toaster } from './ui/toaster'
+import { useNavigate } from 'react-router-dom'
 
 const formSchema = z.object({
   cpf: z.string().min(11, {
@@ -58,6 +59,7 @@ export function CreateStudent(): JSX.Element {
     }
   })
   const { toast } = useToast()
+  const navigate = useNavigate()
 
   const [isLoading, setIsLoading] = useState(false)
 
@@ -85,6 +87,8 @@ export function CreateStudent(): JSX.Element {
           genero: values.genero
         }
       })
+
+      navigate('/alunos/enderecos', { state: values.cpf })
       setIsLoading(false)
       toast({
         title: 'Sucesso',

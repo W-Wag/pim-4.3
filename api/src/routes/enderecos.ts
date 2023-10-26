@@ -42,6 +42,17 @@ export const criarEndereco: Controller = async (req, res) => {
 export const addEnderecoParaAluno: Controller = async (req, res) => {
   const { cpf } = req.params;
   const { id } = req.body;
+
+  const cpfExiste = await prisma.aluno.findUnique({
+    where: {
+      cpf,
+    },
+  });
+
+  if (!cpfExiste) {
+    res.status(404).json({ error: 'CPF do aluno não encontrado' });
+    return;
+  }
   try {
     const student = await prisma.aluno.update({
       where: { cpf },
