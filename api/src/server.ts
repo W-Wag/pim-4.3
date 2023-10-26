@@ -1,14 +1,19 @@
 const express = require('express');
 const helmet = require('helmet');
+const cors = require('cors');
 const routes = require('./routes');
 const app = express();
 
+helmet.contentSecurityPolicy({
+  directives: {
+    defaultSrc: ["'self'"],
+    connectSrc: ["'self'", 'http://localhost:3000'],
+  },
+});
+app.use(cors());
 app.use(
-  helmet.contentSecurityPolicy({
-    directives: {
-      defaultSrc: ["'self'"],
-      connectSrc: ["'self'", 'http://localhost:3333'],
-    },
+  helmet({
+    crossOriginEmbedderPolicy: false,
   }),
 );
 app.use(express.json());

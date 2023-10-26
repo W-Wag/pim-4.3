@@ -33,12 +33,12 @@ export function validarAluno(req, res, next) {
       errors: ['Telefone inválido, verifique!'],
     });
   }
-  if (!/^\d{8}$/.test(rg)) {
+  if (!/[\d]{4}-[\d]{3}/.test(rg)) {
     return res.status(400).json({
       errors: ['RG inválido, verifique!'],
     });
   }
-  if (!/^\d{13}$/.test(cpf)) {
+  if (!/^\d{3}\.\d{3}\.\d{3}-\d{2}$/.test(cpf)) {
     return res.status(400).json({
       errors: ['CPF inválido, verifique!'],
     });

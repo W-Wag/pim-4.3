@@ -12,13 +12,10 @@ import {
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select'
 import { Input } from './ui/input'
 import { useForm } from 'react-hook-form'
-import { Button, buttonVariants } from './ui/button'
-import { ReactElement, useState } from 'react'
+import { Button } from './ui/button'
+import { ReactElement } from 'react'
 import { IMaskInput } from 'react-imask'
-import { api } from '@renderer/lib/axios'
-import { Skeleton } from './ui/skeleton'
-import { useToast } from './ui/use-toast'
-import { Toaster } from './ui/toaster'
+// import { api } from '@renderer/lib/axios'
 
 const formSchema = z.object({
   cpf: z.string().min(11, {
@@ -43,7 +40,7 @@ const formSchema = z.object({
   })
 })
 
-export function CreateStudent(): JSX.Element {
+export function CreateProfessor(): JSX.Element {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -57,9 +54,6 @@ export function CreateStudent(): JSX.Element {
       genero: ''
     }
   })
-  const { toast } = useToast()
-
-  const [isLoading, setIsLoading] = useState(false)
 
   function transformDate(dateToIso: string): string {
     const date = dateToIso.split('-')
@@ -71,43 +65,34 @@ export function CreateStudent(): JSX.Element {
     values.dt_nascimento = transformDate(values.dt_nascimento)
     console.log(values)
 
-    try {
-      setIsLoading(true)
-      await api.post('/alunos', {
-        Aluno: {
-          cpf: values.cpf,
-          nome: values.nome,
-          email: values.email,
-          dt_nascimento: values.dt_nascimento,
-          rg: values.rg,
-          telefone: values.telefone,
-          telefone2: values.telefone2,
-          genero: values.genero
-        }
-      })
-      setIsLoading(false)
-      toast({
-        title: 'Sucesso',
-        description: 'Aluno cadastrado com sucesso'
-      })
-    } catch (err) {
-      console.log(err)
-      toast({
-        title: 'Erro',
-        description: 'Erro desconhecido do servidor, tente novamente mais tarde'
-      })
-    }
+    //   const { cpf, dt_nascimento, email, genero, nome, rg, telefone, telefone2 } = values
+
+    //   try {
+    //     console.log('loading')
+    //     await api.post('/alunos', {
+    //       cpf,
+    //       nome,
+    //       email,
+    //       dt_nascimento,
+    //       rg,
+    //       telefone,
+    //       telefone2,
+    //       genero
+    //     })
+
+    //     console.log('Sucesso')
+    //   } catch (err) {
+    //     console.log(err)
+    //   }
   }
 
   return (
     <div className="w-full h-full">
       <h1 className="py-6 text-2xl font-bold text-center">Cadastre um Aluno</h1>
-      <Toaster />
-
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
-          className="h-full py-12 flex flex-col items-center justify-center space-y-4"
+          className="h-full py-20 flex flex-col items-center justify-center space-y-4"
         >
           <FormField
             control={form.control}
@@ -260,11 +245,7 @@ export function CreateStudent(): JSX.Element {
               </FormItem>
             )}
           />
-          {isLoading ? (
-            <Skeleton className={buttonVariants()}>Carregando...</Skeleton>
-          ) : (
-            <Button type="submit">Confirmar</Button>
-          )}
+          <Button type="submit">Confirmar</Button>
         </form>
       </Form>
     </div>
