@@ -43,7 +43,16 @@ const formSchema = z.object({
   cpf: z.string().optional()
 })
 
-export function AddressToStudent(): JSX.Element {
+export function CreateAddress(): JSX.Element {
+  const { toast } = useToast()
+
+  const [isLoading, setIsLoading] = useState(false)
+  const [isStudent, setIsStudent] = useState(false)
+  const [cpf, setCpf] = useState('')
+
+  const { pathname } = useLocation()
+  const { state } = useLocation()
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -57,26 +66,24 @@ export function AddressToStudent(): JSX.Element {
       cpf: ''
     }
   })
-  const { toast } = useToast()
 
-  const [isLoading, setIsLoading] = useState(false)
-  const [isStudent, setIsStudent] = useState(false)
-  const [cpf, setCpf] = useState('')
-
-  const { pathname } = useLocation()
-  const { state } = useLocation()
-
-  console.log(state)
+  console.log(cpf)
 
   useEffect(() => {
     if (/aluno/.test(pathname)) {
       setIsStudent(true)
     }
-    if (state) setCpf(state)
+    if (state) {
+      setCpf(state)
+    }
   }, [])
 
   async function onSubmit(values: z.infer<typeof formSchema>): Promise<void> {
     console.log(values)
+    if (cpf) {
+      values.cpf = cpf
+    }
+
     try {
       setIsLoading(true)
       const response = await api.post('/enderecos', {
@@ -99,8 +106,15 @@ export function AddressToStudent(): JSX.Element {
       const id = address.id
       console.log(id)
 
-      if (values.cpf && id) {
+      if (values.cpf && id && isStudent) {
         const response1 = await api.put(`/enderecos/aluno/${values.cpf}`, {
+          id: id
+        })
+
+        console.log(response1)
+      }
+      if (values.cpf && id && !isStudent) {
+        const response1 = await api.put(`/enderecos/professor/${values.cpf}`, {
           id: id
         })
 
@@ -246,25 +260,29 @@ export function AddressToStudent(): JSX.Element {
             )}
           />
 
-          <FormField
-            control={form.control}
-            name="cpf"
-            render={({ field }): ReactElement => (
-              <FormItem>
-                <FormLabel>CPF</FormLabel>
-                <FormControl>
-                  <IMaskInput
-                    className="flex h-9 w-96 rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
-                    placeholder="111-111-111.40"
-                    mask="000.000.000-00"
-                    {...field}
-                  />
-                </FormControl>
-                <FormDescription>Digite o CPF do aluno acima</FormDescription>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+          {cpf ? (
+            <p className="text-sm font-medium text-primary">CPF adquirido do cadastro anterior</p>
+          ) : (
+            <FormField
+              control={form.control}
+              name="cpf"
+              render={({ field }): ReactElement => (
+                <FormItem>
+                  <FormLabel>CPF</FormLabel>
+                  <FormControl>
+                    <IMaskInput
+                      className="flex h-9 w-96 rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
+                      placeholder="111-111-111.40"
+                      mask="000.000.000-00"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormDescription>Digite o CPF acima</FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          )}
 
           {isLoading ? (
             <Skeleton className={buttonVariants()}>Carregando...</Skeleton>

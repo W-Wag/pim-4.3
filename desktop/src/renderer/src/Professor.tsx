@@ -7,7 +7,7 @@ export function Professor(): JSX.Element {
 
       <div className="flex flex-wrap space-x-2">
         <div className="w-80 h-36 bg-primary hover:bg-zinc-200 hover:cursor-pointer">
-          <Link to="/alunos/criar">
+          <Link to="/professor/criar">
             <h2 className="text-xl font-semibold text-primary-foreground text-center py-8">
               Criar Professor
             </h2>

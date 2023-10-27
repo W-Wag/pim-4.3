@@ -10,7 +10,7 @@ import { Student } from './Student'
 import { CreateStudent } from './components/CreateStudent'
 import { CreateProfessor } from './components/CreateProfessor'
 import { Professor } from './Professor'
-import { AddressToStudent } from './components/AddressToStudent'
+import { CreateAddress } from './components/CreateAddress'
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
@@ -21,10 +21,10 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
         <Route path="/home" element={<Home />} />
         <Route path="/alunos" element={<Student />} />
         <Route path="/alunos/criar" element={<CreateStudent />} />
-        <Route path="/alunos/enderecos" element={<AddressToStudent />} />
+        <Route path="/alunos/enderecos" element={<CreateAddress />} />
         <Route path="/professores" element={<Professor />} />
         <Route path="/professor/criar" element={<CreateProfessor />} />
-        <Route path="/professores/enderecos" element={<AddressToStudent />} />
+        <Route path="/professores/enderecos" element={<CreateAddress />} />
       </Routes>
       <Footer />
     </BrowserRouter>

@@ -12,10 +12,14 @@ import {
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select'
 import { Input } from './ui/input'
 import { useForm } from 'react-hook-form'
-import { Button } from './ui/button'
-import { ReactElement } from 'react'
+import { Button, buttonVariants } from './ui/button'
+import { ReactElement, useState } from 'react'
 import { IMaskInput } from 'react-imask'
-// import { api } from '@renderer/lib/axios'
+import { api } from '@renderer/lib/axios'
+import { Skeleton } from './ui/skeleton'
+import { useToast } from './ui/use-toast'
+import { Toaster } from './ui/toaster'
+import { useNavigate } from 'react-router-dom'
 
 const formSchema = z.object({
   cpf: z.string().min(11, {
@@ -31,16 +35,27 @@ const formSchema = z.object({
   rg: z.string().regex(/[\d]{4}-[\d]{3}/, {
     message: 'RG inválido'
   }),
+  titularidade: z.string({
+    required_error: 'Selecione a titularidade do professor'
+  }),
+  ctps: z.string().min(11, {
+    message: 'CTPS deve está no formato válido'
+  }),
+  funcional: z.string().min(7, {
+    message: 'Funcional inválido'
+  }),
   telefone: z.string().regex(/\([\d][\d]\)[\d]{5}-[\d]{4}/, {
     message: 'Telefone deve seguir o padrão (DDD)9 e seu número)'
   }),
-  telefone2: z.string().optional(),
-  genero: z.string({
-    required_error: 'Por favor,selecione o gênero do aluno'
-  })
+  telefone2: z.string().optional()
 })
 
 export function CreateProfessor(): JSX.Element {
+  const [isLoading, setIsLoading] = useState(false)
+
+  const { toast } = useToast()
+  const navigate = useNavigate()
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -49,9 +64,11 @@ export function CreateProfessor(): JSX.Element {
       dt_nascimento: '',
       email: '',
       rg: '',
+      ctps: '',
+      funcional: '',
+      titularidade: '',
       telefone: '',
-      telefone2: '',
-      genero: ''
+      telefone2: ''
     }
   })
 
@@ -65,30 +82,53 @@ export function CreateProfessor(): JSX.Element {
     values.dt_nascimento = transformDate(values.dt_nascimento)
     console.log(values)
 
-    //   const { cpf, dt_nascimento, email, genero, nome, rg, telefone, telefone2 } = values
+    const {
+      cpf,
+      dt_nascimento,
+      email,
+      ctps,
+      funcional,
+      titularidade,
+      nome,
+      rg,
+      telefone,
+      telefone2
+    } = values
 
-    //   try {
-    //     console.log('loading')
-    //     await api.post('/alunos', {
-    //       cpf,
-    //       nome,
-    //       email,
-    //       dt_nascimento,
-    //       rg,
-    //       telefone,
-    //       telefone2,
-    //       genero
-    //     })
-
-    //     console.log('Sucesso')
-    //   } catch (err) {
-    //     console.log(err)
-    //   }
+    try {
+      setIsLoading(true)
+      await api.post('/professores', {
+        cpf,
+        nome,
+        email,
+        dt_nascimento,
+        rg,
+        ctps,
+        funcional,
+        titularidade,
+        telefone,
+        telefone2
+      })
+      toast({
+        title: 'Sucesso',
+        description: 'Aluno cadastrado com sucesso'
+      })
+      setIsLoading(false)
+      navigate('/professores/enderecos', { state: values.cpf })
+    } catch (err) {
+      console.log(err)
+      toast({
+        title: 'Erro',
+        description: 'Erro desconhecido do servidor, tente novamente mais tarde'
+      })
+      setIsLoading(false)
+    }
   }
 
   return (
     <div className="w-full h-full">
-      <h1 className="py-6 text-2xl font-bold text-center">Cadastre um Aluno</h1>
+      <h1 className="py-6 text-2xl font-bold text-center">Cadastro de Professor</h1>
+      <Toaster />
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
@@ -108,7 +148,7 @@ export function CreateProfessor(): JSX.Element {
                     {...field}
                   />
                 </FormControl>
-                <FormDescription>Digite o CPF do aluno acima</FormDescription>
+                <FormDescription>Digite o CPF do professor acima</FormDescription>
                 <FormMessage />
               </FormItem>
             )}
@@ -120,9 +160,9 @@ export function CreateProfessor(): JSX.Element {
               <FormItem>
                 <FormLabel>Nome</FormLabel>
                 <FormControl>
-                  <Input className="w-96" placeholder="Coloque sua senha aqui" {...field} />
+                  <Input className="w-96" placeholder="Digite o nome..." {...field} />
                 </FormControl>
-                <FormDescription>Digite o nome do aluno acima</FormDescription>
+                <FormDescription>Digite o nome do professor acima</FormDescription>
                 <FormMessage />
               </FormItem>
             )}
@@ -142,7 +182,7 @@ export function CreateProfessor(): JSX.Element {
                     {...field}
                   />
                 </FormControl>
-                <FormDescription>Digite a data de nascimento do aluno acima</FormDescription>
+                <FormDescription>Digite a data de nascimento do professor acima</FormDescription>
                 <FormMessage />
               </FormItem>
             )}
@@ -157,7 +197,42 @@ export function CreateProfessor(): JSX.Element {
                 <FormControl>
                   <Input className="w-96" placeholder="Coloque o e-mail do aluno aqui" {...field} />
                 </FormControl>
-                <FormDescription>Digite o nome do aluno acima</FormDescription>
+                <FormDescription>Digite o email do professor acima</FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="ctps"
+            render={({ field }): ReactElement => (
+              <FormItem>
+                <FormLabel>CTPS</FormLabel>
+                <FormControl>
+                  <IMaskInput
+                    className="flex h-9 w-96 rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
+                    placeholder="000.000.000-00"
+                    mask="000.000.000-00"
+                    {...field}
+                  />
+                </FormControl>
+                <FormDescription>Digite o CTPS do professor acima</FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="funcional"
+            render={({ field }): ReactElement => (
+              <FormItem>
+                <FormLabel>Funcional do professor</FormLabel>
+                <FormControl>
+                  <Input className="w-96" placeholder="1234567/DF" {...field} />
+                </FormControl>
+                <FormDescription>Digite a funcional do professor acima</FormDescription>
                 <FormMessage />
               </FormItem>
             )}
@@ -177,7 +252,31 @@ export function CreateProfessor(): JSX.Element {
                     {...field}
                   />
                 </FormControl>
-                <FormDescription>Digite o RG do aluno acima</FormDescription>
+                <FormDescription>Digite o RG do professor acima</FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="titularidade"
+            render={({ field }): ReactElement => (
+              <FormItem>
+                <FormLabel>Titularidade</FormLabel>
+                <Select onValueChange={field.onChange} defaultValue={field.value}>
+                  <FormControl>
+                    <SelectTrigger className="w-96">
+                      <SelectValue placeholder="Selecione a Titularidade" />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent>
+                    <SelectItem value="Mestrado">Mestrado</SelectItem>
+                    <SelectItem value="Doutorado">Doutorado</SelectItem>
+                    <SelectItem value="Bacharelado">Bacharelado</SelectItem>
+                  </SelectContent>
+                </Select>
+                <FormDescription>Escolha a titularidade do professor</FormDescription>
                 <FormMessage />
               </FormItem>
             )}
@@ -197,7 +296,7 @@ export function CreateProfessor(): JSX.Element {
                     {...field}
                   />
                 </FormControl>
-                <FormDescription>Digite o número do aluno acima</FormDescription>
+                <FormDescription>Digite o número do professor acima</FormDescription>
                 <FormMessage />
               </FormItem>
             )}
@@ -217,35 +316,17 @@ export function CreateProfessor(): JSX.Element {
                     {...field}
                   />
                 </FormControl>
-                <FormDescription>Digite o número reserva do aluno caso tenha</FormDescription>
+                <FormDescription>Digite o número reserva do professor caso tenha</FormDescription>
                 <FormMessage />
               </FormItem>
             )}
           />
 
-          <FormField
-            control={form.control}
-            name="genero"
-            render={({ field }): ReactElement => (
-              <FormItem>
-                <FormLabel>Gênero</FormLabel>
-                <Select onValueChange={field.onChange} defaultValue={field.value}>
-                  <FormControl>
-                    <SelectTrigger className="w-96">
-                      <SelectValue placeholder="Selecione o Gênero" />
-                    </SelectTrigger>
-                  </FormControl>
-                  <SelectContent>
-                    <SelectItem value="H">Homem</SelectItem>
-                    <SelectItem value="M">Mulher</SelectItem>
-                  </SelectContent>
-                </Select>
-                <FormDescription>Escolha o gênero do aluno</FormDescription>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <Button type="submit">Confirmar</Button>
+          {isLoading ? (
+            <Skeleton className={buttonVariants()}>Carregando...</Skeleton>
+          ) : (
+            <Button type="submit">Confirmar</Button>
+          )}
         </form>
       </Form>
     </div>

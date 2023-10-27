@@ -139,7 +139,7 @@ export function CreateStudent(): JSX.Element {
               <FormItem>
                 <FormLabel>Nome</FormLabel>
                 <FormControl>
-                  <Input className="w-96" placeholder="Coloque sua senha aqui" {...field} />
+                  <Input className="w-96" placeholder="Digite o nome..." {...field} />
                 </FormControl>
                 <FormDescription>Digite o nome do aluno acima</FormDescription>
                 <FormMessage />
@@ -176,7 +176,7 @@ export function CreateStudent(): JSX.Element {
                 <FormControl>
                   <Input className="w-96" placeholder="Coloque o e-mail do aluno aqui" {...field} />
                 </FormControl>
-                <FormDescription>Digite o nome do aluno acima</FormDescription>
+                <FormDescription>Digite o email do aluno acima</FormDescription>
                 <FormMessage />
               </FormItem>
             )}
