@@ -67,8 +67,6 @@ export function CreateAddress(): JSX.Element {
     }
   })
 
-  console.log(cpf)
-
   useEffect(() => {
     if (/aluno/.test(pathname)) {
       setIsStudent(true)
@@ -100,25 +98,20 @@ export function CreateAddress(): JSX.Element {
         }
       })
 
-      console.log(response)
       const city = await response.data.Cidade[0]
       const address = city.Endereco[0]
       const id = address.id
       console.log(id)
 
       if (values.cpf && id && isStudent) {
-        const response1 = await api.put(`/enderecos/aluno/${values.cpf}`, {
+        await api.put(`/enderecos/aluno/${values.cpf}`, {
           id: id
         })
-
-        console.log(response1)
       }
       if (values.cpf && id && !isStudent) {
-        const response1 = await api.put(`/enderecos/professor/${values.cpf}`, {
+        await api.put(`/enderecos/professor/${values.cpf}`, {
           id: id
         })
-
-        console.log(response1)
       }
 
       setIsLoading(false)
