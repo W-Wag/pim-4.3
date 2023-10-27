@@ -11,6 +11,7 @@ import { CreateStudent } from './components/CreateStudent'
 import { CreateProfessor } from './components/CreateProfessor'
 import { Professor } from './Professor'
 import { CreateAddress } from './components/CreateAddress'
+import { BackButton } from './components/back-button/BackButton'
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
@@ -19,6 +20,7 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
       <Routes>
         <Route path="/" element={<App />} />
         <Route path="/home" element={<Home />} />
+        <Route path="/return" element={<BackButton />} />
         <Route path="/alunos" element={<Student />} />
         <Route path="/alunos/criar" element={<CreateStudent />} />
         <Route path="/alunos/enderecos" element={<CreateAddress />} />
