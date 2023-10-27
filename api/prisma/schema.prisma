@@ -81,6 +81,7 @@ model Nota {
   np2            Decimal    @default(0)
   pim            Decimal    @default(0)
   mf             Decimal
+  frequencia     Int        @default(0)
   Semestre       Int
   Aluno          Aluno      @relation(fields: [cpf_aluno], references: [cpf], onDelete: Cascade)
   Disciplina     Disciplina @relation(fields: [cod_disciplina], references: [cod_disciplina], onDelete: NoAction, onUpdate: NoAction)
@@ -104,13 +105,14 @@ model Endereco {
 model Cidade {
   id        Int        @id @default(autoincrement())
   nome      String
-  Estado    Estado     @relation(fields: [uf_estado], references: [uf], onDelete: Cascade)
-  uf_estado String
+  Estado    Estado     @relation(fields: [id_estado], references: [id], onDelete: Cascade)
+  id_estado Int
   Endereco  Endereco[]
 }
 
 model Estado {
-  uf     String   @id
+  uf     String
+  id     Int      @id @default(autoincrement())
   nome   String
   Cidade Cidade[]
 }

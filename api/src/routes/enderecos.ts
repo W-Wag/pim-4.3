@@ -92,14 +92,18 @@ export const addEnderecoParaProfessor: Controller = async (req, res) => {
 export const deletarEndereco: Controller = async (req, res) => {
   const { id } = req.params;
 
-  if (!id) {
-    res.status(404).json({ error: 'ID não encontrado' });
-    return;
-  }
-
   try {
     const endereco = await prisma.endereco.delete({
       where: { id: parseInt(id) },
+    });
+
+    if (endereco.id_cidade === null) return;
+    const cidade = await prisma.cidade.delete({
+      where: { id: endereco.id_cidade },
+    });
+    if (cidade.id_estado === null) return;
+    await prisma.estado.delete({
+      where: { id: cidade.id_estado },
     });
 
     res.json(endereco);
