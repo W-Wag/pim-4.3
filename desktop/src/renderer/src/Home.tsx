@@ -22,9 +22,11 @@ export function Home(): JSX.Element {
         </div>
 
         <div className="w-80 h-32 bg-primary hover:bg-zinc-200 hover:cursor-pointer">
-          <h2 className="text-xl font-semibold text-primary-foreground text-center py-4">
-            Gerenciar <br /> Cursos, Disciplinas e Turmas
-          </h2>
+          <Link to="/escola">
+            <h2 className="text-xl font-semibold text-primary-foreground text-center py-4">
+              Gerenciar <br /> Cursos, Disciplinas e Turmas
+            </h2>
+          </Link>
         </div>
       </div>
     </div>
