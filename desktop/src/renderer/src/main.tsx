@@ -15,6 +15,9 @@ import { BackButton } from './components/back-button/BackButton'
 import { School } from './School'
 import { Course } from './Course'
 import { CreateCourse } from './components/CreateCourse'
+import { Subject } from './Subject'
+import { Grade } from './Grade'
+import { Class } from './Class'
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
@@ -27,6 +30,9 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
         <Route path="/alunos" element={<Student />} />
         <Route path="/escola" element={<School />} />
         <Route path="/escola/curso" element={<Course />} />
+        <Route path="/escola/disciplina" element={<Subject />} />
+        <Route path="/escola/notas" element={<Grade />} />
+        <Route path="/escola/turma" element={<Class />} />
         <Route path="/criar/curso" element={<CreateCourse />} />
         <Route path="/criar/aluno" element={<CreateStudent />} />
         <Route path="/alunos/enderecos" element={<CreateAddress />} />

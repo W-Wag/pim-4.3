@@ -7,7 +7,7 @@ export function School(): JSX.Element {
 
       <div className="flex flex-wrap space-x-2">
         <div className="w-80 h-36 bg-primary hover:bg-zinc-200 hover:cursor-pointer">
-          <Link to="/escola/curso">
+          <Link to="/escola/disciplina">
             <h2 className="text-xl font-semibold text-primary-foreground text-center py-4">
               Disciplina
             </h2>
@@ -18,10 +18,14 @@ export function School(): JSX.Element {
         </div>
 
         <div className="w-80 h-36 bg-primary hover:bg-zinc-200 hover:cursor-pointer">
-          <h2 className="text-xl font-semibold text-primary-foreground text-center py-4">Turma</h2>
-          <p className="text-sm font-medium text-primary-foreground text-center leading-relaxed">
-            Abra essa aba para gerenciar tudo sobre Turmas
-          </p>
+          <Link to="/escola/turma">
+            <h2 className="text-xl font-semibold text-primary-foreground text-center py-4">
+              Turma
+            </h2>
+            <p className="text-sm font-medium text-primary-foreground text-center leading-relaxed">
+              Abra essa aba para gerenciar tudo sobre Turma
+            </p>
+          </Link>
         </div>
 
         <div className="w-80 h-36 bg-primary hover:bg-zinc-200 hover:cursor-pointer">
@@ -35,7 +39,7 @@ export function School(): JSX.Element {
           </Link>
         </div>
         <div className="w-80 h-36 bg-primary hover:bg-zinc-200 hover:cursor-pointer">
-          <Link to="/alunos/enderecos">
+          <Link to="/escola/notas">
             <h2 className="text-xl font-semibold text-primary-foreground text-center py-4">
               Notas
             </h2>
