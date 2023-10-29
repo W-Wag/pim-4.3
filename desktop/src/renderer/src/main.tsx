@@ -18,6 +18,7 @@ import { CreateCourse } from './components/CreateCourse'
 import { Subject } from './Subject'
 import { Grade } from './Grade'
 import { Class } from './Class'
+import { CreateClass } from './components/CreateClass'
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
@@ -28,6 +29,7 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
         <Route path="/home" element={<Home />} />
         <Route path="/return" element={<BackButton />} />
         <Route path="/alunos" element={<Student />} />
+        <Route path="/professores" element={<Professor />} />
         <Route path="/escola" element={<School />} />
         <Route path="/escola/curso" element={<Course />} />
         <Route path="/escola/disciplina" element={<Subject />} />
@@ -35,9 +37,9 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
         <Route path="/escola/turma" element={<Class />} />
         <Route path="/criar/curso" element={<CreateCourse />} />
         <Route path="/criar/aluno" element={<CreateStudent />} />
-        <Route path="/alunos/enderecos" element={<CreateAddress />} />
-        <Route path="/professores" element={<Professor />} />
         <Route path="/criar/professor" element={<CreateProfessor />} />
+        <Route path="/criar/turma" element={<CreateClass />} />
+        <Route path="/alunos/enderecos" element={<CreateAddress />} />
         <Route path="/professores/enderecos" element={<CreateAddress />} />
       </Routes>
       <Footer />

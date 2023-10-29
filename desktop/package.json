@@ -33,6 +33,7 @@
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.0.0",
     "electron-updater": "^6.1.1",
+    "lodash": "^4.17.21",
     "lucide-react": "^0.288.0",
     "react-hook-form": "^7.47.0",
     "react-imask": "^7.1.3",

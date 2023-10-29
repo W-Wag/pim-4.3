@@ -29,6 +29,7 @@ route.get('/professores', professor.index);
 
 // Rotas de Curso
 route.post('/cursos', curso.criarCurso);
+route.get('/cursos/:cod', curso.acharUmCurso);
 
 // Rotas de Endereço
 route.post('/enderecos', endereco.criarEndereco);

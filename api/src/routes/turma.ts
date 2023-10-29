@@ -30,6 +30,21 @@ export const addAlunoParaTurma = async (req, res) => {
   if (!cpf) {
     res.status(404).json({ error: 'CPF não encontrado' });
   }
+  const turmaExiste = await prisma.turma.findUnique({
+    where: {
+      cod: cod_turma,
+    },
+  });
+
+  if (!turmaExiste) {
+    res.status(404).json({ error: 'Turma não encontrada' });
+    return;
+  }
+
+  if (turmaExiste.Quantidade_alunos >= 50) {
+    res.status(400).json({ error: 'Limite de alunos na turma excedido' });
+    return;
+  }
 
   try {
     const aluno = await prisma.aluno.update({
