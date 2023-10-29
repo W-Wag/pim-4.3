@@ -65,6 +65,24 @@ export const index = async (req, res) => {
   }
 };
 
+export const acharUmAluno = async (req, res) => {
+  const { cpf } = req.params;
+  try {
+    const alunos = await prisma.aluno.findUnique({
+      where: { cpf },
+      include: { Endereco: true },
+    });
+
+    if (!alunos) {
+      return res.status(404).json({ error: 'Aluno não encontrado' });
+    }
+    res.json(alunos);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Erro ao buscar alunos' });
+  }
+};
+
 export const deletar = async (req, res) => {
   const { ra } = req.params;
 

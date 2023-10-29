@@ -19,6 +19,7 @@ import { Subject } from './Subject'
 import { Grade } from './Grade'
 import { Class } from './Class'
 import { CreateClass } from './components/CreateClass'
+import { AddStudentToClass } from './components/AddStudentToClass'
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
@@ -41,6 +42,7 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
         <Route path="/criar/turma" element={<CreateClass />} />
         <Route path="/alunos/enderecos" element={<CreateAddress />} />
         <Route path="/professores/enderecos" element={<CreateAddress />} />
+        <Route path="/turma/adicionar/aluno/:cpf" element={<AddStudentToClass />} />
       </Routes>
       <Footer />
     </BrowserRouter>
