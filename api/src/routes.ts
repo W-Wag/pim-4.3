@@ -27,6 +27,7 @@ route.delete('/matricula/:ra', aluno.deletarMatricula);
 // Rotas do Professor
 route.post('/professores', professor.criarProfessor);
 route.get('/professores', professor.index);
+route.get('/professores/:cpf', professor.acharUmProfessor);
 
 // Rotas de Curso
 route.post('/cursos', curso.criarCurso);

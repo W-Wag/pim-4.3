@@ -50,3 +50,22 @@ export const index: Controller = async (req, res) => {
     res.status(500).json({ error: 'Erro ao buscar professores' });
   }
 };
+
+export const acharUmProfessor: Controller = async (req, res) => {
+  const { cpf } = req.params;
+  try {
+    const professor = await prisma.professor.findUnique({
+      where: { cpf },
+      include: { Endereco: true },
+    });
+
+    if (!professor) {
+      res.status(404).json({ error: 'Aluno não encontrado' });
+      return;
+    }
+    res.json(professor);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Erro ao buscar alunos' });
+  }
+};
