@@ -13,14 +13,16 @@ import { Input } from './components/ui/input'
 import { useForm } from 'react-hook-form'
 import { Button } from './components/ui/button'
 import { ReactElement } from 'react'
-import { Link } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
+import { useToast } from './components/ui/use-toast'
+import { Toaster } from './components/ui/toaster'
 
 const formSchema = z.object({
   username: z.string().min(2, {
-    message: 'Username must be at least 2 characters.'
+    message: 'Usuário inválido'
   }),
   password: z.string().min(2, {
-    message: 'Password must be at least 2 characters.'
+    message: 'Senha inválido'
   })
 })
 
@@ -33,13 +35,35 @@ export function App(): JSX.Element {
     }
   })
 
+  const navigate = useNavigate()
+  const { toast } = useToast()
+
   function onSubmit(values: z.infer<typeof formSchema>): void {
     console.log(values)
+    const { username, password } = values
+    const userCheck = /^adm|adm1|adm2$/.test(username)
+    const passwordCheck = /^1234|123|12345$/.test(password)
+    if (userCheck && passwordCheck) {
+      toast({
+        title: 'Sucesso',
+        description: 'Usuário entrou com sucesso'
+      })
+      navigate('/home')
+      return
+    }
+    toast({
+      title: 'Error',
+      description: 'Usuário não encontrado'
+    })
+    return
   }
 
   return (
     <div className="w-full h-full">
       <h1 className="py-6 text-2xl font-bold text-center">Logue no sistema para utiliza-lo</h1>
+
+      <Toaster />
+
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
@@ -73,9 +97,7 @@ export function App(): JSX.Element {
               </FormItem>
             )}
           />
-          <Button type="submit">
-            <Link to="/home">Confirmar</Link>
-          </Button>
+          <Button type="submit">Confirmar</Button>
         </form>
       </Form>
     </div>
