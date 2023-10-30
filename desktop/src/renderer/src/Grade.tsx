@@ -7,7 +7,7 @@ export function Grade(): JSX.Element {
 
       <div className="flex flex-wrap space-x-2">
         <div className="w-80 h-36 bg-primary hover:bg-zinc-200 hover:cursor-pointer">
-          <Link to="/criar/curso">
+          <Link to="/gerar/notas">
             <h2 className="text-xl font-semibold text-primary-foreground text-center py-4">
               Gerar Notas para um Aluno
             </h2>

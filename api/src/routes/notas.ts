@@ -11,6 +11,24 @@ function mediaFinal(np1: number, np2: number, pim: number) {
 export const criarNotas: Controller = async (req, res) => {
   const { Semestre, cpf_aluno, cod_disciplina } = req.body;
 
+  const cpf = await prisma.aluno.findUnique({
+    where: {
+      cpf: cpf_aluno,
+    },
+  });
+  const disciplina = await prisma.disciplina.findUnique({
+    where: {
+      cod_disciplina: cod_disciplina,
+    },
+  });
+
+  if (!cpf || !disciplina) {
+    res
+      .status(404)
+      .json({ error: 'CPF ou código da disciplina não encontrado' });
+    return;
+  }
+
   try {
     const notas = await prisma.nota.create({
       data: {
