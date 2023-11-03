@@ -24,11 +24,13 @@ export default function Home() {
           </TouchableOpacity>
         </Link>
 
-        <TouchableOpacity className=" flex items-center justify-center bg-white w-64 h-32">
-          <Text className="text-center font-semibold text-xl">
-            Ver Histórico escolar
-          </Text>
-        </TouchableOpacity>
+        <Link href="/school-records" asChild>
+          <TouchableOpacity className=" flex items-center justify-center bg-white w-64 h-32">
+            <Text className="text-center font-semibold text-xl">
+              Ver Histórico escolar
+            </Text>
+          </TouchableOpacity>
+        </Link>
       </View>
     </View>
   );

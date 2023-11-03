@@ -2,21 +2,25 @@ import { ScrollView, Text, View } from "react-native";
 import Header from "../components/Header";
 import { useEffect, useState } from "react";
 
-export default function SchoolReport() {
+export default function SchoolRecords() {
   const [mf, setMf] = useState(0);
   useEffect(() => setMf(5), []);
   return (
     <ScrollView className="flex-1 space-y-4 bg-zinc-800">
-      <Header title="Boletim Escolar" />
-      <View className="flex-1 w-full bg-gray-300 space-y-4 rounded-lg shadow-sm">
+      <Header title="Histórico Escolar" />
+      <Text className="text-black text-sm font-semibold leading-relaxed bg-slate-200">
+        Aqui você poderá visualizar as notas das disciplinas de todos os
+        semestres cursado
+      </Text>
+      <View className="flex w-full h-52 bg-gray-300 space-y-4 rounded-lg shadow-sm">
         <Text className="text-black leading-relaxed font-semibold text-center">
           Semestre: 4
         </Text>
-
-        <Text className="text-white bg-blue-950 mb-[-16px] leading-relaxed font-semibold text-center">
+        <Text className="text-black leading-relaxed font-semibold text-center">
           Disciplina: Redes de Computadores
         </Text>
-        <View className="flex flex-row bg-blue-950 space-x-8">
+
+        <View className="flex flex-row bg-blue-950 space-x-8 border-t">
           <Text className="text-white py-4 pl-2 leading-relaxed font-semibold">
             NP1
           </Text>
@@ -30,30 +34,36 @@ export default function SchoolReport() {
             Média Final
           </Text>
         </View>
-        <View className="flex flex-row space-x-8 pr-12 pb-4">
-          <Text className="text-black py-4 px-4 leading-relaxed font-semibold">
+        <View className="flex flex-row space-x-8 pr-12">
+          <Text className="text-black px-4 leading-relaxed font-semibold">
             5
           </Text>
-          <Text className="text-black py-4 px-2 leading-relaxed font-semibold">
+          <Text className="text-black px-2 leading-relaxed font-semibold">
             5
           </Text>
-          <Text className="text-black py-4 px-4 leading-relaxed font-semibold">
+          <Text className="text-black px-4 leading-relaxed font-semibold">
             5
           </Text>
           {mf <= 4.6 ? (
-            <Text className="text-red-700 py-4 px-4 left-20 leading-relaxed font-bold">
+            <Text className="text-red-700 px-4 left-20 leading-relaxed font-bold">
               {mf}
             </Text>
           ) : (
-            <Text className="text-green-700 py-4 px-4 left-20 leading-relaxed font-bold">
+            <Text className="text-green-700  px-4 left-20 leading-relaxed font-bold">
               {mf}
             </Text>
           )}
         </View>
-        <Text className="text-white bg-blue-950 mb-[-16px] leading-relaxed font-semibold text-center">
-          Disciplina: Banco de Dados
+      </View>
+      <View className="flex w-full h-52 bg-gray-300 space-y-4 rounded-lg shadow-sm">
+        <Text className="text-black leading-relaxed font-semibold text-center">
+          Semestre: 2
         </Text>
-        <View className="flex flex-row bg-blue-950 space-x-8">
+        <Text className="text-black leading-relaxed font-semibold text-center">
+          Disciplina: Desenvolvimento WEB
+        </Text>
+
+        <View className="flex flex-row bg-blue-950 space-x-8 border-t">
           <Text className="text-white py-4 pl-2 leading-relaxed font-semibold">
             NP1
           </Text>
@@ -67,22 +77,22 @@ export default function SchoolReport() {
             Média Final
           </Text>
         </View>
-        <View className="flex flex-row border-b-2 border-b-blue-950 space-x-8 pr-12 pb-4">
-          <Text className="text-black py-4 px-4 leading-relaxed font-semibold">
-            0
+        <View className="flex flex-row space-x-8 pr-12">
+          <Text className="text-black px-4 leading-relaxed font-semibold">
+            5
           </Text>
-          <Text className="text-black py-4 px-2 leading-relaxed font-semibold">
-            0
+          <Text className="text-black px-2 leading-relaxed font-semibold">
+            5
           </Text>
-          <Text className="text-black py-4 px-4 leading-relaxed font-semibold">
-            0
+          <Text className="text-black px-4 leading-relaxed font-semibold">
+            5
           </Text>
           {mf <= 4.6 ? (
-            <Text className="text-red-700 py-4 px-4 left-20 leading-relaxed font-bold">
+            <Text className="text-red-700 px-4 left-20 leading-relaxed font-bold">
               {mf}
             </Text>
           ) : (
-            <Text className="text-green-700 py-4 px-4 left-20 leading-relaxed font-bold">
+            <Text className="text-green-700  px-4 left-20 leading-relaxed font-bold">
               {mf}
             </Text>
           )}
