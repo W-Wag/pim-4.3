@@ -14,21 +14,13 @@ export default function AttendanceList() {
           <Text className="font-semibold leading-relaxed">
             Redes de computadores
           </Text>
+          <Text className="font-semibold leading-relaxed">Banco de Dados</Text>
+          <Text className="font-semibold leading-relaxed">Linguagem C</Text>
           <Text className="font-semibold leading-relaxed">
-            Redes de computadores
+            Gerenciamento de Projetos
           </Text>
-          <Text className="font-semibold leading-relaxed">
-            Redes de computadores
-          </Text>
-          <Text className="font-semibold leading-relaxed">
-            Redes de computadores
-          </Text>
-          <Text className="font-semibold leading-relaxed">
-            Redes de computadores
-          </Text>
-          <Text className="font-semibold leading-relaxed">
-            Redes de computadores
-          </Text>
+          <Text className="font-semibold leading-relaxed">Excel</Text>
+          <Text className="font-semibold leading-relaxed">Power Point</Text>
         </View>
         <View className="bg-white w-full space-y-4 border-l pb-4">
           <Text className="text-xl font-bold px-8">Faltas</Text>
