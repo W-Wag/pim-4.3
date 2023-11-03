@@ -16,11 +16,13 @@ export default function Home() {
           </TouchableOpacity>
         </Link>
 
-        <TouchableOpacity className=" flex items-center justify-center bg-white w-64 h-32">
-          <Text className="text-center font-semibold text-xl">
-            Ver Presença
-          </Text>
-        </TouchableOpacity>
+        <Link href="/attendance-list" asChild>
+          <TouchableOpacity className=" flex items-center justify-center bg-white w-64 h-32">
+            <Text className="text-center font-semibold text-xl">
+              Ver Presença
+            </Text>
+          </TouchableOpacity>
+        </Link>
 
         <TouchableOpacity className=" flex items-center justify-center bg-white w-64 h-32">
           <Text className="text-center font-semibold text-xl">
