@@ -19,7 +19,8 @@ app.use(
 app.use(express.json());
 app.use(routes);
 const port = 3000;
+const host = '0.0.0.0';
 
-app.listen(port, () => {
+app.listen(port, host, () => {
   console.log(`Servidor hospedado na porta ${port}`);
 });
