@@ -52,5 +52,6 @@ route.put('/turmas/:cpf', turma.addAlunoParaTurma);
 route.post('/notas', nota.criarNotas);
 route.put('/notas/:id', nota.atualizarNota);
 route.delete('/notas/:id', nota.deletarNota);
+route.get('/notas/:cpf', nota.listarFrequencia);
 
 module.exports = route;

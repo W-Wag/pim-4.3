@@ -86,6 +86,52 @@ export const atualizarNota: Controller = async (req, res) => {
   }
 };
 
+export const listarFrequencia: Controller = async (req, res) => {
+  const { cpf_aluno } = req.params;
+  const acharCpf = await prisma.nota.findMany({
+    where: {
+      cpf_aluno,
+    },
+  });
+
+  if (!acharCpf) {
+    res.status(404).json({ error: 'CPF não encontrado' });
+    return;
+  }
+
+  const frequencias: { presenca: number; disciplina: string }[] = [];
+
+  for (let i = 0; i < acharCpf.length; i++) {
+    try {
+      const disciplina = await prisma.disciplina.findUnique({
+        where: {
+          cod_disciplina: acharCpf[i].cod_disciplina,
+        },
+      });
+
+      if (!disciplina) {
+        res.status(404).json({ error: 'Disciplina não encontrada' });
+        return;
+      }
+      const frequencia = await prisma.nota.findMany({
+        where: {
+          cpf_aluno,
+        },
+      });
+      frequencias.push({
+        presenca: frequencia[i].frequencia,
+        disciplina: disciplina.nome,
+      });
+    } catch (err) {
+      console.log(err);
+      res.status(400).json({ error: 'Ocorreu um erro desconhecido' });
+      return;
+    }
+  }
+
+  res.send(frequencias);
+};
+
 export const deletarNota: Controller = async (req, res) => {
   const { id } = req.params;
 
