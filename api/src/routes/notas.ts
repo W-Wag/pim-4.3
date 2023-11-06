@@ -1,3 +1,4 @@
+import { Decimal } from '@prisma/client/runtime/library';
 import { Controller } from '../interfaces/ProtocoloController';
 import { prisma } from '../libs/prisma';
 
@@ -84,6 +85,117 @@ export const atualizarNota: Controller = async (req, res) => {
     console.log(err);
     res.status(400).json({ error: 'Dados inválidos' });
   }
+};
+
+export const listarHistoricoDoAluno: Controller = async (req, res) => {
+  const { cpf_aluno } = req.params;
+  const acharCpf = await prisma.nota.findMany({
+    where: {
+      cpf_aluno,
+    },
+  });
+
+  if (!acharCpf) {
+    res.status(404).json({ error: 'CPF não encontrado' });
+    return;
+  }
+
+  const notas: {
+    nota: { np1: Decimal; np2: Decimal; pim: Decimal; mf: Decimal };
+    disciplina: string;
+    Semestre: number;
+  }[] = [];
+
+  for (let i = 0; i < acharCpf.length; i++) {
+    try {
+      const disciplina = await prisma.disciplina.findUnique({
+        where: {
+          cod_disciplina: acharCpf[i].cod_disciplina,
+        },
+      });
+
+      if (!disciplina) {
+        res.status(404).json({ error: 'Disciplina não encontrada' });
+        return;
+      }
+
+      notas.push({
+        nota: {
+          np1: acharCpf[i].np1,
+          np2: acharCpf[i].np2,
+          pim: acharCpf[i].pim,
+          mf: acharCpf[i].mf,
+        },
+        disciplina: disciplina.nome,
+        Semestre: acharCpf[i].Semestre,
+      });
+    } catch (err) {
+      console.log(err);
+      res.status(400).json({ error: 'Ocorreu um erro desconhecido' });
+      return;
+    }
+  }
+
+  res.send(notas);
+};
+
+export const listarBoletimDoAluno: Controller = async (req, res) => {
+  const { cpf_aluno } = req.params;
+  const acharCpf = await prisma.nota.findMany({
+    where: {
+      cpf_aluno,
+    },
+    orderBy: {
+      Semestre: 'desc',
+    },
+  });
+
+  if (!acharCpf) {
+    res.status(404).json({ error: 'CPF não encontrado' });
+    return;
+  }
+
+  const notas: {
+    nota: { np1: Decimal; np2: Decimal; pim: Decimal; mf: Decimal };
+    disciplina: string;
+    Semestre: number;
+  }[] = [];
+
+  for (let i = 0; i < acharCpf.length; i++) {
+    try {
+      const disciplina = await prisma.disciplina.findUnique({
+        where: {
+          cod_disciplina: acharCpf[i].cod_disciplina,
+        },
+      });
+
+      if (!disciplina) {
+        res.status(404).json({ error: 'Disciplina não encontrada' });
+        return;
+      }
+
+      notas.push({
+        nota: {
+          np1: acharCpf[i].np1,
+          np2: acharCpf[i].np2,
+          pim: acharCpf[i].pim,
+          mf: acharCpf[i].mf,
+        },
+        disciplina: disciplina.nome,
+        Semestre: acharCpf[i].Semestre,
+      });
+
+      if (acharCpf[i].Semestre !== notas[0].Semestre) {
+        notas.pop();
+      }
+    } catch (err) {
+      console.log(err);
+      res.status(400).json({ error: 'Ocorreu um erro desconhecido' });
+      return;
+    }
+  }
+
+  res.send(notas);
 };
 
 export const listarFrequencia: Controller = async (req, res) => {
