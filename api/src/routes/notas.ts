@@ -73,7 +73,7 @@ export const atualizarNota: Controller = async (req, res) => {
     const notas = await prisma.nota.update({
       where: { id: parseInt(id) },
       data: {
-        np1,
+        np1: np1.toFixed(2),
         np2,
         pim,
         mf: mediaFinal(np1, np2, pim),

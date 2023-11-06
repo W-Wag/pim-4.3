@@ -1,92 +1,95 @@
 import { ScrollView, Text, View } from "react-native";
 import Header from "../components/Header";
 import { useEffect, useState } from "react";
+import { api } from "../libs/api";
+import { get } from "lodash";
+import { Loading } from "../components/Loading";
+
+interface Notas {
+  nota: {
+    np1: number;
+    np2: number;
+    pim: number;
+    mf: number;
+  };
+  disciplina: string;
+  Semestre: string;
+}
 
 export default function SchoolReport() {
-  const [mf, setMf] = useState(0);
-  useEffect(() => setMf(5), []);
+  const [notas, setNotas] = useState<Notas[]>([]);
+  const [semestre, setSemestre] = useState(0);
+  const [isLoading, setIsLoading] = useState(false);
+  useEffect(() => {
+    getData();
+  }, []);
+
+  async function getData() {
+    try {
+      setIsLoading(true);
+      const response = await api.get("/notas/boletim/111.111.111-11");
+      const semestre = get(response, "data[0].Semestre", 0);
+      setSemestre(semestre);
+      setNotas(response.data);
+      setIsLoading(false);
+    } catch (err) {
+      console.log(err);
+      setIsLoading(false);
+      return;
+    }
+  }
+
   return (
     <ScrollView className="flex-1 space-y-4 bg-zinc-800">
       <Header title="Boletim Escolar" />
+      {isLoading ? <Loading /> : <></>}
       <View className="flex-1 w-full bg-gray-300 space-y-4 rounded-lg shadow-sm">
         <Text className="text-black leading-relaxed font-semibold text-center">
-          Semestre: 4
+          Semestre: {semestre}
         </Text>
-
-        <Text className="text-white bg-blue-950 mb-[-16px] leading-relaxed font-semibold text-center">
-          Disciplina: Redes de Computadores
-        </Text>
-        <View className="flex flex-row bg-blue-950 space-x-8">
-          <Text className="text-white py-4 pl-2 leading-relaxed font-semibold">
-            NP1
-          </Text>
-          <Text className="text-white py-4 leading-relaxed font-semibold">
-            NP2
-          </Text>
-          <Text className="text-white py-4 leading-relaxed font-semibold">
-            Trabalho
-          </Text>
-          <Text className="text-white py-4 left-12 leading-relaxed font-semibold">
-            Média Final
-          </Text>
-        </View>
-        <View className="flex flex-row space-x-8 pr-12 pb-4">
-          <Text className="text-black py-4 px-4 leading-relaxed font-semibold">
-            5
-          </Text>
-          <Text className="text-black py-4 px-2 leading-relaxed font-semibold">
-            5
-          </Text>
-          <Text className="text-black py-4 px-4 leading-relaxed font-semibold">
-            5
-          </Text>
-          {mf <= 4.6 ? (
-            <Text className="text-red-700 py-4 px-4 left-20 leading-relaxed font-bold">
-              {mf}
-            </Text>
-          ) : (
-            <Text className="text-green-700 py-4 px-4 left-20 leading-relaxed font-bold">
-              {mf}
-            </Text>
-          )}
-        </View>
-        <Text className="text-white bg-blue-950 mb-[-16px] leading-relaxed font-semibold text-center">
-          Disciplina: Banco de Dados
-        </Text>
-        <View className="flex flex-row bg-blue-950 space-x-8">
-          <Text className="text-white py-4 pl-2 leading-relaxed font-semibold">
-            NP1
-          </Text>
-          <Text className="text-white py-4 leading-relaxed font-semibold">
-            NP2
-          </Text>
-          <Text className="text-white py-4 leading-relaxed font-semibold">
-            Trabalho
-          </Text>
-          <Text className="text-white py-4 left-12 leading-relaxed font-semibold">
-            Média Final
-          </Text>
-        </View>
-        <View className="flex flex-row border-b-2 border-b-blue-950 space-x-8 pr-12 pb-4">
-          <Text className="text-black py-4 px-4 leading-relaxed font-semibold">
-            0
-          </Text>
-          <Text className="text-black py-4 px-2 leading-relaxed font-semibold">
-            0
-          </Text>
-          <Text className="text-black py-4 px-4 leading-relaxed font-semibold">
-            0
-          </Text>
-          {mf <= 4.6 ? (
-            <Text className="text-red-700 py-4 px-4 left-20 leading-relaxed font-bold">
-              {mf}
-            </Text>
-          ) : (
-            <Text className="text-green-700 py-4 px-4 left-20 leading-relaxed font-bold">
-              {mf}
-            </Text>
-          )}
-        </View>
+        {notas.map((boletim) => {
+          return (
+            <View className="flex-1 w-full space-y-4">
+              <Text className="text-white bg-blue-950 mb-[-16px] leading-relaxed font-semibold text-center">
+                Disciplina: {boletim.disciplina}
+              </Text>
+              <View className="flex flex-row bg-blue-950 space-x-8">
+                <Text className="text-white py-4 pl-2 leading-relaxed font-semibold">
+                  NP1
+                </Text>
+                <Text className="text-white py-4 leading-relaxed font-semibold">
+                  NP2
+                </Text>
+                <Text className="text-white py-4 leading-relaxed font-semibold">
+                  Trabalho
+                </Text>
+                <Text className="text-white py-4 left-12 leading-relaxed font-semibold">
+                  Média Final
+                </Text>
+              </View>
+              <View className="flex flex-row space-x-8 pr-12 pb-4">
+                <Text className="text-black py-4 px-4 leading-relaxed font-semibold">
+                  {boletim.nota.np1}
+                </Text>
+                <Text className="text-black py-4 px-2 leading-relaxed font-semibold">
+                  {boletim.nota.np2}
+                </Text>
+                <Text className="text-black py-4 px-4 leading-relaxed font-semibold">
+                  {boletim.nota.pim}
+                </Text>
+                {boletim.nota.mf <= 4.6 ? (
+                  <Text className="text-red-700 py-4 left-20 leading-relaxed font-bold">
+                    {boletim.nota.mf}
+                  </Text>
+                ) : (
+                  <Text className="text-green-700 py-4 left-20 leading-relaxed font-bold">
+                    {boletim.nota.mf}
+                  </Text>
+                )}
+              </View>
+            </View>
+          );
+        })}
       </View>
     </ScrollView>
   );
