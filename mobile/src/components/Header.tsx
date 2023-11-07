@@ -11,15 +11,16 @@ export default function Header({ title = "" }) {
   }, []);
 
   async function checkLogin() {
-    const loggedIn = await AsyncStorage.getItem("cpf");
-    if (!loggedIn) setIsLoggedIn(false);
+    const loggedInCpf = await AsyncStorage.getItem("cpf");
+    const loggedInRa = await AsyncStorage.getItem("ra");
+    if (!loggedInCpf && !loggedInRa) setIsLoggedIn(false);
   }
   function logout() {
     AsyncStorage.clear();
     return router.replace("/");
   }
   return (
-    <View className=" flex items-center justify-center bg-blue-950 w-full h-32">
+    <View className=" flex items-center justify-center bg-blue-950 w-full h-32 pt-12">
       <Text className="text-white font-bold text-center text-xl">{title}</Text>
       {isLoggedIn ? (
         <TouchableOpacity className="left-36" onPress={logout}>

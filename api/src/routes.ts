@@ -18,7 +18,7 @@ const route = Router();
 
 // Rotas do Aluno
 route.get('/alunos', aluno.index);
-route.get('/aluno/:cpf', aluno.acharUmAluno);
+route.get('/aluno/:cpf/:ra', aluno.acharUmAluno);
 route.post('/alunos', validarAluno, aluno.criarAluno);
 route.delete('/alunos', aluno.deletarMuitos);
 route.delete('/alunos/:ra', aluno.deletar);
@@ -52,8 +52,8 @@ route.put('/turmas/:cpf', turma.addAlunoParaTurma);
 route.post('/notas', nota.criarNotas);
 route.put('/notas/:id', nota.atualizarNota);
 route.delete('/notas/:id', nota.deletarNota);
-route.get('/notas/presenca/:cpf', nota.listarFrequencia);
-route.get('/notas/historico/:cpf', nota.listarHistoricoDoAluno);
-route.get('/notas/boletim/:cpf', nota.listarBoletimDoAluno);
+route.get('/notas/presenca/:cpf/:ra', nota.listarFrequencia);
+route.get('/notas/historico/:cpf/:ra', nota.listarHistoricoDoAluno);
+route.get('/notas/boletim/:cpf/:ra', nota.listarBoletimDoAluno);
 
 module.exports = route;

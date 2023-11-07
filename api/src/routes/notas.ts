@@ -88,10 +88,44 @@ export const atualizarNota: Controller = async (req, res) => {
 };
 
 export const listarHistoricoDoAluno: Controller = async (req, res) => {
-  const { cpf_aluno } = req.params;
+  let { cpf, ra } = req.params;
+  let aluno;
+
+  if (!cpf && !ra) {
+    res.status(404).json({ error: 'Identificador do aluno não encontrado' });
+    return;
+  }
+
+  if (/cpf/.test(cpf)) cpf = '';
+  if (/ra/.test(ra)) ra = '';
+
+  if (cpf) {
+    aluno = await prisma.aluno.findUnique({
+      where: {
+        cpf,
+      },
+    });
+
+    if (!aluno) {
+      res.status(404).json({ error: 'Aluno não encontrado' });
+      return;
+    }
+  } else {
+    aluno = await prisma.aluno.findUnique({
+      where: {
+        ra,
+      },
+    });
+
+    if (!aluno) {
+      res.status(404).json({ error: 'Aluno não encontrado' });
+      return;
+    }
+  }
+
   const acharCpf = await prisma.nota.findMany({
     where: {
-      cpf_aluno,
+      cpf_aluno: aluno.cpf,
     },
   });
 
@@ -104,6 +138,7 @@ export const listarHistoricoDoAluno: Controller = async (req, res) => {
     nota: { np1: Decimal; np2: Decimal; pim: Decimal; mf: Decimal };
     disciplina: string;
     Semestre: number;
+    id: number;
   }[] = [];
 
   for (let i = 0; i < acharCpf.length; i++) {
@@ -128,6 +163,7 @@ export const listarHistoricoDoAluno: Controller = async (req, res) => {
         },
         disciplina: disciplina.nome,
         Semestre: acharCpf[i].Semestre,
+        id: acharCpf[i].id,
       });
     } catch (err) {
       console.log(err);
@@ -140,10 +176,43 @@ export const listarHistoricoDoAluno: Controller = async (req, res) => {
 };
 
 export const listarBoletimDoAluno: Controller = async (req, res) => {
-  const { cpf_aluno } = req.params;
+  let { cpf, ra } = req.params;
+  let aluno;
+
+  if (!cpf && !ra) {
+    res.status(404).json({ error: 'Identificador do aluno não encontrado' });
+    return;
+  }
+
+  if (/cpf/.test(cpf)) cpf = '';
+  if (/ra/.test(ra)) ra = '';
+
+  if (cpf) {
+    aluno = await prisma.aluno.findUnique({
+      where: {
+        cpf,
+      },
+    });
+
+    if (!aluno) {
+      res.status(404).json({ error: 'Aluno não encontrado' });
+      return;
+    }
+  } else {
+    aluno = await prisma.aluno.findUnique({
+      where: {
+        ra,
+      },
+    });
+
+    if (!aluno) {
+      res.status(404).json({ error: 'Aluno não encontrado' });
+      return;
+    }
+  }
   const acharCpf = await prisma.nota.findMany({
     where: {
-      cpf_aluno,
+      cpf_aluno: aluno.cpf,
     },
     orderBy: {
       Semestre: 'desc',
@@ -159,6 +228,7 @@ export const listarBoletimDoAluno: Controller = async (req, res) => {
     nota: { np1: Decimal; np2: Decimal; pim: Decimal; mf: Decimal };
     disciplina: string;
     Semestre: number;
+    id: number;
   }[] = [];
 
   for (let i = 0; i < acharCpf.length; i++) {
@@ -183,6 +253,7 @@ export const listarBoletimDoAluno: Controller = async (req, res) => {
         },
         disciplina: disciplina.nome,
         Semestre: acharCpf[i].Semestre,
+        id: acharCpf[i].id,
       });
 
       if (acharCpf[i].Semestre !== notas[0].Semestre) {
@@ -199,10 +270,43 @@ export const listarBoletimDoAluno: Controller = async (req, res) => {
 };
 
 export const listarFrequencia: Controller = async (req, res) => {
-  const { cpf_aluno } = req.params;
+  let { cpf, ra } = req.params;
+  let aluno;
+
+  if (!cpf && !ra) {
+    res.status(404).json({ error: 'Identificador do aluno não encontrado' });
+    return;
+  }
+
+  if (/cpf/.test(cpf)) cpf = '';
+  if (/ra/.test(ra)) ra = '';
+
+  if (cpf) {
+    aluno = await prisma.aluno.findUnique({
+      where: {
+        cpf,
+      },
+    });
+
+    if (!aluno) {
+      res.status(404).json({ error: 'Aluno não encontrado' });
+      return;
+    }
+  } else {
+    aluno = await prisma.aluno.findUnique({
+      where: {
+        ra,
+      },
+    });
+
+    if (!aluno) {
+      res.status(404).json({ error: 'Aluno não encontrado' });
+      return;
+    }
+  }
   const acharCpf = await prisma.nota.findMany({
     where: {
-      cpf_aluno,
+      cpf_aluno: aluno.cpf,
     },
   });
 
@@ -211,7 +315,8 @@ export const listarFrequencia: Controller = async (req, res) => {
     return;
   }
 
-  const frequencias: { presenca: number; disciplina: string }[] = [];
+  const frequencias: { presenca: number; disciplina: string; id: number }[] =
+    [];
 
   for (let i = 0; i < acharCpf.length; i++) {
     try {
@@ -227,12 +332,13 @@ export const listarFrequencia: Controller = async (req, res) => {
       }
       const frequencia = await prisma.nota.findMany({
         where: {
-          cpf_aluno,
+          cpf_aluno: aluno.cpf,
         },
       });
       frequencias.push({
         presenca: frequencia[i].frequencia,
         disciplina: disciplina.nome,
+        id: frequencia[i].id,
       });
     } catch (err) {
       console.log(err);

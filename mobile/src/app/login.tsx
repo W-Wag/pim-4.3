@@ -11,16 +11,28 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { api } from "../libs/api";
 
 export default function Login() {
-  const [cpf, setCpf] = useState("");
+  const [id, setId] = useState("");
 
   async function handleSubmit() {
     try {
-      const response = await api.get(`/aluno/${cpf}`);
+      if (/^\d{3}\.\d{3}\.\d{3}-\d{2}$/.test(id)) {
+        const response = await api.get(`/aluno/${id}/ra`);
 
-      if (response.status === 200) {
-        console.log("Sucesso");
-        AsyncStorage.setItem("cpf", cpf);
-        router.replace("/");
+        if (response.status === 200) {
+          console.log("Sucesso");
+          AsyncStorage.setItem("cpf", id);
+          router.replace("/");
+          return;
+        }
+      } else {
+        const response = await api.get(`/aluno/cpf/${id}`);
+
+        if (response.status === 200) {
+          console.log("Sucesso");
+          AsyncStorage.setItem("ra", id);
+          router.replace("/");
+          return;
+        }
       }
     } catch (err) {
       console.log(err);
@@ -34,15 +46,15 @@ export default function Login() {
   return (
     <View className="flex-1 items-center space-y-6">
       <Text className="text-white text-xl leading-relaxed font-semibold py-2">
-        Digite seu CPF para entrar no sistema
+        Digite seu identificador para entrar no sistema
       </Text>
       <TextInput
-        value={cpf}
-        onChangeText={(value) => setCpf(value)}
+        value={id}
+        onChangeText={(value) => setId(value)}
         textAlignVertical="top"
         className="p-0 py-2 w-64 rounded-sm text-lg text-black bg-white placeholder:text-center"
         placeholderTextColor="#56565a"
-        placeholder="Digite seu CPF aqui"
+        placeholder="Digite seu CPF ou RA aqui"
       />
 
       <TouchableOpacity

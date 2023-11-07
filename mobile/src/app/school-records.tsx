@@ -14,10 +14,10 @@ interface Notas {
   };
   disciplina: string;
   Semestre: string;
+  id: number;
 }
 
 export default function SchoolRecords() {
-  const cpf = AsyncStorage.getItem("cpf");
   const [notas, setNotas] = useState<Notas[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   useEffect(() => {
@@ -25,9 +25,18 @@ export default function SchoolRecords() {
   }, []);
 
   async function getData() {
+    const cpf = await AsyncStorage.getItem("cpf");
+    const ra = await AsyncStorage.getItem("ra");
+
     try {
       setIsLoading(true);
-      const response = await api.get(`/notas/historico/${cpf}`);
+      let response;
+
+      if (!ra) {
+        response = await api.get(`/notas/historico/${cpf}/ra`);
+      } else {
+        response = await api.get(`/notas/historico/cpf/${ra}`);
+      }
       setNotas(response.data);
       setIsLoading(false);
     } catch (err) {
@@ -47,7 +56,10 @@ export default function SchoolRecords() {
       {isLoading ? <Loading /> : <></>}
       {notas.map((historico) => {
         return (
-          <View className="flex w-full h-52 bg-gray-300 space-y-4 rounded-lg shadow-sm">
+          <View
+            key={historico.id}
+            className="flex w-full h-52 bg-gray-300 space-y-4 rounded-lg shadow-sm"
+          >
             <Text className="text-black leading-relaxed font-semibold text-center">
               Semestre: {historico.Semestre}
             </Text>

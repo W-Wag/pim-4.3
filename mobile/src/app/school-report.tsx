@@ -15,10 +15,10 @@ interface Notas {
   };
   disciplina: string;
   Semestre: string;
+  id: number;
 }
 
 export default function SchoolReport() {
-  const cpf = AsyncStorage.getItem("cpf");
   const [notas, setNotas] = useState<Notas[]>([]);
   const [semestre, setSemestre] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
@@ -27,9 +27,18 @@ export default function SchoolReport() {
   }, []);
 
   async function getData() {
+    const cpf = await AsyncStorage.getItem("cpf");
+    const ra = await AsyncStorage.getItem("ra");
+
     try {
       setIsLoading(true);
-      const response = await api.get(`/notas/boletim/${cpf}`);
+      let response;
+
+      if (!ra) {
+        response = await api.get(`/notas/boletim/${cpf}/ra`);
+      } else {
+        response = await api.get(`/notas/boletim/cpf/${ra}`);
+      }
       const semestre = get(response, "data[0].Semestre", 0);
       setSemestre(semestre);
       setNotas(response.data);
@@ -51,7 +60,7 @@ export default function SchoolReport() {
         </Text>
         {notas.map((boletim) => {
           return (
-            <View className="flex-1 w-full space-y-4">
+            <View key={boletim.id} className="flex-1 w-full space-y-4">
               <Text className="text-white bg-blue-950 mb-[-16px] leading-relaxed font-semibold text-center">
                 Disciplina: {boletim.disciplina}
               </Text>

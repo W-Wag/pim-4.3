@@ -66,22 +66,38 @@ export const index = async (req, res) => {
 };
 
 export const acharUmAluno = async (req, res) => {
-  const { cpf } = req.params;
+  let { cpf, ra } = req.params;
 
-  if (!cpf) {
-    res.status(404).json({ error: 'CPF não encontrado' });
+  if (!cpf && !ra) {
+    res.status(404).json({ error: 'Identificador do aluno não encontrado' });
     return;
   }
-  try {
-    const alunos = await prisma.aluno.findUnique({
-      where: { cpf },
-      include: { Endereco: true },
-    });
 
-    if (!alunos) {
-      return res.status(404).json({ error: 'Aluno não encontrado' });
+  if (/cpf/.test(cpf)) cpf = '';
+  if (/ra/.test(ra)) ra = '';
+
+  try {
+    if (cpf) {
+      const alunos = await prisma.aluno.findUnique({
+        where: { cpf },
+        include: { Endereco: true },
+      });
+
+      if (!alunos) {
+        return res.status(404).json({ error: 'Aluno não encontrado' });
+      }
+      res.json(alunos);
+    } else {
+      const alunos = await prisma.aluno.findUnique({
+        where: { ra },
+        include: { Endereco: true },
+      });
+
+      if (!alunos) {
+        return res.status(404).json({ error: 'Aluno não encontrado' });
+      }
+      res.json(alunos);
     }
-    res.json(alunos);
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: 'Erro ao buscar alunos' });

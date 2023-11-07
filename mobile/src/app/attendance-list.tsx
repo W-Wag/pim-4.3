@@ -8,10 +8,10 @@ import { Loading } from "../components/Loading";
 interface Notas {
   presenca: number;
   disciplina: string;
+  id: number;
 }
 
 export default function AttendanceList() {
-  const cpf = AsyncStorage.getItem("cpf");
   const [notas, setNotas] = useState<Notas[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   useEffect(() => {
@@ -19,9 +19,18 @@ export default function AttendanceList() {
   }, []);
 
   async function getData() {
+    const cpf = await AsyncStorage.getItem("cpf");
+    const ra = await AsyncStorage.getItem("ra");
+
     try {
       setIsLoading(true);
-      const response = await api.get(`/notas/presenca/1${cpf}`);
+      let response;
+
+      if (!ra) {
+        response = await api.get(`/notas/presenca/${cpf}/ra`);
+      } else {
+        response = await api.get(`/notas/presenca/cpf/${ra}`);
+      }
       setNotas(response.data);
       setIsLoading(false);
     } catch (err) {
@@ -40,7 +49,7 @@ export default function AttendanceList() {
           <Text className="text-xl font-bold">Disciplinas</Text>
           {notas.map((nota) => {
             return (
-              <Text className="font-semibold leading-relaxed">
+              <Text key={nota.id} className="font-semibold leading-relaxed">
                 {nota.disciplina}
               </Text>
             );
@@ -50,7 +59,11 @@ export default function AttendanceList() {
         <View className="bg-white w-full space-y-4 border-l pb-4">
           <Text className="text-xl font-bold px-8">Faltas</Text>
           {notas.map((nota) => {
-            return <Text className="px-12">{nota.presenca}</Text>;
+            return (
+              <Text key={nota.id} className="px-12">
+                {nota.presenca}
+              </Text>
+            );
           })}
         </View>
       </View>
