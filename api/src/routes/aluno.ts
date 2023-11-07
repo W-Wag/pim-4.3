@@ -67,6 +67,11 @@ export const index = async (req, res) => {
 
 export const acharUmAluno = async (req, res) => {
   const { cpf } = req.params;
+
+  if (!cpf) {
+    res.status(404).json({ error: 'CPF não encontrado' });
+    return;
+  }
   try {
     const alunos = await prisma.aluno.findUnique({
       where: { cpf },

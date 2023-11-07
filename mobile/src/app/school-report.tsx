@@ -1,4 +1,5 @@
 import { ScrollView, Text, View } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import Header from "../components/Header";
 import { useEffect, useState } from "react";
 import { api } from "../libs/api";
@@ -17,6 +18,7 @@ interface Notas {
 }
 
 export default function SchoolReport() {
+  const cpf = AsyncStorage.getItem("cpf");
   const [notas, setNotas] = useState<Notas[]>([]);
   const [semestre, setSemestre] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
@@ -27,7 +29,7 @@ export default function SchoolReport() {
   async function getData() {
     try {
       setIsLoading(true);
-      const response = await api.get("/notas/boletim/111.111.111-11");
+      const response = await api.get(`/notas/boletim/${cpf}`);
       const semestre = get(response, "data[0].Semestre", 0);
       setSemestre(semestre);
       setNotas(response.data);

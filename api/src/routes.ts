@@ -18,7 +18,7 @@ const route = Router();
 
 // Rotas do Aluno
 route.get('/alunos', aluno.index);
-route.get('/alunos/:cpf', aluno.acharUmAluno);
+route.get('/aluno/:cpf', aluno.acharUmAluno);
 route.post('/alunos', validarAluno, aluno.criarAluno);
 route.delete('/alunos', aluno.deletarMuitos);
 route.delete('/alunos/:ra', aluno.deletar);

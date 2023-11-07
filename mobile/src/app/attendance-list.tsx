@@ -1,4 +1,5 @@
 import { ScrollView, Text, View } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import Header from "../components/Header";
 import { useEffect, useState } from "react";
 import { api } from "../libs/api";
@@ -10,6 +11,7 @@ interface Notas {
 }
 
 export default function AttendanceList() {
+  const cpf = AsyncStorage.getItem("cpf");
   const [notas, setNotas] = useState<Notas[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   useEffect(() => {
@@ -19,7 +21,7 @@ export default function AttendanceList() {
   async function getData() {
     try {
       setIsLoading(true);
-      const response = await api.get("/notas/presenca/111.111.111-11");
+      const response = await api.get(`/notas/presenca/1${cpf}`);
       setNotas(response.data);
       setIsLoading(false);
     } catch (err) {
