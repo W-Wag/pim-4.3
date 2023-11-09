@@ -23,9 +23,22 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '../ui/dialog';
+import { api } from '@/lib/api';
+
+interface Student {
+  nome: string;
+  cod_turma: string;
+  ra: string;
+  Turma: {
+    Curso: {
+      nome: string;
+    };
+  };
+}
 
 export function CheckRegistration() {
   const [foundedRegister, setFoundedRegister] = useState(false);
+  const [student, setStudent] = useState<Student | null>(null);
 
   const { toast } = useToast();
   const formSchema = z.object({
@@ -40,23 +53,26 @@ export function CheckRegistration() {
     },
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    const oneRegister = 'ABC1234';
-    if (values.register !== oneRegister) {
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    try {
+      const response = await api.get(`/aluno/cpf/${values.register}`);
+      setStudent(response.data);
+      toast({
+        title: 'Matrícula encontrada',
+        description:
+          'clique em ver detalhes para mais detalhes sobre essa matrícula',
+      });
+      setFoundedRegister(true);
+    } catch (err) {
+      console.log(err);
       toast({
         title: 'Não foi possível encontrar essa matrícula',
         description: 'Entre em contato conosco para mais informações.',
       });
       return;
     }
-    console.log(values);
-    toast({
-      title: 'Matrícula encontrada',
-      description:
-        'clique em ver detalhes para mais detalhes sobre essa matrícula',
-    });
-    setFoundedRegister(true);
   }
+
   return (
     <div className="flex flex-col items-center">
       <h1 className="text-primary font-bold text-2xl py-4">
@@ -100,7 +116,7 @@ export function CheckRegistration() {
               <DialogTrigger>Ver Detalhes</DialogTrigger>
               <DialogContent>
                 <DialogHeader>
-                  <DialogTitle>Matrícula: ABC1234</DialogTitle>
+                  <DialogTitle>Matrícula: {student?.ra}</DialogTitle>
                   <DialogDescription>
                     Aqui está algumas informações sobre o aluno cadastrado nessa
                     matrícula
@@ -108,14 +124,16 @@ export function CheckRegistration() {
                 </DialogHeader>
                 <div className="flex flex-col items-center justify-center space-y-2">
                   <p className="leading-relaxed">
-                    <span className="pr-2 font-semibold">Aluno:</span> Jonas
+                    <span className="pr-2 font-semibold">Aluno:</span>{' '}
+                    {student?.nome}
                   </p>
                   <p className="leading-relaxed">
-                    <span className="pr-2 font-semibold">Turma:</span> ADS-1
+                    <span className="pr-2 font-semibold">Turma:</span>{' '}
+                    {student?.cod_turma}
                   </p>
                   <p className="leading-relaxed">
-                    <span className="pr-2 font-semibold">Curso:</span> Análise e
-                    desenvolvimento de sistemas
+                    <span className="pr-2 font-semibold">Curso:</span>{' '}
+                    {student?.Turma.Curso.nome}
                   </p>
                 </div>
               </DialogContent>

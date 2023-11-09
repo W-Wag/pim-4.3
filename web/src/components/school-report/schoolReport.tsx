@@ -9,7 +9,9 @@ import {
   TableRow,
 } from '../ui/table';
 import { api } from '@/lib/api';
-import { Skeleton } from '../ui/skeleton';
+import { LoadingTable } from './loadingTableReport';
+import { useToast } from '../ui/use-toast';
+import { Toaster } from '../ui/toaster';
 
 interface Report {
   nota: {
@@ -27,6 +29,7 @@ export function SchoolReport() {
   const [reports, setReports] = useState<Report[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [semestre, setSemestre] = useState(0);
+  const { toast } = useToast();
 
   const getRecords = useCallback(async () => {
     try {
@@ -39,9 +42,13 @@ export function SchoolReport() {
     } catch (err) {
       console.log(err);
       setIsLoading(false);
+      toast({
+        title: 'Error',
+        description: 'Ocorreu um erro inesperado, tente novamente mais tarde!',
+      });
       return;
     }
-  }, []);
+  }, [toast]);
 
   useEffect(() => {
     getRecords();
@@ -50,29 +57,15 @@ export function SchoolReport() {
   return (
     <div className="flex flex-col items-center">
       <h1 className="text-primary font-bold text-2xl py-4">Boletim Escolar</h1>
+      <Toaster />
 
       <div className="w-2/4 h-2/4 bg-primary text-center mb-12">
         <p className="text-primary-foreground font-bold text-xl">
           Semestre atual: {semestre}
         </p>
-        {!reports.length && !isLoading ? (
-          <p className=" text-black font-bold text-xl leading-relaxed">
-            Nenhum Boletim disponível
-          </p>
-        ) : isLoading ? (
-          <Skeleton className="flex flex-col items-center justify-center w-[960px] h-[600px] space-y-4 bg-gray-800">
-            <Skeleton className="flex flex-col items-center justify-center w-[960px] h-[150px] space-y-2 bg-gray-700">
-              <Skeleton className="w-[300px] h-[30px] bg-gray-600" />
-              <Skeleton className="w-[150px] h-[30px] bg-gray-600" />
-            </Skeleton>
-            <Skeleton className="flex flex-col items-center justify-center w-[800px] h-[120px] space-y-2 bg-gray-700">
-              <Skeleton className="w-[150px] h-[30px] bg-gray-600" />
-              <Skeleton className="w-[150px] h-[30px] bg-gray-600" />
-              <Skeleton className="w-[150px] h-[30px] bg-gray-600" />
-              <Skeleton className="w-[150px] h-[30px] bg-gray-600" />
-            </Skeleton>
-          </Skeleton>
-        ) : (
+        {isLoading ? (
+          <LoadingTable />
+        ) : reports.length ? (
           reports.map((report) => {
             return (
               <Table key={report.id}>
@@ -110,6 +103,10 @@ export function SchoolReport() {
               </Table>
             );
           })
+        ) : (
+          <p className=" text-black font-bold text-xl leading-relaxed">
+            Nenhum Boletim disponível
+          </p>
         )}
       </div>
     </div>

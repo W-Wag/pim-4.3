@@ -8,7 +8,9 @@ import {
   TableRow,
 } from '../ui/table';
 import { api } from '@/lib/api';
-import { Skeleton } from '../ui/skeleton';
+import { LoadingTable } from './loadingTableRecords';
+import { useToast } from '@/components/ui/use-toast';
+import { Toaster } from '../ui/toaster';
 
 interface Records {
   nota: {
@@ -25,6 +27,7 @@ interface Records {
 export function SchoolRecords() {
   const [records, setRecords] = useState<Records[]>([]);
   const [isLoading, setIsLoading] = useState(false);
+  const { toast } = useToast();
 
   const getRecords = useCallback(async () => {
     try {
@@ -35,9 +38,13 @@ export function SchoolRecords() {
     } catch (err) {
       console.log(err);
       setIsLoading(false);
+      toast({
+        title: 'Error',
+        description: 'Ocorreu um erro inesperado, tente novamente mais tarde!',
+      });
       return;
     }
-  }, []);
+  }, [toast]);
 
   useEffect(() => {
     getRecords();
@@ -48,26 +55,11 @@ export function SchoolRecords() {
       <h1 className="text-primary font-bold text-2xl py-4">
         Histórico escolar
       </h1>
-
+      <Toaster />
       <div className="w-2/4 h-2/4 bg-primary text-center mb-12">
-        {!records ? (
-          <p className="text-black font-bold text-xl leading-relaxed">
-            Nenhum histórico disponível
-          </p>
-        ) : isLoading ? (
-          <Skeleton className="flex flex-col items-center justify-center w-[960px] h-[600px] space-y-4 bg-gray-800">
-            <Skeleton className="flex flex-col items-center justify-center w-[960px] h-[150px] space-y-2 bg-gray-700">
-              <Skeleton className="w-[300px] h-[30px] bg-gray-600" />
-              <Skeleton className="w-[150px] h-[30px] bg-gray-600" />
-            </Skeleton>
-            <Skeleton className="flex flex-col items-center justify-center w-[800px] h-[120px] space-y-2 bg-gray-700">
-              <Skeleton className="w-[150px] h-[30px] bg-gray-600" />
-              <Skeleton className="w-[150px] h-[30px] bg-gray-600" />
-              <Skeleton className="w-[150px] h-[30px] bg-gray-600" />
-              <Skeleton className="w-[150px] h-[30px] bg-gray-600" />
-            </Skeleton>
-          </Skeleton>
-        ) : (
+        {isLoading ? (
+          <LoadingTable />
+        ) : records.length ? (
           records.map((historico) => {
             return (
               <Table key={historico.id}>
@@ -108,6 +100,10 @@ export function SchoolRecords() {
               </Table>
             );
           })
+        ) : (
+          <p className="text-black font-bold text-xl leading-relaxed">
+            Nenhum histórico disponível
+          </p>
         )}
       </div>
     </div>
