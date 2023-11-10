@@ -28,7 +28,8 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
       <Routes>
         // Páginas
         <Route path="/" element={<App />} />
-        <Route path="/login" element={<Login />} />
+        <Route path="/aluno/login" element={<Login />} />
+        <Route path="/professor/login" element={<Login />} />
         <Route path="/servicos" element={<Services />} />
         <Route path="/contatos" element={<Contacts />} />
         <Route path="/aluno" element={<StudentArea />} />

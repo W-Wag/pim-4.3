@@ -1,6 +1,15 @@
-import { Link } from 'react-router-dom';
+import { useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 
 export function ProfessorArea() {
+  const isProfessorLoggedIn = localStorage.getItem('cpf_professor');
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!isProfessorLoggedIn) {
+      navigate('/professor/login');
+    }
+  });
   return (
     <div className="flex flex-col items-center">
       <h1 className="text-primary font-bold text-2xl py-4">

@@ -1,6 +1,16 @@
-import { Link } from 'react-router-dom';
+import { useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 
 export function StudentArea() {
+  const isStudentLoggedInRa = localStorage.getItem('ra_aluno');
+  const isStudentLoggedInCpf = localStorage.getItem('cpf_aluno');
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!isStudentLoggedInRa && !isStudentLoggedInCpf) {
+      navigate('/aluno/login');
+    }
+  });
   return (
     <div className="flex flex-col items-center">
       <h1 className="text-primary font-bold text-2xl py-4">Área do Aluno</h1>
