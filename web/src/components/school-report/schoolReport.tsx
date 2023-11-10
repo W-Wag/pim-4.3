@@ -32,9 +32,17 @@ export function SchoolReport() {
   const { toast } = useToast();
 
   const getRecords = useCallback(async () => {
+    const cpf = localStorage.getItem('cpf_aluno');
+    const ra = localStorage.getItem('ra_aluno');
     try {
       setIsLoading(true);
-      const response = await api.get('notas/boletim/111.111.111-11/ra');
+      let response;
+      if (cpf) {
+        response = await api.get(`notas/boletim/${cpf}/ra`);
+      } else if (ra) {
+        response = await api.get(`notas/boletim/cpf/${ra}`);
+      }
+      if (!response) return;
       const semestre = get(response, 'data[0].Semestre', 0);
       setSemestre(semestre);
       setReports(response.data);

@@ -30,9 +30,17 @@ export function SchoolRecords() {
   const { toast } = useToast();
 
   const getRecords = useCallback(async () => {
+    const cpf = localStorage.getItem('cpf_aluno');
+    const ra = localStorage.getItem('ra_aluno');
     try {
       setIsLoading(true);
-      const response = await api.get('notas/historico/111.111.111-11/ra');
+      let response;
+      if (cpf) {
+        response = await api.get(`notas/historico/${cpf}/ra`);
+      } else if (ra) {
+        response = await api.get(`notas/historico/cpf/${ra}`);
+      }
+      if (!response) return;
       setRecords(response.data);
       setIsLoading(false);
     } catch (err) {

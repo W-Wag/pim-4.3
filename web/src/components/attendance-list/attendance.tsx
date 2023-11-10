@@ -24,9 +24,17 @@ export function Attendance() {
   const { toast } = useToast();
 
   const getFrequency = useCallback(async () => {
+    const cpf = localStorage.getItem('cpf_aluno');
+    const ra = localStorage.getItem('ra_aluno');
     try {
       setIsLoading(true);
-      const response = await api.get('notas/presenca/111.111.111-11/ra');
+      let response;
+      if (cpf) {
+        response = await api.get(`notas/presenca/${cpf}/ra`);
+      } else if (ra) {
+        response = await api.get(`notas/presenca/cpf/${ra}`);
+      }
+      if (!response) return;
       setFrequencies(response.data);
       setIsLoading(false);
     } catch (err) {
