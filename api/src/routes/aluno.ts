@@ -90,7 +90,11 @@ export const acharUmAluno = async (req, res) => {
     } else {
       const alunos = await prisma.aluno.findUnique({
         where: { ra },
-        include: { Endereco: true, Turma: { include: { Curso: true } } },
+        include: {
+          Endereco: true,
+          Nota: true,
+          Turma: { include: { Curso: true } },
+        },
       });
 
       if (!alunos) {

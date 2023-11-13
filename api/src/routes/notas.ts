@@ -349,6 +349,131 @@ export const listarFrequencia: Controller = async (req, res) => {
 
   res.send(frequencias);
 };
+export const listaDeFrequenciaPorDisciplinaDoProfessor: Controller = async (
+  req,
+  res,
+) => {
+  const { cpf_professor } = req.params;
+  const frequencias: {
+    presenca: number;
+    disciplina: string;
+    id: number;
+    nome: string;
+    cpf_aluno: string;
+  }[] = [];
+
+  const disciplinasMinistradas = await prisma.disciplina.findMany({
+    where: {
+      cpf_professor,
+    },
+  });
+
+  if (!disciplinasMinistradas) {
+    res.status(404).json({ error: 'CPF não encontrado' });
+    return;
+  }
+
+  const acharNotas = await prisma.nota.findMany({
+    where: {
+      cod_disciplina: {
+        in: disciplinasMinistradas.map(
+          (disciplina) => disciplina.cod_disciplina,
+        ),
+      },
+    },
+  });
+
+  if (!acharNotas) {
+    res.status(404).json({ error: 'Notas do aluno não encontrado' });
+    return;
+  }
+
+  const acharAlunos = await prisma.aluno.findMany({
+    where: {
+      cpf: {
+        in: acharNotas.map((nota) => nota.cpf_aluno),
+      },
+    },
+  });
+
+  if (!acharAlunos) {
+    res.status(404).json({ error: 'CPF não encontrado' });
+    return;
+  }
+
+  for (let i = 0; i < acharNotas.length; i++) {
+    try {
+      const disciplina = await prisma.disciplina.findUnique({
+        where: {
+          cod_disciplina: acharNotas[i].cod_disciplina,
+        },
+      });
+
+      if (!disciplina) {
+        res.status(404).json({ error: 'Disciplina não encontrada' });
+        return;
+      }
+
+      frequencias.push({
+        presenca: acharNotas[i].frequencia,
+        disciplina: disciplina.nome,
+        id: acharNotas[i].id,
+        nome: acharAlunos[i].nome,
+        cpf_aluno: acharAlunos[i].cpf,
+      });
+    } catch (err) {
+      console.log(err);
+      res.status(400).json({ error: 'Ocorreu um erro desconhecido' });
+      return;
+    }
+  }
+
+  res.send(frequencias);
+};
+
+export const manterFrequencia: Controller = async (req, res) => {
+  const { cpf } = req.params;
+  const { cpf_aluno, id } = req.body;
+
+  const cpfExiste = await prisma.professor.findUnique({
+    where: {
+      cpf,
+    },
+  });
+  const presenca = await prisma.nota.findFirst({
+    where: {
+      cpf_aluno,
+    },
+  });
+
+  if (!cpf && !cpfExiste) {
+    res.status(404).json({ error: 'CPF não encontrado' });
+    return;
+  }
+  if (!presenca) {
+    res.status(404).json({ error: 'Aluno não encontrado' });
+    return;
+  }
+
+  try {
+    const frequencia = await prisma.nota.update({
+      where: {
+        cpf_aluno,
+        id,
+      },
+      data: {
+        frequencia: {
+          increment: 1,
+        },
+      },
+    });
+
+    res.send(frequencia);
+  } catch (err) {
+    console.log(err);
+    res.status(400).json({ error: 'Ocorreu um erro desconhecido' });
+  }
+};
 
 export const deletarNota: Controller = async (req, res) => {
   const { id } = req.params;
