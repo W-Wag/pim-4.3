@@ -38,7 +38,7 @@ export function Classes() {
         </TabsList>
         {info.map((item: InfoProps) => {
           return (
-            <TabsContent value={item.id.toString()}>
+            <TabsContent key={item.id} value={item.id.toString()}>
               <div className="w-[100%] bg-slate-900 border border-separate border-slate-500">
                 <p className="font-bold text-primary leading-relaxed text-sm text-center py-4">
                   Disciplina:

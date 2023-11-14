@@ -55,7 +55,7 @@ route.put('/turmas/:cpf', turma.addAlunoParaTurma);
 
 // Rotas de Nota
 route.post('/notas', nota.criarNotas);
-route.put('/notas/:id', nota.atualizarNota);
+route.put('/notas/:cpf_professor/', nota.atualizarNota);
 route.put('/notas/frequencia/:cpf', nota.manterFrequencia);
 route.delete('/notas/:id', nota.deletarNota);
 route.get('/notas/presenca/:cpf/:ra', nota.listarFrequencia);

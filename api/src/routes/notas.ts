@@ -56,31 +56,75 @@ export const criarNotas: Controller = async (req, res) => {
 };
 
 export const atualizarNota: Controller = async (req, res) => {
-  const { id } = req.params;
-  const { np1, np2, pim } = req.body;
+  const { cpf_professor } = req.params;
+  const { ra, idDisciplina, np1, np2, pim } = req.body;
 
-  const idExiste = await prisma.nota.findUnique({
+  const disciplina = await prisma.disciplina.findUnique({
     where: {
-      id: parseInt(id),
+      cod_disciplina: idDisciplina,
+      cpf_professor: cpf_professor,
     },
   });
 
-  if (!id || !idExiste) {
+  if (!disciplina) {
+    res
+      .status(404)
+      .json({ error: 'CPF ou código da disciplina não encontrado' });
+    return;
+  }
+
+  const aluno = await prisma.aluno.findUnique({
+    where: {
+      ra,
+    },
+    include: {
+      Nota: true,
+    },
+  });
+
+  if (!aluno) {
+    res.status(404).json({ error: 'Aluno não encontrado' });
+    return;
+  }
+  let idExiste;
+  for (const nota of aluno.Nota) {
+    if (nota.cod_disciplina === disciplina.cod_disciplina) {
+      idExiste = await prisma.nota.findUnique({
+        where: {
+          id: nota.id,
+        },
+      });
+      break;
+    }
+  }
+
+  if (!idExiste) {
     res.status(404).json({ error: 'id da nota não encontrado' });
     return;
   }
   try {
     const notas = await prisma.nota.update({
-      where: { id: parseInt(id) },
+      where: { id: idExiste.id },
       data: {
         np1: np1.toFixed(2),
         np2,
         pim,
         mf: mediaFinal(np1, np2, pim),
       },
+      include: {
+        Aluno: true,
+      },
     });
 
-    res.json(notas);
+    const infoNotas = {
+      np1: notas.np1,
+      np2: notas.np2,
+      pim: notas.pim,
+      nome: notas.Aluno.nome,
+      ra: notas.Aluno.ra,
+    };
+
+    res.json(infoNotas);
   } catch (err) {
     console.log(err);
     res.status(400).json({ error: 'Dados inválidos' });
@@ -403,7 +447,7 @@ export const listaDeFrequenciaPorDisciplinaDoProfessor: Controller = async (
 
   for (let i = 0; i < acharNotas.length; i++) {
     try {
-      const disciplina = await prisma.disciplina.findUnique({
+      const disciplina = await prisma.disciplina.findMany({
         where: {
           cod_disciplina: acharNotas[i].cod_disciplina,
         },
@@ -416,7 +460,7 @@ export const listaDeFrequenciaPorDisciplinaDoProfessor: Controller = async (
 
       frequencias.push({
         presenca: acharNotas[i].frequencia,
-        disciplina: disciplina.nome,
+        disciplina: disciplina[i].nome,
         id: acharNotas[i].id,
         nome: acharAlunos[i].nome,
         cpf_aluno: acharAlunos[i].cpf,
