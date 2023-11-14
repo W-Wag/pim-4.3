@@ -28,6 +28,10 @@ route.delete('/matricula/:ra', aluno.deletarMatricula);
 route.post('/professores', professor.criarProfessor);
 route.get('/professores', professor.index);
 route.get('/professores/:cpf', professor.acharUmProfessor);
+route.get(
+  '/info/disciplina/professor/:cpf_professor',
+  professor.infoDisciplinaLecionadas,
+);
 
 // Rotas de Curso
 route.post('/cursos', curso.criarCurso);

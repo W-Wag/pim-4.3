@@ -19,7 +19,7 @@ export function Class(): JSX.Element {
   }
   const handleClick = async (): Promise<void> => {
     try {
-      const response = await api.get(`/alunos/${cpf}`)
+      const response = await api.get(`/aluno/${cpf}/ra`)
       if (response.status === 200) {
         navigate(`/turma/adicionar/aluno/${cpf}`)
         return

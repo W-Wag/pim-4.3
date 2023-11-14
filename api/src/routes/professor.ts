@@ -69,3 +69,78 @@ export const acharUmProfessor: Controller = async (req, res) => {
     res.status(500).json({ error: 'Erro ao buscar alunos' });
   }
 };
+
+export const infoDisciplinaLecionadas: Controller = async (req, res) => {
+  const { cpf_professor } = req.params;
+  const info:
+    | {
+        id: number;
+        disciplina: string;
+        curso: string;
+        turma: number;
+        quantidade_alunos: number;
+      }[]
+    | null = [];
+
+  const disciplinas = await prisma.disciplina.findMany({
+    where: {
+      cpf_professor,
+    },
+    include: {
+      Nota: {
+        include: {
+          Aluno: {
+            include: {
+              Turma: true,
+            },
+          },
+        },
+      },
+      Curso: {
+        include: {
+          Turma: true,
+        },
+      },
+    },
+  });
+
+  if (!disciplinas) {
+    res.status(404).json({ error: 'Disciplinas não encontradas' });
+    return;
+  }
+
+  for (let i = 0; i < disciplinas.length; i++) {
+    const disciplina = disciplinas[i];
+    const notas = await prisma.nota.findMany({
+      where: {
+        cod_disciplina: disciplina.cod_disciplina,
+      },
+      include: {
+        Aluno: {
+          include: {
+            Turma: true,
+          },
+        },
+      },
+    });
+
+    const turmas = [...new Set(notas.map((nota) => nota.Aluno.Turma?.cod))];
+    const quantidadeTurmas = turmas.length;
+
+    const quantidadeAlunos = notas.reduce(
+      (total: number, turma) =>
+        total + (turma.Aluno.Turma?.Quantidade_alunos ?? 0),
+      0,
+    );
+
+    info.push({
+      id: disciplina.cod_disciplina,
+      disciplina: disciplina.nome,
+      curso: disciplina.Curso.nome,
+      turma: quantidadeTurmas,
+      quantidade_alunos: quantidadeAlunos,
+    });
+  }
+
+  res.send(info);
+};

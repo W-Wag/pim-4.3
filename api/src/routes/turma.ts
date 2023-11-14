@@ -1,6 +1,7 @@
 import { prisma } from '../libs/prisma';
+import { Controller } from '../interfaces/ProtocoloController';
 
-export const criarTurma = async (req, res) => {
+export const criarTurma: Controller = async (req, res) => {
   const { cod, Curso_cod } = req.body;
 
   try {
