@@ -425,6 +425,15 @@ export const listaDeFrequenciaPorDisciplinaDoProfessor: Controller = async (
         ),
       },
     },
+    include: {
+      Disciplina: true,
+      Aluno: true,
+    },
+    orderBy: {
+      Disciplina: {
+        nome: 'desc',
+      },
+    },
   });
 
   if (!acharNotas) {
@@ -432,38 +441,14 @@ export const listaDeFrequenciaPorDisciplinaDoProfessor: Controller = async (
     return;
   }
 
-  const acharAlunos = await prisma.aluno.findMany({
-    where: {
-      cpf: {
-        in: acharNotas.map((nota) => nota.cpf_aluno),
-      },
-    },
-  });
-
-  if (!acharAlunos) {
-    res.status(404).json({ error: 'CPF não encontrado' });
-    return;
-  }
-
   for (let i = 0; i < acharNotas.length; i++) {
     try {
-      const disciplina = await prisma.disciplina.findMany({
-        where: {
-          cod_disciplina: acharNotas[i].cod_disciplina,
-        },
-      });
-
-      if (!disciplina) {
-        res.status(404).json({ error: 'Disciplina não encontrada' });
-        return;
-      }
-
       frequencias.push({
         presenca: acharNotas[i].frequencia,
-        disciplina: disciplina[i].nome,
+        disciplina: acharNotas[i].Disciplina.nome,
         id: acharNotas[i].id,
-        nome: acharAlunos[i].nome,
-        cpf_aluno: acharAlunos[i].cpf,
+        nome: acharNotas[i].Aluno.nome,
+        cpf_aluno: acharNotas[i].Aluno.cpf,
       });
     } catch (err) {
       console.log(err);
