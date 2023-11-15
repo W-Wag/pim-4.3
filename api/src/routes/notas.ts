@@ -504,6 +504,94 @@ export const manterFrequencia: Controller = async (req, res) => {
   }
 };
 
+export const mapaDeNotas: Controller = async (req, res) => {
+  const { cpf_professor } = req.params;
+
+  const disciplinas = await prisma.disciplina.findMany({
+    where: {
+      cpf_professor,
+    },
+  });
+
+  if (!disciplinas) {
+    res.status(404).json({ error: 'CPF não encontrado' });
+    return;
+  }
+
+  try {
+    const mapa: {
+      ra: string;
+      aluno: string;
+      turma: string | undefined;
+      disciplina: string;
+      np1: Decimal;
+      np2: Decimal;
+      pim: Decimal;
+      presenca: number;
+      media: Decimal;
+      semestre: number;
+    }[] = [];
+    const disciplina: {
+      id: number;
+      disciplina: string;
+      carga_horaria: number;
+      semestre: number;
+      mapa: typeof mapa;
+    }[] = [];
+    const notas = await prisma.nota.findMany({
+      where: {
+        cod_disciplina: {
+          in: disciplinas.map((disciplina) => disciplina.cod_disciplina),
+        },
+      },
+      include: {
+        Disciplina: true,
+        Aluno: {
+          include: {
+            Turma: true,
+          },
+        },
+      },
+    });
+
+    for (let i = 0; i < notas.length; i++) {
+      mapa.push({
+        disciplina: notas[i].Disciplina.nome,
+        semestre: notas[i].Semestre,
+        ra: notas[i].Aluno.ra,
+        aluno: notas[i].Aluno.nome,
+        turma: notas[i].Aluno.Turma?.cod,
+
+        np1: notas[i].np1,
+        np2: notas[i].np2,
+        pim: notas[i].pim,
+        presenca: notas[i].frequencia,
+        media: notas[i].mf,
+      });
+    }
+    for (let i = 0; i < disciplinas.length; i++) {
+      disciplina.push({
+        id: disciplinas[i].cod_disciplina,
+        disciplina: disciplinas[i].nome,
+        carga_horaria: disciplinas[i].carga_horaria,
+        semestre: notas[i].Semestre,
+        mapa: mapa.filter((mapa) => {
+          return (
+            disciplinas[i].nome === mapa.disciplina &&
+            notas[i].Semestre === mapa.semestre
+          );
+        }),
+      });
+    }
+
+    res.send(disciplina);
+  } catch (err) {
+    console.log(err);
+    res.status(400).json({ error: 'Ocorreu um erro desconhecido' });
+    return;
+  }
+};
+
 export const deletarNota: Controller = async (req, res) => {
   const { id } = req.params;
 

@@ -46,10 +46,10 @@ export function ProfessorArea() {
           >
             <div className=" space-y-2 py-4 text-center hover:bg-slate-300 hover:cursor-pointer">
               <h1 className="text-primary-foreground font-bold text-2xl py-4 hover:cursor-pointer hover:text-primary">
-                Turmas
+                Informações sobre as Disciplinas que Leciona
               </h1>
               <p className="text-primary-foreground font-bold leading-relaxed text-sm">
-                Aqui você visualizará as turmas que você esta lecionando
+                Aqui você visualizará as disciplinas que você esta lecionando
                 atualmente
               </p>
             </div>

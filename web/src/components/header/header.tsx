@@ -25,10 +25,12 @@ export function Header() {
     if (professorLoggedIn) {
       setHomeLink('/professor');
       setIsLogged(true);
-    }
-    if (studentLoggedInRa || studentLoggedInCpf) {
+    } else if (studentLoggedInRa || studentLoggedInCpf) {
       setHomeLink('/aluno');
       setIsLogged(true);
+    } else {
+      setHomeLink('/');
+      setIsLogged(false);
     }
   }, [isPhoneWidth, professorLoggedIn, studentLoggedInRa, studentLoggedInCpf]);
 

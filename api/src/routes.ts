@@ -63,6 +63,7 @@ route.get(
   '/notas/presenca/:cpf_professor',
   nota.listaDeFrequenciaPorDisciplinaDoProfessor,
 );
+route.get('/notas/mapa/:cpf_professor', nota.mapaDeNotas);
 route.get('/notas/historico/:cpf/:ra', nota.listarHistoricoDoAluno);
 route.get('/notas/boletim/:cpf/:ra', nota.listarBoletimDoAluno);
 

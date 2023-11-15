@@ -96,14 +96,14 @@ export function CheckRegistration() {
                 </FormLabel>
                 <FormControl>
                   <Input
-                    className="w-80"
-                    placeholder="Sua Matrícula"
+                    className="w-full"
+                    placeholder="Preencha aqui"
                     {...field}
                   />
                 </FormControl>
                 <FormDescription>
-                  Digite a sua matrícula acima para verificar se você já está{' '}
-                  <br />
+                  Digite a matrícula a ser pesquisada acima para verificar se
+                  você já está <br />
                   registrado em nosso sistema.
                 </FormDescription>
                 <FormMessage />
