@@ -25,6 +25,16 @@ export const criarDisciplina: Controller = async (req, res) => {
   }
 };
 
+export const index: Controller = async (req, res) => {
+  try {
+    const disciplinas = await prisma.disciplina.findMany();
+    res.send(disciplinas);
+  } catch (err) {
+    console.log(err);
+    res.status(400).json({ error: 'Ocorreu um erro desconhecido' });
+  }
+};
+
 export const addProfessorParaDisciplina: Controller = async (req, res) => {
   const { cpf } = req.params;
   const { cod_disciplina } = req.body;

@@ -37,6 +37,7 @@ route.get(
 route.post('/cursos', curso.criarCurso);
 route.get('/cursos/:cod', curso.acharUmCurso);
 route.get('/cursos/', curso.index);
+route.delete('/cursos/deletar/:cod', curso.destroy);
 
 // Rotas de Endereço
 route.post('/enderecos', endereco.criarEndereco);
@@ -46,12 +47,15 @@ route.put('/enderecos/professor/:cpf', endereco.addEnderecoParaProfessor);
 
 // Rotas de Disciplina
 route.post('/disciplinas', validarDisciplina, disciplina.criarDisciplina);
+route.get('/disciplinas', disciplina.index);
 route.put('/disciplinas/professor/:cpf', disciplina.addProfessorParaDisciplina);
 route.delete('/disciplinas/:cod_disciplina', disciplina.deletarDisciplina);
 
 // Rotas de Turma
 route.post('/turmas', validarTurma, turma.criarTurma);
+route.get('/turmas', turma.index);
 route.put('/turmas/:cpf', turma.addAlunoParaTurma);
+route.delete('/turmas/deletar/:cod', turma.destroy);
 
 // Rotas de Nota
 route.post('/notas', nota.criarNotas);

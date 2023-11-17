@@ -63,3 +63,26 @@ export const index = async (req, res) => {
     return;
   }
 };
+
+export const destroy = async (req, res) => {
+  const { cod } = req.params;
+
+  if (!cod) {
+    res.status(404).json({ error: 'Código do curso não encontrado' });
+    return;
+  }
+
+  try {
+    const curso = await prisma.curso.delete({
+      where: {
+        cod: cod,
+      },
+    });
+
+    res.send(curso);
+  } catch (err) {
+    console.log(err);
+    res.status(400).json({ error: 'Ocorreu um erro desconhecido' });
+    return;
+  }
+};

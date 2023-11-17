@@ -8,6 +8,7 @@ export interface Disciplina {
 }
 
 export interface DisciplinaRoutes {
+  index: Controller;
   criarDisciplina: Controller;
   deletarDisciplina: Controller;
   addProfessorParaDisciplina: Controller;

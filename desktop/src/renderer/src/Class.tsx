@@ -80,7 +80,7 @@ export function Class(): JSX.Element {
         </div>
 
         <div className="w-80 h-36 bg-primary hover:bg-zinc-200 hover:cursor-pointer">
-          <Link to="/alunos">
+          <Link to="/deletar/turma">
             <h2 className="text-xl font-semibold text-primary-foreground text-center py-4">
               Excluir Turma
             </h2>

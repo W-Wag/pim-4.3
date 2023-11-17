@@ -24,6 +24,20 @@ export const criarTurma: Controller = async (req, res) => {
   }
 };
 
+export const index = async (req, res) => {
+  try {
+    const turma = await prisma.turma.findMany({
+      orderBy: {
+        cod: 'asc',
+      },
+    });
+    res.send(turma);
+  } catch (err) {
+    console.log(err);
+    res.status(400).json({ error: 'Ocorreu um erro desconhecido' });
+  }
+};
+
 export const addAlunoParaTurma = async (req, res) => {
   const { cpf } = req.params;
   const { cod_turma } = req.body;
@@ -72,5 +86,21 @@ export const addAlunoParaTurma = async (req, res) => {
   } catch (err) {
     console.log(err);
     res.status(400).json({ error: 'Dados inválidos' });
+  }
+};
+
+export const destroy = async (req, res) => {
+  const { cod } = req.params;
+  try {
+    const turma = await prisma.turma.delete({
+      where: {
+        cod: cod,
+      },
+    });
+
+    res.send(turma);
+  } catch (err) {
+    console.log(err);
+    res.status(400).json({ error: 'Ocorreu um erro desconhecido' });
   }
 };
