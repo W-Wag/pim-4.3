@@ -37,6 +37,7 @@ route.get(
 route.post('/cursos', curso.criarCurso);
 route.get('/cursos/:cod', curso.acharUmCurso);
 route.get('/cursos/', curso.index);
+route.put('/cursos/atualizar/:cod', curso.atualizarCurso);
 route.delete('/cursos/deletar/:cod', curso.destroy);
 
 // Rotas de Endereço
@@ -49,7 +50,10 @@ route.put('/enderecos/professor/:cpf', endereco.addEnderecoParaProfessor);
 route.post('/disciplinas', validarDisciplina, disciplina.criarDisciplina);
 route.get('/disciplinas', disciplina.index);
 route.put('/disciplinas/professor/:cpf', disciplina.addProfessorParaDisciplina);
-route.delete('/disciplinas/:cod_disciplina', disciplina.deletarDisciplina);
+route.delete(
+  '/disciplinas/deletar/:cod_disciplina',
+  disciplina.deletarDisciplina,
+);
 
 // Rotas de Turma
 route.post('/turmas', validarTurma, turma.criarTurma);
@@ -59,9 +63,7 @@ route.delete('/turmas/deletar/:cod', turma.destroy);
 
 // Rotas de Nota
 route.post('/notas', nota.criarNotas);
-route.put('/notas/:cpf_professor/', nota.atualizarNota);
-route.put('/notas/frequencia/:cpf', nota.manterFrequencia);
-route.delete('/notas/:id', nota.deletarNota);
+route.get('/notas', nota.index);
 route.get('/notas/presenca/:cpf/:ra', nota.listarFrequencia);
 route.get(
   '/notas/presenca/:cpf_professor',
@@ -70,5 +72,8 @@ route.get(
 route.get('/notas/mapa/:cpf_professor', nota.mapaDeNotas);
 route.get('/notas/historico/:cpf/:ra', nota.listarHistoricoDoAluno);
 route.get('/notas/boletim/:cpf/:ra', nota.listarBoletimDoAluno);
+route.put('/notas/:cpf_professor/', nota.atualizarNota);
+route.put('/notas/frequencia/:cpf', nota.manterFrequencia);
+route.delete('/notas/deletar/:id', nota.deletarNota);
 
 module.exports = route;

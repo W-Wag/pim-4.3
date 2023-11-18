@@ -18,21 +18,23 @@ export function Course(): JSX.Element {
         </div>
 
         <div className="w-80 h-36 bg-primary hover:bg-zinc-200 hover:cursor-pointer">
-          <h2 className="text-xl font-semibold text-primary-foreground text-center py-4">
-            Atualizar Curso
-          </h2>
-          <p className="text-sm font-medium text-primary-foreground text-center leading-relaxed">
-            Abra essa aba para atualizar um curso
-          </p>
+          <Link to="/atualizar/curso">
+            <h2 className="text-xl font-semibold text-primary-foreground text-center py-4">
+              Atualizar Curso
+            </h2>
+            <p className="text-sm font-medium text-primary-foreground text-center leading-relaxed">
+              Abra essa aba para atualizar um curso
+            </p>
+          </Link>
         </div>
 
         <div className="w-80 h-36 bg-primary hover:bg-zinc-200 hover:cursor-pointer">
           <Link to="/deletar/curso">
             <h2 className="text-xl font-semibold text-primary-foreground text-center py-4">
-              Excluir Curso
+              Visualizar e Excluir Curso
             </h2>
             <p className="text-sm font-medium text-primary-foreground text-center leading-relaxed">
-              Abra essa aba para deletar um curso
+              Abra essa aba para visualizar os curso já disponíveis e para deletar um curso
             </p>
           </Link>
         </div>

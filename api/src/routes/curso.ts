@@ -1,6 +1,7 @@
+import { Controller } from '../interfaces/ProtocoloController';
 import { prisma } from '../libs/prisma';
 
-export const criarCurso = async (req, res) => {
+export const criarCurso: Controller = async (req, res) => {
   const { cod, nome, carga_horaria } = req.body;
 
   try {
@@ -20,7 +21,7 @@ export const criarCurso = async (req, res) => {
   }
 };
 
-export const acharUmCurso = async (req, res) => {
+export const acharUmCurso: Controller = async (req, res) => {
   const { cod } = req.params;
 
   try {
@@ -43,7 +44,7 @@ export const acharUmCurso = async (req, res) => {
   }
 };
 
-export const index = async (req, res) => {
+export const index: Controller = async (req, res) => {
   try {
     const curso = await prisma.curso.findMany({
       orderBy: {
@@ -64,7 +65,35 @@ export const index = async (req, res) => {
   }
 };
 
-export const destroy = async (req, res) => {
+export const atualizarCurso: Controller = async (req, res) => {
+  const { cod } = req.params;
+  const { nome, carga_horaria } = req.body;
+
+  try {
+    const curso = await prisma.curso.update({
+      where: {
+        cod: cod,
+      },
+      data: {
+        nome,
+        carga_horaria,
+      },
+    });
+
+    if (!curso) {
+      res.status(404).json({ error: 'curso não encontrado' });
+      return;
+    }
+
+    res.send(curso);
+  } catch (err) {
+    console.log(err);
+    res.status(400).json({ error: 'Ocorreu um erro desconhecido' });
+    return;
+  }
+};
+
+export const destroy: Controller = async (req, res) => {
   const { cod } = req.params;
 
   if (!cod) {

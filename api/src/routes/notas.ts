@@ -55,6 +55,16 @@ export const criarNotas: Controller = async (req, res) => {
   }
 };
 
+export const index: Controller = async (req, res) => {
+  try {
+    const notas = await prisma.nota.findMany();
+    res.send(notas);
+  } catch (err) {
+    console.log(err);
+    res.status(400).json({ error: 'Ocorreu um erro desconhecido' });
+  }
+};
+
 export const atualizarNota: Controller = async (req, res) => {
   const { cpf_professor } = req.params;
   const { ra, idDisciplina, np1, np2, pim } = req.body;

@@ -82,10 +82,10 @@ export function Class(): JSX.Element {
         <div className="w-80 h-36 bg-primary hover:bg-zinc-200 hover:cursor-pointer">
           <Link to="/deletar/turma">
             <h2 className="text-xl font-semibold text-primary-foreground text-center py-4">
-              Excluir Turma
+              Visualizar e Excluir Turma
             </h2>
             <p className="text-sm font-medium text-primary-foreground text-center leading-relaxed">
-              Abra essa aba para deletar uma turma
+              Abra essa aba para visualizar as turma disponíveis e para deletar uma turma
             </p>
           </Link>
         </div>

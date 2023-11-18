@@ -24,8 +24,10 @@ import { CreateSubject } from './components/CreateSubject'
 import { AddProfessorToSubject } from './components/AddProfessorToSubject'
 import { CreateGrade } from './components/CreateGrade'
 import { DeleteCourse } from './components/DeleteCourse'
-import { DeleteSubject } from './components/DeleteSubject'
+import { DeleteGrade } from './components/DeleteGrades'
 import { DeleteClass } from './components/DeleteClass'
+import { UpdateCourse } from './components/UpdateCourse'
+import { DeleteSubject } from './components/DeleteSubject'
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
@@ -55,6 +57,8 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
         <Route path="/deletar/curso" element={<DeleteCourse />} />
         <Route path="/deletar/disciplina" element={<DeleteSubject />} />
         <Route path="/deletar/turma" element={<DeleteClass />} />
+        <Route path="/deletar/notas" element={<DeleteGrade />} />
+        <Route path="/atualizar/curso" element={<UpdateCourse />} />
       </Routes>
       <Footer />
     </BrowserRouter>

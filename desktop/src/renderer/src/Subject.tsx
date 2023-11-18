@@ -91,10 +91,10 @@ export function Subject(): JSX.Element {
         <div className="w-80 h-36 bg-primary hover:bg-zinc-200 hover:cursor-pointer">
           <Link to="/deletar/disciplina">
             <h2 className="text-xl font-semibold text-primary-foreground text-center py-4">
-              Excluir Disciplina
+              Visualizar e Excluir Disciplina
             </h2>
             <p className="text-sm font-medium text-primary-foreground text-center leading-relaxed">
-              Abra essa aba para deletar uma disciplina
+              Abra essa aba para visualizar as disciplinas disponíveis e para deletar uma disciplina
             </p>
           </Link>
         </div>

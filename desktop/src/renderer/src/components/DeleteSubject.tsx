@@ -23,19 +23,19 @@ export function DeleteSubject(): JSX.Element {
     setSubjects(response.data)
   }
   const handleDelete = async (e: React.MouseEvent<HTMLElement>): Promise<void> => {
-    const courseCode = e.currentTarget.parentElement?.children.item(2)?.innerHTML
+    const subjectCode = e.currentTarget.parentElement?.children.item(2)?.innerHTML
     try {
-      await api.delete(`/cursos/deletar/${courseCode}`)
+      await api.delete(`/disciplinas/deletar/${subjectCode}`)
       GetSubjects()
       toast({
         title: 'Sucesso',
-        description: 'curso deletado com sucesso'
+        description: 'disciplina deletada com sucesso'
       })
     } catch (err) {
       console.log(err)
       toast({
         title: 'Erro',
-        description: 'ocorreu um problema ao tentar deletar o curso'
+        description: 'ocorreu um problema ao tentar deletar a disciplina'
       })
     }
   }

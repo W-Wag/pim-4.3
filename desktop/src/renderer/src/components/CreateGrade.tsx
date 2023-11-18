@@ -150,7 +150,7 @@ export function CreateGrade(): JSX.Element {
               <FormItem>
                 <FormLabel>Código da Disciplina</FormLabel>
                 <FormControl>
-                  <Input className="w-96" placeholder="EX. RDC1.0" {...field} />
+                  <Input className="w-96" placeholder="EX. 1, 2, 3..." {...field} />
                 </FormControl>
                 <FormDescription>
                   Digite o código da disciplina que essa nota pertence

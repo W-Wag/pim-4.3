@@ -22,19 +22,20 @@ export function DeleteClass(): JSX.Element {
     setClasses(response.data)
   }
   const handleDelete = async (e: React.MouseEvent<HTMLElement>): Promise<void> => {
-    const courseCode = e.currentTarget.parentElement?.children.item(2)?.innerHTML
+    const classCode = e.currentTarget.parentElement?.children.item(0)?.innerHTML
+    console.log(classCode)
     try {
-      await api.delete(`/cursos/deletar/${courseCode}`)
+      await api.delete(`/turmas/deletar/${classCode}`)
       GetClasses()
       toast({
         title: 'Sucesso',
-        description: 'curso deletado com sucesso'
+        description: 'turma deletada com sucesso'
       })
     } catch (err) {
       console.log(err)
       toast({
         title: 'Erro',
-        description: 'ocorreu um problema ao tentar deletar o curso'
+        description: 'ocorreu um problema ao tentar deletar a turma'
       })
     }
   }
