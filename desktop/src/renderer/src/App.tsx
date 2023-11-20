@@ -16,6 +16,7 @@ import { ReactElement } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useToast } from './components/ui/use-toast'
 import { Toaster } from './components/ui/toaster'
+import users from './users.json'
 
 const formSchema = z.object({
   username: z.string().min(2, {
@@ -38,24 +39,38 @@ export function App(): JSX.Element {
   const navigate = useNavigate()
   const { toast } = useToast()
 
-  function onSubmit(values: z.infer<typeof formSchema>): void {
+  async function onSubmit(values: z.infer<typeof formSchema>): Promise<void> {
     console.log(values)
     const { username, password } = values
-    const userCheck = /^adm|adm1|adm2$/.test(username)
-    const passwordCheck = /^1234|123|12345$/.test(password)
-    if (userCheck && passwordCheck) {
+    try {
+      const foundUser = users.find(
+        (user: { username: string; password: string }) =>
+          user.username === username && user.password === password
+      )
+
+      if (foundUser) {
+        // Usuário encontrado
+        toast({
+          title: 'Sucesso',
+          description: 'Logado com sucesso'
+        })
+        navigate('/home')
+      } else {
+        // Usuário não encontrado
+        console.log('Usuário não encontrado')
+        toast({
+          title: 'Erro',
+          description: 'Usuário não encontrado'
+        })
+      }
+    } catch (err) {
+      // Erro ao ler o arquivo
+      console.log('Erro ao ler o arquivo:', err)
       toast({
-        title: 'Sucesso',
-        description: 'Usuário entrou com sucesso'
+        title: 'Erro',
+        description: 'Erro ao ler o arquivo'
       })
-      navigate('/home')
-      return
     }
-    toast({
-      title: 'Error',
-      description: 'Usuário não encontrado'
-    })
-    return
   }
 
   return (

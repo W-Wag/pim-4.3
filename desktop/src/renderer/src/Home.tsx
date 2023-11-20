@@ -1,9 +1,11 @@
 import { Link } from 'react-router-dom'
+import { Toaster } from './components/ui/toaster'
 
 export function Home(): JSX.Element {
   return (
     <div className="flex flex-col items-center justify-center space-y-8">
       <h1 className="text-2xl font-bold py-4">Bem-vindo ao sistema, USUÁRIO</h1>
+      <Toaster />
       <div className="flex flex-wrap space-x-2">
         <div className="w-80 h-32 bg-primary hover:bg-zinc-200 hover:cursor-pointer">
           <Link to="/alunos">
