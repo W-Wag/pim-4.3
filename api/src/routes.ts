@@ -5,6 +5,7 @@ import { AlunoRoutes } from './interfaces/ProtocoloAluno';
 import { EnderecoRoutes } from './interfaces/ProtocoloEnderecos';
 import { DisciplinaRoutes } from './interfaces/ProtocoloDisciplina';
 import { validarDisciplina } from './validations/ValidarDisciplina';
+import { validarSituacaoMatricula } from './validations/ValidarSituacaoMatricula';
 
 const aluno: AlunoRoutes = require('./routes/aluno');
 const professor = require('./routes/professor');
@@ -18,10 +19,12 @@ const route = Router();
 
 // Rotas do Aluno
 route.get('/alunos', aluno.index);
-route.get('/aluno/:cpf/:ra', aluno.acharUmAluno);
+route.get('/aluno/:cpf/:ra', validarSituacaoMatricula, aluno.acharUmAluno);
 route.post('/alunos', validarAluno, aluno.criarAluno);
+route.put('/alunos/atualizar/:cpf', aluno.atualizarAluno);
+route.put('/alunos/desativar/:ra', aluno.desativarMatricula);
 route.delete('/alunos', aluno.deletarMuitos);
-route.delete('/alunos/:ra', aluno.deletar);
+route.delete('/alunos/deletar/:cpf', aluno.deletar);
 route.delete('/matricula/:ra', aluno.deletarMatricula);
 
 // Rotas do Professor

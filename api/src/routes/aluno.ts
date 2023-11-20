@@ -1,7 +1,8 @@
 import { Aluno } from '../interfaces/ProtocoloAluno';
+import { Controller } from '../interfaces/ProtocoloController';
 import { prisma } from '../libs/prisma';
 
-export const criarAluno = async (req, res) => {
+export const criarAluno: Controller = async (req, res) => {
   const {
     Aluno: { cpf, nome, email, dt_nascimento, rg, telefone, telefone2, genero },
   }: Aluno = req.body;
@@ -53,10 +54,10 @@ export const criarAluno = async (req, res) => {
   }
 };
 
-export const index = async (req, res) => {
+export const index: Controller = async (req, res) => {
   try {
     const alunos = await prisma.aluno.findMany({
-      include: { Endereco: true },
+      include: { Endereco: true, Matricula: true },
     });
     res.json(alunos);
   } catch (error) {
@@ -65,7 +66,7 @@ export const index = async (req, res) => {
   }
 };
 
-export const acharUmAluno = async (req, res) => {
+export const acharUmAluno: Controller = async (req, res) => {
   let { cpf, ra } = req.params;
 
   if (!cpf && !ra) {
@@ -80,11 +81,12 @@ export const acharUmAluno = async (req, res) => {
     if (cpf) {
       const alunos = await prisma.aluno.findUnique({
         where: { cpf },
-        include: { Endereco: true },
+        include: { Endereco: true, Matricula: true },
       });
 
       if (!alunos) {
-        return res.status(404).json({ error: 'Aluno não encontrado' });
+        res.status(404).json({ error: 'Aluno não encontrado' });
+        return;
       }
       res.json(alunos);
     } else {
@@ -98,7 +100,8 @@ export const acharUmAluno = async (req, res) => {
       });
 
       if (!alunos) {
-        return res.status(404).json({ error: 'Aluno não encontrado' });
+        res.status(404).json({ error: 'Aluno não encontrado' });
+        return;
       }
       res.json(alunos);
     }
@@ -108,21 +111,75 @@ export const acharUmAluno = async (req, res) => {
   }
 };
 
-export const deletar = async (req, res) => {
+export const atualizarAluno: Controller = async (req, res) => {
+  const { cpf } = req.params;
+  const {
+    Aluno: { nome, email, dt_nascimento, rg, telefone, telefone2, genero },
+  }: Aluno = req.body;
+
+  try {
+    const alunos = await prisma.aluno.update({
+      where: { cpf },
+      data: {
+        nome,
+        email,
+        dt_nascimento,
+        rg,
+        telefone,
+        telefone2,
+        genero,
+      },
+    });
+    res.send(alunos);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Erro ao buscar alunos' });
+  }
+};
+
+export const desativarMatricula: Controller = async (req, res) => {
   const { ra } = req.params;
+  const { situacao } = req.body;
 
   if (!ra) {
-    res.status(404).json({ error: 'CPF não encontrado' });
+    res.status(404).json({ error: 'RA não encontrado' });
+    return;
+  }
+
+  try {
+    const matricula = await prisma.matricula.update({
+      where: { ra: ra },
+      data: {
+        situacao,
+      },
+    });
+
+    if (!matricula) {
+      res.status(404).json({ error: 'Matricula não encontrada' });
+      return;
+    }
+    res.json(matricula);
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ error: 'Erro ao desativar a matricula' });
+  }
+};
+
+export const deletar: Controller = async (req, res) => {
+  const { cpf } = req.params;
+
+  if (!cpf) {
+    res.status(404).json({ error: 'CPF não encontcpfdo' });
     return;
   }
 
   try {
     const aluno = await prisma.aluno.delete({
-      where: { ra },
+      where: { cpf },
     });
 
     await prisma.matricula.delete({
-      where: { ra },
+      where: { ra: aluno.ra },
     });
 
     if (aluno.cod_turma === null) return;
@@ -143,7 +200,7 @@ export const deletar = async (req, res) => {
   }
 };
 
-export const deletarMatricula = async (req, res) => {
+export const deletarMatricula: Controller = async (req, res) => {
   const { ra } = req.params;
 
   if (!ra) {
@@ -163,7 +220,7 @@ export const deletarMatricula = async (req, res) => {
   }
 };
 
-export const deletarMuitos = async (req, res) => {
+export const deletarMuitos: Controller = async (req, res) => {
   try {
     await prisma.aluno.deleteMany();
     res.send('Deletado com sucesso');

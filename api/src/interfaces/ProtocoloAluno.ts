@@ -1,4 +1,4 @@
-import { Request, Response } from 'express';
+import { Controller } from './ProtocoloController';
 
 export interface Aluno {
   Aluno: {
@@ -17,10 +17,12 @@ export interface Aluno {
 }
 
 export interface AlunoRoutes {
-  index: (req: Request, res: Response) => void;
-  acharUmAluno: (req: Request, res: Response) => void;
-  criarAluno: (req: Request, res: Response) => void;
-  deletarMuitos: (req: Request, res: Response) => void;
-  deletar: (req: Request, res: Response) => void;
-  deletarMatricula: (req: Request, res: Response) => void;
+  index: Controller;
+  acharUmAluno: Controller;
+  criarAluno: Controller;
+  atualizarAluno: Controller;
+  desativarMatricula: Controller;
+  deletarMuitos: Controller;
+  deletar: Controller;
+  deletarMatricula: Controller;
 }

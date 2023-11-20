@@ -15,18 +15,20 @@ export function Student(): JSX.Element {
         </div>
 
         <div className="w-80 h-36 bg-primary hover:bg-zinc-200 hover:cursor-pointer">
-          <h2 className="text-xl font-semibold text-primary-foreground text-center py-4">
-            Atualizar aluno
-          </h2>
-          <p className="text-sm font-medium text-primary-foreground text-center leading-relaxed">
-            Aqui você irá atualizar os dados do aluno
-          </p>
+          <Link to="/atualizar/aluno">
+            <h2 className="text-xl font-semibold text-primary-foreground text-center py-4">
+              Atualizar Aluno
+            </h2>
+            <p className="text-sm font-medium text-primary-foreground text-center leading-relaxed">
+              Aqui você pode atualizar os dados de algum aluno
+            </p>
+          </Link>
         </div>
 
         <div className="w-80 h-36 bg-primary hover:bg-zinc-200 hover:cursor-pointer">
-          <Link to="/alunos">
+          <Link to="/desativar/aluno">
             <h2 className="text-xl font-semibold text-primary-foreground text-center py-4">
-              Desativar matricula do aluno
+              Alterar situação da matricula do aluno
             </h2>
             <p className="text-sm font-medium text-primary-foreground text-center leading-relaxed">
               Aqui você pode alterar a situação da matricula de algum aluno

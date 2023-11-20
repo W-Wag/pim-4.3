@@ -100,6 +100,8 @@ export function CreateStudent(): JSX.Element {
         title: 'Erro',
         description: 'Erro desconhecido do servidor, tente novamente mais tarde'
       })
+      setIsLoading(false)
+      return
     }
   }
 
