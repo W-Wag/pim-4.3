@@ -70,6 +70,43 @@ export const acharUmProfessor: Controller = async (req, res) => {
   }
 };
 
+export const atualizarProfessor: Controller = async (req, res) => {
+  const { cpf } = req.params;
+  const {
+    nome,
+    email,
+    dt_nascimento,
+    rg,
+    ctps,
+    titularidade,
+    funcional,
+    telefone,
+    telefone2,
+  }: Professor = req.body;
+
+  try {
+    const professor = await prisma.professor.update({
+      where: { cpf },
+      data: {
+        nome,
+        email,
+        dt_nascimento,
+        rg,
+        ctps,
+        titularidade,
+        funcional,
+        telefone,
+        telefone2,
+      },
+    });
+
+    res.json(professor);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Erro ao atualizar professor' });
+  }
+};
+
 export const infoDisciplinaLecionadas: Controller = async (req, res) => {
   const { cpf_professor } = req.params;
   const info:
@@ -143,4 +180,25 @@ export const infoDisciplinaLecionadas: Controller = async (req, res) => {
   }
 
   res.send(info);
+};
+
+export const desativarProfessor: Controller = async (req, res) => {
+  const { cpf } = req.params;
+
+  if (!cpf) {
+    res.status(404).json({ error: 'CPF do professor não encontrado' });
+    return;
+  }
+
+  try {
+    const professor = await prisma.professor.delete({
+      where: {
+        cpf: cpf,
+      },
+    });
+    res.send(professor);
+  } catch (err) {
+    console.log(err);
+    res.status(400).json({ error: 'Ocorreu um erro desconhecido' });
+  }
 };

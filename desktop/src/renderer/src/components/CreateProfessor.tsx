@@ -111,7 +111,7 @@ export function CreateProfessor(): JSX.Element {
       })
       toast({
         title: 'Sucesso',
-        description: 'Aluno cadastrado com sucesso'
+        description: 'professor cadastrado com sucesso'
       })
       setIsLoading(false)
       navigate('/professores/enderecos', { state: values.cpf })

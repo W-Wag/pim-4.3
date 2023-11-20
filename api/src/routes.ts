@@ -32,6 +32,8 @@ route.get(
   '/info/disciplina/professor/:cpf_professor',
   professor.infoDisciplinaLecionadas,
 );
+route.put('/professores/atualizar/:cpf', professor.atualizarProfessor);
+route.delete('/professores/desativar/:cpf', professor.desativarProfessor);
 
 // Rotas de Curso
 route.post('/cursos', curso.criarCurso);
