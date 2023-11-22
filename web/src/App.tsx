@@ -26,7 +26,7 @@ export function App() {
 
       <div className="flex w-full items-center justify-center flex-wrap space-x-2 py-4 gap-12">
         <div className="flex flex-col justify-center items-center  w-[500px] h-96 bg-[url('../public/entre-em-contato.jpg')] bg-center sm:w-1/2 md:w-1/3 lg:w-1/4">
-          <h1 className="bg-gray-200 bg-opacity-5 text-primary font-bold text-2xl px-2 py-4">
+          <h1 className="text-primary font-bold text-2xl px-2 py-4">
             Em caso de alguma dúvida, entre em contato conosco
           </h1>
           <Link to="/contatos">

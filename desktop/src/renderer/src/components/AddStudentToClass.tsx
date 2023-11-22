@@ -58,6 +58,14 @@ export function AddStudentToClass(): JSX.Element {
       console.log(err)
       const status = get(err, 'response.status', 0)
       console.log(status)
+      if (status === 0) {
+        toast({
+          title: 'Erro',
+          description: 'Erro de conexão com o servidor'
+        })
+        setIsLoading(false)
+        return
+      }
       if (status === 404) {
         toast({
           title: 'Erro',

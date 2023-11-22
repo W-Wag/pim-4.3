@@ -8,6 +8,7 @@ import { Link } from 'react-router-dom'
 import { Popover, PopoverContent, PopoverTrigger } from './components/ui/popover'
 import { Label } from './components/ui/label'
 import { Button } from './components/ui/button'
+import { get } from 'lodash'
 
 export function Class(): JSX.Element {
   const [cpf, setCpf] = useState('')
@@ -25,6 +26,15 @@ export function Class(): JSX.Element {
         return
       }
     } catch (err) {
+      const responseStatus = get(err, 'response.status', 0)
+      if (responseStatus !== 0 && responseStatus === 401) {
+        toast({
+          title: 'Error',
+          description:
+            'Aluno esta com situação inativa, ou seja não e possível adiciona-lo a uma turma'
+        })
+        return
+      }
       console.log(err)
       toast({
         title: 'Error',

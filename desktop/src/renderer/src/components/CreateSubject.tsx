@@ -23,10 +23,10 @@ import { IMaskInput } from 'react-imask'
 
 const formSchema = z.object({
   nome: z.string().min(2, {
-    message: 'Código da turma inválido'
+    message: 'nome da disciplina inválido'
   }),
   carga_horaria: z.string().min(2, {
-    message: 'Código da turma inválido'
+    message: 'carga horária inválida'
   }),
   cod_curso: z.string().min(2, {
     message: 'Código do curso inválido'
@@ -72,6 +72,14 @@ export function CreateSubject(): JSX.Element {
       console.log(err)
       const status = get(err, 'response.status', 0)
       console.log(status)
+      if (status === 0) {
+        toast({
+          title: 'Erro',
+          description: 'Erro de conexão com o servidor'
+        })
+        setIsLoading(false)
+        return
+      }
       if (status === 404) {
         toast({
           title: 'Erro',
