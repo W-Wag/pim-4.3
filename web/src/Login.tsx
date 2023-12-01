@@ -75,6 +75,14 @@ export function Login() {
         });
         return;
       }
+      if (status === 401) {
+        toast({
+          title: 'Error',
+          description:
+            'Sua matricula pode estar inativa, por favor entre em contato conosco!',
+        });
+        return;
+      }
 
       toast({
         title: 'Error',
@@ -143,7 +151,7 @@ export function Login() {
             />
           )}
           <Button type="submit" className="left-32">
-            Submit
+            Confirmar
           </Button>
         </form>
       </Form>

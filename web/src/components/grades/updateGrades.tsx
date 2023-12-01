@@ -42,27 +42,12 @@ export function UpdateGrades() {
     pim: 0,
   });
   const [nome, setNome] = useState('');
-  const [np1, setNp1] = useState('');
-  const [np2, setNp2] = useState('');
-  const [pim, setPim] = useState('');
-  const [idDisciplina, setIdDisciplina] = useState('');
-  const [ra, setRa] = useState('');
   const cpf = localStorage.getItem('cpf_professor');
   const { toast } = useToast();
 
-  const handleSubmitGrades = () => {
-    setGrades({
-      idDisciplina: Number(idDisciplina),
-      ra: ra,
-      np1: Number(np1),
-      np2: Number(np2),
-      pim: Number(pim),
-    });
+  console.log(grades);
 
-    sendGrades();
-  };
-
-  const sendGrades = async () => {
+  const handleSendGrades = async () => {
     try {
       await api.put(`/notas/${cpf}`, grades);
       toast({
@@ -70,10 +55,10 @@ export function UpdateGrades() {
         description: 'Notas atualizadas com sucesso',
       });
     } catch (err) {
-      console.log(err);
       toast({
         title: 'Erro ao atualizar notas',
-        description: 'Erro ao atualizar notas',
+        description:
+          'verifique se o código da disciplina esta correto e se e uma disciplina que você leciona',
       });
       return;
     }
@@ -89,11 +74,11 @@ export function UpdateGrades() {
   async function onSubmit(values: z.infer<typeof formSchema>): Promise<void> {
     try {
       const response = await api.get(`/aluno/cpf/${values.ra}`);
-      setRa(response.data.ra);
+      setGrades({ ...grades, ra: response.data.ra });
       setNome(response.data.nome);
     } catch (err) {
-      console.log(err);
       const status = get(err, 'response.status');
+      console.log(status);
       if (status === 404) {
         toast({
           title: 'Error',
@@ -102,6 +87,20 @@ export function UpdateGrades() {
         });
         return;
       }
+
+      if (status === 401) {
+        toast({
+          title: 'Error',
+          description:
+            'Esse aluno pode estar com a matricula indisponível, tente mais tarde',
+        });
+        return;
+      }
+
+      toast({
+        title: 'Error',
+        description: 'Erro ao buscar o aluno',
+      });
       return;
     }
   }
@@ -115,7 +114,7 @@ export function UpdateGrades() {
         Aqui você poderá procurar um aluno pelo seu ra e atualizar suas notas
       </p>
       <Toaster />
-      {!ra ? (
+      {!grades.ra ? (
         <div className="w-1/3 p-2 mx-2 my-12 border border-spacing-2 border-zinc-800 space-y-4">
           <p className="text-primary font-semibold leading-relaxed text-sm">
             Preencha abaixo o RA do aluno o qual queira lançar a nota
@@ -153,29 +152,52 @@ export function UpdateGrades() {
       ) : (
         <div className="w-1/3 p-2 mx-2 my-12 border border-spacing-2 border-zinc-800">
           <h1 className="font-bold text-xl text-center py-2">Aluno: {nome}</h1>
-          <p className="font-bold text-lg text-center py-2">RA: {ra}</p>
+          <p className="font-bold text-lg text-center py-2">RA: {grades.ra}</p>
           <div className="h-full flex-1 flex-col items-center">
             <Label>
               Código da Disciplina
               <Input
-                onChange={(e) => setIdDisciplina(e.target.value)}
+                onChange={(e) =>
+                  setGrades({ ...grades, idDisciplina: Number(e.target.value) })
+                }
                 type="number"
               />
             </Label>
             <Label>
               NP1
-              <Input onChange={(e) => setNp1(e.target.value)} type="number" />
+              <Input
+                onChange={(e) =>
+                  setGrades({ ...grades, np1: Number(e.target.value) })
+                }
+                type="number"
+                min={0}
+                max={10}
+              />
             </Label>
             <Label>
               NP2
-              <Input onChange={(e) => setNp2(e.target.value)} type="number" />
+              <Input
+                onChange={(e) =>
+                  setGrades({ ...grades, np2: Number(e.target.value) })
+                }
+                type="number"
+                min={0}
+                max={10}
+              />
             </Label>
             <Label>
-              Trabalho
-              <Input onChange={(e) => setPim(e.target.value)} type="number" />
+              PIM
+              <Input
+                onChange={(e) =>
+                  setGrades({ ...grades, pim: Number(e.target.value) })
+                }
+                type="number"
+                min={0}
+                max={10}
+              />
             </Label>
 
-            <Button className="my-4 mx-[44%]" onClick={handleSubmitGrades}>
+            <Button className="my-4 mx-[44%]" onClick={handleSendGrades}>
               Enviar
             </Button>
           </div>

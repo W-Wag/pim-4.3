@@ -83,6 +83,13 @@ export const atualizarNota: Controller = async (req, res) => {
     return;
   }
 
+  if (disciplina.cpf_professor !== cpf_professor) {
+    res
+      .status(405)
+      .json({ error: 'Esse professor não leciona essa disciplina' });
+    return;
+  }
+
   const aluno = await prisma.aluno.findUnique({
     where: {
       ra,

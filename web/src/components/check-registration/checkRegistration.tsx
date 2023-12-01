@@ -24,6 +24,7 @@ import {
   DialogTrigger,
 } from '../ui/dialog';
 import { api } from '@/lib/api';
+import { get } from 'lodash';
 
 interface Student {
   nome: string;
@@ -65,6 +66,18 @@ export function CheckRegistration() {
       setFoundedRegister(true);
     } catch (err) {
       console.log(err);
+
+      const status = get(err, 'response.status');
+
+      if (status === 401) {
+        toast({
+          title: 'Error',
+          description:
+            'Esse aluno pode estar com a matricula indisponível, contate-nos para mais detalhes',
+        });
+        return;
+      }
+
       toast({
         title: 'Não foi possível encontrar essa matrícula',
         description: 'Entre em contato conosco para mais informações.',
@@ -142,7 +155,7 @@ export function CheckRegistration() {
             <></>
           )}
           <Button type="submit" className="left-32">
-            Submit
+            Confirmar
           </Button>
         </form>
       </Form>
