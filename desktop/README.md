@@ -1,34 +1,35 @@
-# desktop
+# Desktop
 
-An Electron application with React and TypeScript
+Foi feito com [Electron](https://github.com/electron-vite/electron-vite-vue) + [Vite](https://v3.vitejs.dev/guide/) para desenvolver uma aplicação desktop para o projeto.
 
-## Recommended IDE Setup
+## Algumas Extensões recomendadas para manipular o código do projeto
+- Eslint
+- Prettier
+- Tailwind css
+- Postcss Language Support
+- Editor config
 
-- [VSCode](https://code.visualstudio.com/) + [ESLint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint) + [Prettier](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode)
+## Configurações e Instalação
 
-## Project Setup
+### Como Instalar
 
-### Install
-
+Para instalar somente é necessário utilizar o comando no terminal dentro da pasta **desktop**:
 ```bash
-$ pnpm install
+$ npm install
 ```
+após isso aguarde até o npm instalar os pacotes.
 
-### Development
+### Como rodar o desktop
 
+Depois de instalados os pacotes simplesmente rode o comando:
 ```bash
-$ pnpm dev
+$ npm run dev
 ```
+e então um aplicativo irá ser iniciado e aberto em sua tela.
 
-### Build
-
-```bash
-# For windows
-$ pnpm build:win
-
-# For macOS
-$ pnpm build:mac
-
-# For Linux
-$ pnpm build:linux
-```
+## Bibliotecas utilizadas
+- [Electron](https://github.com/electron-vite/electron-vite-vue)
+- [React](https://react.dev/)
+- [Tailwind css](https://tailwindcss.com/docs/installation)
+- [Shadcn ui](https://ui.shadcn.com/docs/installation)
+- [Typescript](https://www.typescriptlang.org/docs/)
