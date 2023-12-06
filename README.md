@@ -13,6 +13,6 @@ Após instalar o node e o VsCode você pode seguir os passo para instalação da
 | Escolha o proximo passo de instalação |                                                               |
 | :------------------------------------ | ------------------------------------------------------------: |
 | Front end Web                         | [Clique aqui](https://github.com/W-Wag/pim-4.3/tree/main/web) |
-| Back end                              |                                                      Em breve |
+| Back end                              | [Clique aqui](https://github.com/W-Wag/pim-4.3/tree/main/api) |
 | Front end Mobile                      |                                                      Em breve |
-| Front end Desktop                     |                                                      Em breve |
+| Front end Desktop                     | [Clique aqui](https://github.com/W-Wag/pim-4.3/tree/main/desktop) |
