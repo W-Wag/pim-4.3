@@ -1,4 +1,5 @@
 # Instalação do Front end Web
+**Para total funcionamento sera necessário instalar e configurar o back-end da aplicação, para isso [clique aqui](https://github.com/W-Wag/pim-4.3/main/api/README.md)**
 
 Após seguir os passos passados anteriormente você dever ter no seu **Visual Studio Code** as seguintes extensões:
 
