@@ -1,5 +1,5 @@
 # Mobile
-O mobile foi feito utilizando da ferramenta [Expo](https://expo.dev/) para criar uma aplicação utilizando do [React Native](https://reactnative.dev/). Com ele é possível desenvolver projetos utilizando ou de um emulador ou de seu proprio celular utilizando o aplicativo [Expo Go](https://expo.dev/client) disponível tanto na google play como na app store do IOS.
+O mobile foi feito utilizando da ferramenta [Expo](https://expo.dev/) para criar uma aplicação utilizando do [React Native](https://reactnative.dev/). Com ele é possível desenvolver projetos utilizando ou de um emulador ou de seu proprio celular utilizando o aplicativo [Expo Go](https://expo.dev/client) disponível tanto na google play como na app store do IOS. O mobile da aplicação é uma área exclusiva para o aluno visualizar suas notas e presenças, além de seu histórico escolar e boletim.
 
 ## Instalando
 
@@ -28,3 +28,9 @@ Então irá aparecer as informações para se conectar via **Expo Go** o aplicat
 - [Tailwind css](https://tailwindcss.com/docs/installation)
 - [Typescript](https://www.typescriptlang.org/docs/)
 - [Axios](https://axios-http.com/docs/intro)
+
+## Video do projeto
+
+https://github.com/W-Wag/pim-4.3/assets/108705985/c8502634-4941-4544-8ed0-d988d3092932
+
+
